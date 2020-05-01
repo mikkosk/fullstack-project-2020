@@ -1,0 +1,18 @@
+[
+    {
+        "possibleLanguages": ["Suomi", "Englanti"],
+        "lengthInMinutes": 45,
+        "Type": "Lasten opastus",
+        "MaxNumberOfPeople": 25,
+        "Price": 60,
+        "TourInfo": "Opastus lapsille museoon"
+    },
+    {
+        "possibleLanguages": ["Englanti"],
+        "lengthInMinutes": 60,
+        "Type": "Opastus turisteille",
+        "MaxNumberOfPeople": 20,
+        "Price": 1000,
+        "TourInfo": "Opastus turisteille museoon"
+    }
+]

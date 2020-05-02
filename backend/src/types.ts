@@ -1,10 +1,11 @@
 export interface GuidedTour {
-    possibleLanguages: String[];
+    id: string;
+    possibleLanguages: Array<string>;
     lengthInMinutes: number;
-    Type: String;
-    MaxNumberOfPeople: number;
-    Price: number;
-    TourInfo: string;
+    type: string;
+    maxNumberOfPeople: number;
+    price: number;
+    tourInfo?: string;
 }
 
 export interface ReservedTour extends GuidedTour {
@@ -13,10 +14,10 @@ export interface ReservedTour extends GuidedTour {
     numberOfPeople: number;
     groupAge: String;
     paymentMethod: 'Cash' | 'Card' | 'Bill' | 'Other';
-    Time: String;
-    Date: String;
+    time: String;
+    date: String;
     email: String;
-    GroupInfo: String;
+    groupInfo: String;
 }
 
 export interface confirmedTour extends ReservedTour {
@@ -53,3 +54,5 @@ export interface Museum {
     reservedTours: ReservedTour[];
     guides: Guide[];
 }
+
+export type NewTour = Omit<GuidedTour, 'id'>;

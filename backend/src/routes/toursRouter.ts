@@ -1,30 +1,35 @@
 import express from 'express';
 import toursService from '../services/toursService';
+import { toNewTour } from '../utils/parser';
 
 const router = express.Router();
 
-router.get('/', (_req, res) => {
-    res.json(toursService.getTours());
+router.get('/', async (_req, res) => {
+    res.json(await toursService.getTours());
 });
 
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const newTour = toNewTour(req.body);
-        const addedTour = toursService.addTour(newTour);
+        const addedTour = await toursService.addTour(newTour);
+        console.log("joo");
+        console.log(addedTour);
         res.json(addedTour);
     } catch (e) {
-        res.status(400).send(e.message)
+        res.status(400).send(e.message);
     }
 });
 
-router.post('/:id', (req, res) => {
+// Muuta asynceicsi
+router.put('/:id', (req, res) => {
     try {
         const newTour = toNewTour(req.body);
-        const addedTour = toursService.updateTour(newTour);
-        res.json(addedTour);
+        const tourWithId = {...newTour, id: req.params.id};
+        const updatedEntry = toursService.updateTour(tourWithId);
+        res.json(updatedEntry);
     } catch (e) {
-        res.status(400).send(e.message)
+        res.status(400).send(e.message);
     }
 });
 
@@ -32,6 +37,6 @@ router.delete('/:id', (req, res) => {
     toursService.deleteTour(req.params.id);
 
     res.status(204).end();
-})
+});
 
 export default router;

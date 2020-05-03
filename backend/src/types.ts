@@ -2,7 +2,7 @@ export interface GuidedTour {
     id: string;
     possibleLanguages: Array<string>;
     lengthInMinutes: number;
-    type: string;
+    tourName: string;
     maxNumberOfPeople: number;
     price: number;
     tourInfo?: string;
@@ -26,12 +26,12 @@ export interface confirmedTour extends ReservedTour {
 }
 
 export interface Guide {
-    name: String;
+    guideName: String;
     languages: String[];
 }
 
 export interface Museum {
-    name: String;
+    MuseumName: String;
     open: {
         mon: String;
         tue: String;

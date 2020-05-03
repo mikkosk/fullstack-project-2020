@@ -1,3 +1,4 @@
 .eslintrc
 .eslintignore
 node_modules
+.env

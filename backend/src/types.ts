@@ -1,4 +1,6 @@
-export interface GuidedTour {
+import { Document } from 'mongoose'
+
+export interface GuidedTour extends Document{
     id: string;
     possibleLanguages: Array<string>;
     lengthInMinutes: number;
@@ -55,4 +57,4 @@ export interface Museum {
     guides: Guide[];
 }
 
-export type NewTour = Omit<GuidedTour, 'id'>;
+export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;

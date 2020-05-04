@@ -13,8 +13,6 @@ router.post('/', async (req, res) => {
     try {
         const newTour = toNewTour(req.body);
         const addedTour = await toursService.addTour(newTour);
-        console.log("joo");
-        console.log(addedTour);
         res.json(addedTour);
     } catch (e) {
         res.status(400).send(e.message);
@@ -22,11 +20,10 @@ router.post('/', async (req, res) => {
 });
 
 // Muuta asynceicsi
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const newTour = toNewTour(req.body);
-        const tourWithId = {...newTour, id: req.params.id};
-        const updatedEntry = toursService.updateTour(tourWithId);
+        const updatedEntry = await toursService.updateTour(newTour, req.params.id);
         res.json(updatedEntry);
     } catch (e) {
         res.status(400).send(e.message);

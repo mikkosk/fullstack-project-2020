@@ -20,12 +20,16 @@ const addTour = async (entry: NewTour): Promise<GuidedTour> => {
     return savedTour;
 };
 
-const updateTour = (entry: GuidedTour): GuidedTour => {
-    console.log(entry.id);
+const updateTour = async (entry: NewTour, id: GuidedTour['_id']): Promise<GuidedTour> => {
+    console.log(id);
     toursData.forEach(t => console.log(t.id));
-    toursData.map(t => t.id === entry.id ? entry : t);
-    console.log(toursData);
-    return entry;
+    toursData.map(t => t.id === id ? entry : t);
+    const updatedTour = await Tour.findByIdAndUpdate(id, entry, {new: true});
+    if(!updatedTour) {
+        throw new Error('Kyseistä opastusta ei löytynyt');
+    }
+    console.log(updatedTour);
+    return updatedTour;
 };
 
 const deleteTour = (id: string) => {

@@ -1,15 +1,7 @@
-import mongoose, {Schema, Document} from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
+import { GuidedTour } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-interface ITour extends Document {
-    id: string;
-    possibleLanguages: Array<string>;
-    lengthInMinutes: number;
-    tourName: string;
-    maxNumberOfPeople: number;
-    price: number;
-    tourInfo?: string; 
-}
 
 const tourSchema: Schema = new Schema({
     id: String,
@@ -21,4 +13,4 @@ const tourSchema: Schema = new Schema({
     tourInfo: String || undefined
 });
 
-export default mongoose.model<ITour>('Tour', tourSchema);
+export default mongoose.model<GuidedTour>('Tour', tourSchema);

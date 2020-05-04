@@ -1,8 +1,7 @@
-import { GuidedTour } from "../src/types";
+import { NewTour } from "../src/types";
 
-const tours: GuidedTour[] = [
+const tours: NewTour[] = [
     {
-        id: "asdfgh",
         possibleLanguages: ["Suomi", "Englanti"],
         lengthInMinutes: 45,
         tourName: "Lasten opastus",
@@ -11,7 +10,6 @@ const tours: GuidedTour[] = [
         tourInfo: "Opastus lapsille museoon"
     },
     {
-        id: "123456",
         possibleLanguages: ["Englanti"],
         lengthInMinutes: 60,
         tourName: "Opastus turisteille",

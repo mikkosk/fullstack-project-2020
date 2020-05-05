@@ -9,4 +9,4 @@ allows the guide to keep track of their upcoming tours.
 
 ### Course project for Open University of Helsinki
 
-[Link to time-tracking for the project](https://github.com/mikkosk/fullstack-project-2020/time-tracking)
+[Link to time-tracking for the project](https://github.com/mikkosk/fullstack-project-2020/blob/master/time-tracking.md)

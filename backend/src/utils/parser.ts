@@ -102,7 +102,6 @@ const parseInfo = (info: any): string => {
 };
 
 const parseLanguages = (languages: any): string[] => {
-    console.log(languages);
     if(!languages || !Array.isArray(languages)) {
         throw new Error('Incorrect or missing list of languages');
     }

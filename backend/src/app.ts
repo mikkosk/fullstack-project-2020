@@ -27,11 +27,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
-app.get('/ping', (_req, _res) => {
-    console.log("jotain");
-});
-
 app.use('/museum', toursRouter);
 
 export default app;

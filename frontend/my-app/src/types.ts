@@ -1,6 +1,4 @@
-import { Document } from 'mongoose';
-
-export interface GuidedTour extends Document{
+export interface GuidedTour {
     id: string;
     possibleLanguages: Array<string>;
     lengthInMinutes: number;

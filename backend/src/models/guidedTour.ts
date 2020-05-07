@@ -1,4 +1,4 @@
-import mongoose, {Schema} from 'mongoose';
+import mongoose, {Schema, Document} from 'mongoose';
 import { GuidedTour } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
@@ -13,4 +13,4 @@ const tourSchema: Schema = new Schema({
     tourInfo: String || undefined
 });
 
-export default mongoose.model<GuidedTour>('Tour', tourSchema);
+export default mongoose.model<GuidedTour & Document>('Tour', tourSchema);

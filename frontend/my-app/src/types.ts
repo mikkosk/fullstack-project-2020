@@ -1,5 +1,5 @@
 export interface GuidedTour {
-    id: string;
+    _id: string;
     possibleLanguages: Array<string>;
     lengthInMinutes: number;
     tourName: string;
@@ -56,3 +56,7 @@ export interface Museum {
 }
 
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;
+
+export interface TourState {
+    tours: GuidedTour[]
+}

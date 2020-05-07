@@ -1,6 +1,8 @@
 import toursService from "../services/toursService"
-import { GuidedTour } from "../types"
+import { GuidedTour, TourState } from "../types"
 import { Dispatch } from "react"
+import { ThunkAction } from "redux-thunk"
+import { RootState } from "../store"
 
 export type Action = 
     | {
@@ -8,16 +10,20 @@ export type Action =
         payload: GuidedTour[]
     }
 
-const reducer = (state = [], action: Action) => {
+const initialState: TourState = {
+    tours: []
+}
+
+const tourReducer = (state = initialState, action: Action): TourState => {
     switch(action.type) {
         case 'GET_ALL_TOURS':
-            return action.payload
+            return {tours: {...action.payload}}
         default: 
             return state
     }
 }
 
-export const allTours = () => {
+export const allTours = (): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
         const payload: GuidedTour[] = await toursService.getAll();
         dispatch({
@@ -28,4 +34,4 @@ export const allTours = () => {
 
 }
 
-export default reducer
+export default tourReducer

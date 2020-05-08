@@ -1,6 +1,7 @@
 import React from 'react'
-import { Header, Grid, Container } from 'semantic-ui-react'
+import { Header, Grid } from 'semantic-ui-react'
 import TourList from './TourList'
+import { AddTourForm } from '../AddTourModal/AddTourForm'
 
 const MuseumAdminPage: React.FC = () => {
     return (
@@ -13,6 +14,7 @@ const MuseumAdminPage: React.FC = () => {
                     </Grid.Column>
                     <Grid.Column>
                         <Header as="h4">Lisää opastus</Header>
+                        <AddTourForm onSubmit={console.log} onCancel={console.log}/>
                     </Grid.Column>
             </Grid>
         </div>

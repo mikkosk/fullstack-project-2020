@@ -9,4 +9,5 @@
 | 5.5. | 1.5.    | writing and figuring out tests, creating react app for frontend |
 | 6.5. | 1.5.    | finished first tests, installing libraries for frontend, started working with reducers and services (redux) |
 | 7.5. | 3    | created page for listing all tours, continued with reducers and state-handling, started working with semantic ui, learning how typescript works with things |
-Total: 12.5 hours
+| 7.5. | 2    | started a form for addidng a new tour, run into trouble with formik |
+Total: 14.5 hours

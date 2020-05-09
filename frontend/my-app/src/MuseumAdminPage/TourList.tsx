@@ -1,9 +1,15 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../store'
-import { List } from 'semantic-ui-react'
+import { List, Button } from 'semantic-ui-react'
+import { deleteTour } from '../reducers/tourReducer'
 
 const TourList = () => {
+    const dispatch = useDispatch()
+
+    const deleteATour = (id: string) => {
+        dispatch(deleteTour(id))
+    }
     const tours = useSelector((state: RootState) => state.tours.tours)
     console.log(tours)
     return (
@@ -16,6 +22,7 @@ const TourList = () => {
                             <List.Item>{t.lengthInMinutes}</List.Item>
                             <List.Item>{t.price}</List.Item>
                         </List.List>
+                        <Button type="button" onClick={() => deleteATour(t._id)}>Poista</Button>
                     </List.Content>
                 )}
             </List>    

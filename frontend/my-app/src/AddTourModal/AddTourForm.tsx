@@ -1,26 +1,30 @@
 import React from "react";
 import { Grid, Button } from "semantic-ui-react";
 import { Field, Formik, Form, ErrorMessage, getIn, FieldArray } from "formik";
-import { NumberField, TextField } from "./FormFields";
+import { NumberField, TextField, ArrayField } from "./FormFields";
+import { NewTour } from "../types";
 
 interface Props {
     onSubmit: (values: any) => void;
     onCancel: () => void;
 }
 
-const initialValues = {
-            possibleLanguages: ["here"],
-            lengthInMinutes: "",
+const initialValues: NewTour = {
+            possibleLanguages: [""],
+            lengthInMinutes: 0,
             tourName: "",
-            maxNumberOfPeople: "",
-            price: "",
+            maxNumberOfPeople: 0,
+            price: 0,
             tourInfo: ""
 }
 export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
     return (
         <Formik
         initialValues={initialValues}
-        onSubmit={onSubmit}
+        onSubmit={(values, { resetForm }) => {
+            onSubmit(values)
+            resetForm()
+        }}
         validate={ values => {
             const requiredError = "Kenttä vaaditaan";
             const errors: { [field: string]: string | object} = {};
@@ -52,23 +56,11 @@ export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                         name="tourName"
                         component={TextField}
                     />
-                    <FieldArray
+                    <Field
+                        label="Opastuksen kielet"
                         name="possibleLanguages"
-                        render={arrayHelpers => (
-                            <div>
-                                {values.possibleLanguages && values.possibleLanguages.length > 0 ? (
-                                    values.possibleLanguages.map((language, index) => (
-                                        <div key={index}>
-                                            <Field name={`possibleLanguages.${index}`} />
-                                            <Button type="button" onClick={() => arrayHelpers.remove(index)}> - </Button>
-                                            <Button type="button" onClick={() => arrayHelpers.insert(index, '')}>+</Button>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <Button type="button" onClick={() => arrayHelpers.push('')}>Lisää kieli</Button>
-                                )}
-                            </div>
-                        )}
+                        component={ArrayField}
+                        values={values.possibleLanguages}
                     />
                     <Field
                         label="Opastuksen kesto"

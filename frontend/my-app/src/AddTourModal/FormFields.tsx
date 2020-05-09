@@ -1,6 +1,6 @@
 import React from 'react'
-import { ErrorMessage, Field, FieldProps, FormikProps } from 'formik'
-import { Dropdown, DropdownProps, Form } from 'semantic-ui-react'
+import { ErrorMessage, Field, FieldProps, FormikProps, FieldArray } from 'formik'
+import { Dropdown, DropdownProps, Form, Button } from 'semantic-ui-react'
 
 interface NumberProps extends FieldProps {
     label: string,
@@ -28,6 +28,37 @@ export const TextField: React.FC<TextProps> = ({field, label, placeholder}) => (
     <Form.Field>
         <label>{label}</label>
         <Field placeholder={placeholder} {...field} />
+        <div style={{ color:"red"}}>
+            <ErrorMessage name={field.name} />
+        </div>
+    </Form.Field>
+)
+
+interface ArrayProps extends FieldProps {
+    label: string;
+    values: string[]
+}
+export const ArrayField: React.FC<ArrayProps> = ({field, label, values}) => (
+    <Form.Field>
+        <label>{label}</label>
+        <FieldArray
+                        name="possibleLanguages"
+                        render={arrayHelpers => (
+                            <div>
+                                {values && values.length > 0 ? (
+                                    values.map((language, index) => (
+                                        <div key={index}>
+                                            <Field name={`possibleLanguages.${index}`} />
+                                            <Button type="button" onClick={() => arrayHelpers.remove(index)}> - </Button>
+                                            <Button type="button" onClick={() => arrayHelpers.insert(index, '')}>+</Button>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <Button type="button" onClick={() => arrayHelpers.push('')}>Lisää kieli</Button>
+                                )}
+                            </div>
+                        )}
+                    />
         <div style={{ color:"red"}}>
             <ErrorMessage name={field.name} />
         </div>

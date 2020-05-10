@@ -3,6 +3,8 @@ import MuseumAdminPage from './MuseumAdminPage';
 import { allTours } from './reducers/tourReducer';
 import { useDispatch } from 'react-redux';
 import { Container } from 'semantic-ui-react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import TourPage from './TourPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -13,9 +15,14 @@ function App() {
 
   return (
     <div>
-      <Container textAlign="center">
-        <MuseumAdminPage />
-      </Container>
+      <Router>
+        <Container textAlign="center">
+          <Switch>
+            <Route path="/:id" render={() => <TourPage />}/>
+            <Route path="/" render={() => <MuseumAdminPage />}/>
+          </Switch>
+        </Container>
+      </Router>
     </div>
   );
 }

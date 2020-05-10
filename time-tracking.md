@@ -11,5 +11,8 @@
 | 7.5. | 3    | created page for listing all tours, continued with reducers and state-handling, started working with semantic ui, learning how typescript works with things |
 | 8.5. | 2    | started a form for addidng a new tour, run into trouble with formik |
 | 9.5. | 1.5   | finished the form by extending reducers and services for adding the submit to database and state, created possibility for deleting tours |
+| 10.5. | 1.5   | created page for individual tours, created modal for updating tours and for that extended reducer and service, problems with closing modal & state |
 
-Total: 16 hours
+Total: 17.5 hours 
+
+(1cr)

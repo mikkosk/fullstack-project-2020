@@ -5,8 +5,9 @@ import { NumberField, TextField, ArrayField } from "./FormFields";
 import { NewTour } from "../types";
 
 interface Props {
-    onSubmit: (values: any) => void;
+    onSubmit: (values: NewTour) => void;
     onCancel: () => void;
+    initialTour?: NewTour
 }
 
 const initialValues: NewTour = {
@@ -17,10 +18,10 @@ const initialValues: NewTour = {
             price: 0,
             tourInfo: ""
 }
-export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
+export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel, initialTour }) => {
     return (
         <Formik
-        initialValues={initialValues}
+        initialValues={initialTour || initialValues}
         onSubmit={(values, { resetForm }) => {
             onSubmit(values)
             resetForm()
@@ -95,6 +96,7 @@ export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                     <Button type="submit" disabled={!dirty || !isValid}>
                         Lisää!
                     </Button>
+                    {initialTour && <Button onClick={onCancel} color="red">Peruuta</Button>}
                 </Form>
             )
         }}

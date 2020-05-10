@@ -11,7 +11,6 @@ const MuseumAdminPage: React.FC = () => {
 
     const submitNewTour = async (newTour: NewTour) => {
         dispatch(addTour(newTour))
-        dispatch(allTours())
     }
 
     return (

@@ -17,6 +17,10 @@ export type Action =
         type: "DELETE_TOUR"
         id: string
     }
+    | {
+        type: "UPDATE_TOUR"
+        payload: GuidedTour
+    }
 
 const initialState: TourState = {
     tours: []
@@ -28,6 +32,8 @@ const tourReducer = (state = initialState, action: Action): TourState => {
             return {...state, tours: {...action.payload}}
         case 'ADD_TOUR':
             return {...state, tours: {...state.tours, [action.payload._id]: action.payload}}
+        case 'UPDATE_TOUR':
+            return {...state, tours: {...state.tours, [action.payload._id]: {...action.payload}}}
         case 'DELETE_TOUR':
             return {...state, tours: Object.values(state.tours).filter(t => t._id !== action.id)}
         default: 
@@ -48,6 +54,17 @@ export const allTours = (): ThunkAction<void, RootState, unknown, Action> => {
 export const addTour = (newTour: NewTour): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
         const payload: GuidedTour = await toursService.addTour(newTour);
+        console.log(payload);
+        dispatch({
+            type:"ADD_TOUR",
+            payload
+        })
+    }
+}
+
+export const updateTour = (newTour: NewTour, id: string): ThunkAction<void, RootState, unknown, Action> => {
+    return async (dispatch: Dispatch<Action>) => {
+        const payload: GuidedTour = await toursService.updateTour(newTour, id);
         console.log(payload);
         dispatch({
             type:"ADD_TOUR",

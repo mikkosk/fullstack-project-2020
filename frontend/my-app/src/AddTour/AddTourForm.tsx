@@ -23,6 +23,8 @@ export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel, initialTour }
         <Formik
         initialValues={initialTour || initialValues}
         onSubmit={(values, { resetForm }) => {
+            console.log("submitting")
+            console.log(values)
             onSubmit(values)
             resetForm()
         }}

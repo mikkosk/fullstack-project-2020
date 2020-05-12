@@ -15,7 +15,7 @@ const TourList = () => {
     return (
         <div>
             <List divided>
-                {Object.values(tours).map(t =>
+                {tours && Object.values(tours).map(t =>
                     <List.Content key={t._id}>
                         <List.Header as='b'>{t.tourName}</List.Header>
                         <List.List>

@@ -1,17 +1,21 @@
 import React from 'react'
 import { Header, Grid } from 'semantic-ui-react'
 import TourList from './TourList'
-import { AddTourForm } from '../AddTourModal/AddTourForm'
+import { AddTourForm } from '../AddTour/AddTourForm'
 import { useDispatch } from 'react-redux'
-import { addTour, allTours } from '../reducers/tourReducer'
+import { addTour } from '../reducers/tourReducer'
 import { NewTour } from '../types'
 
 const MuseumAdminPage: React.FC = () => {
     const dispatch = useDispatch()
 
-    const submitNewTour = async (newTour: NewTour) => {
+    const dispatchNewTour = async (newTour: NewTour) => {
         dispatch(addTour(newTour))
     }
+
+    const submitNewTour = async (newTour: NewTour) => {
+        await dispatchNewTour(newTour)
+    } 
 
     return (
         <div>

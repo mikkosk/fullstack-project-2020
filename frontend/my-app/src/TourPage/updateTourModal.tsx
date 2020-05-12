@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal } from 'semantic-ui-react'
-import AddTourForm from '../AddTourModal/AddTourForm'
+import AddTourForm from '../AddTour/AddTourForm'
 import { NewTour } from '../types'
 
 interface Props {

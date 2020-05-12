@@ -58,5 +58,5 @@ export interface Museum {
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;
 
 export interface TourState {
-    tours: GuidedTour[]
+    tours: { [_id: string]: GuidedTour}
 }

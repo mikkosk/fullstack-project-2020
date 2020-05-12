@@ -25,6 +25,11 @@ const TourPage: React.FC = () => {
         dispatch(updateTour(values, id))
     }
 
+    const handleSubmit = async (values: NewTour) => {
+        await updateCurrentTour(values)
+        closeModal();
+    }
+
     if(!tour) {
         return null
     }
@@ -68,10 +73,9 @@ const TourPage: React.FC = () => {
             </Table>
             <UpdateTourModal
                 modalOpen={modalOpen}
-                onSubmit={updateCurrentTour}
+                onSubmit={handleSubmit}
                 onClose={closeModal}
                 initialTour={tour}
-
             />
         </div>
     )

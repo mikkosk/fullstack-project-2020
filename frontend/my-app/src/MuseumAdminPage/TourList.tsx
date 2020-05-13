@@ -11,7 +11,6 @@ const TourList = () => {
         dispatch(deleteTour(id))
     }
     const tours = useSelector((state: RootState) => state.tours.tours)
-    console.log(tours)
     return (
         <div>
             <List divided>

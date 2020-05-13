@@ -10,7 +10,6 @@ const getAll = async (): Promise<GuidedTour[]> => {
 
 const addTour = async (newTour: NewTour): Promise<GuidedTour> => {
     const res = await axios.post(baseUrl, newTour)
-    console.log(res.data)
     return res.data
 }
 

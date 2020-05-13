@@ -7,10 +7,12 @@ import Enzyme, {mount} from 'enzyme'
 import { Provider } from 'react-redux'
 import { fireEvent, wait } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
+import thunk from 'redux-thunk'
 
 Enzyme.configure({adapter: new Adapter() })
 
-const mockStore = configureStore([])
+const middlewares = [thunk]
+const mockStore = configureStore(middlewares)
 
 function setup() {
     const store = mockStore({tours:{tours: {}}})
@@ -41,10 +43,9 @@ describe('MuseumAdminPage', () => {
         expect(enzymeWrapper.find('TourList')).toHaveLength(1)
     })
 
-    it('list items to increase after addding a new tour', async () => {
+    it('does something with inputs', async () => {
         const { enzymeWrapper } = setup()
         const toursLength = enzymeWrapper.find('ListItem').length
-        console.log(toursLength)
         await act(async () => {
             enzymeWrapper.find('input[name="tourName"]').simulate('change', {persist: () => {}, target: {name: 'tourName', value: 'ok'}})
         });
@@ -66,7 +67,7 @@ describe('MuseumAdminPage', () => {
         await act(async () => {
             enzymeWrapper.find('form').simulate('submit', {preventDefault: () => {}})
         });
-        console.log(enzymeWrapper.find('TourList').debug())
         expect(toursLength < enzymeWrapper.find('ListItem').length)
+        
     })
 })

@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
 import tourReducer from './reducers/tourReducer'
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     tours: tourReducer
 })
 

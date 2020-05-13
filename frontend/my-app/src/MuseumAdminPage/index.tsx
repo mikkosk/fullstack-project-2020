@@ -9,13 +9,10 @@ import { NewTour } from '../types'
 const MuseumAdminPage: React.FC = () => {
     const dispatch = useDispatch()
 
-    const dispatchNewTour = async (newTour: NewTour) => {
+    const submitNewTour = async (newTour: NewTour) => {
         dispatch(addTour(newTour))
     }
 
-    const submitNewTour = async (newTour: NewTour) => {
-        await dispatchNewTour(newTour)
-    } 
 
     return (
         <div>

@@ -33,7 +33,7 @@ const tourReducer = (state = initialState, action: Action): TourState => {
         case 'ADD_TOUR':
             return {...state, tours: {...state.tours, [action.payload._id]: action.payload}}
         case 'UPDATE_TOUR':
-            return {...state, tours: {...state.tours, [action.payload._id]: action.payload}}
+            return {...state, tours: {...state.tours, [action.payload._id]: {...action.payload}}}
         case 'DELETE_TOUR':
             return {...state, tours: Object.values(state.tours).filter(t => t._id !== action.id).reduce((memo, tour) => ({...memo, [tour._id]: tour}), {})}
         default: 
@@ -65,7 +65,7 @@ export const updateTour = (newTour: NewTour, id: string): ThunkAction<void, Root
     return async (dispatch: Dispatch<Action>) => {
         const payload: GuidedTour = await toursService.updateTour(newTour, id);
         dispatch({
-            type:"ADD_TOUR",
+            type:"UPDATE_TOUR",
             payload
         })
     }

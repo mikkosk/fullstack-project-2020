@@ -15,8 +15,9 @@
 | 11.5. | 2   | updating state configuration, learning how to write tests with enzyme (run into few problems), created a few frontend tests  |
 | 12.5. | 2   | fought with enzyme and formik compability and with enzyme and with testing and dispatching. not much got done |
 | 12.5. | 2   | wrote tests for tour actions, still figuring out testing redux-react |
-| 12.5. | 1.5   | rewrote test to match better good practices, add tests |
+| 13.5. | 1.5   | rewrote test to match better good practices, add tests |
+| 14.5. | 1.5   | wrote more tests |
 
-Total: 25 hours 
+Total: 26.5 hours 
 
 (1cr)

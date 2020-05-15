@@ -23,6 +23,7 @@ export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel, initialTour }
         <Formik
         initialValues={initialTour || initialValues}
         onSubmit={(values, { resetForm }) => {
+            console.log("Submit")
             onSubmit(values)
             resetForm()
         }}
@@ -93,10 +94,10 @@ export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel, initialTour }
                         name="tourInfo"
                         component={TextField}
                     />
-                    <Button type="submit" disabled={!dirty || !isValid}>
+                    <Button type="submit" name="submitForm" disabled={!dirty || !isValid}>
                         Lisää!
                     </Button>
-                    {initialTour && <Button onClick={onCancel} color="red">Peruuta</Button>}
+                    {initialTour && <Button onClick={onCancel} name="cancelForm" color="red">Peruuta</Button>}
                 </Form>
             )
         }}

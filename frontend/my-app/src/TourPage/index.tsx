@@ -40,34 +40,34 @@ const TourPage: React.FC = () => {
             <Table celled>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Tiedot</Table.HeaderCell>
-                        <Table.HeaderCell textAlign="right"> <Button onClick={openModal}>Muokkaa</Button> </Table.HeaderCell>
+                        <Table.HeaderCell name="information">Tiedot</Table.HeaderCell>
+                        <Table.HeaderCell textAlign="right"> <Button name="openModal" onClick={openModal}>Muokkaa</Button> </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     <Table.Row>
-                        <Table.Cell>Nimi</Table.Cell>
-                        <Table.Cell>{tour.tourName}</Table.Cell>
+                        <Table.Cell name="tourName">Nimi</Table.Cell>
+                        <Table.Cell name="nameValue">{tour.tourName}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Kielet</Table.Cell>
-                        <Table.Cell>{tour.possibleLanguages.map(l => <p key={l}>{l}</p>)}</Table.Cell>
+                        <Table.Cell name="tourLanguages">Kielet</Table.Cell>
+                        <Table.Cell name="languageValue">{tour.possibleLanguages.map(l => <p key={l}>{l}</p>)}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Kesto</Table.Cell>
-                        <Table.Cell>{tour.lengthInMinutes}</Table.Cell>
+                        <Table.Cell name="tourLength">Kesto</Table.Cell>
+                        <Table.Cell name="lengthValue">{tour.lengthInMinutes}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Hinta</Table.Cell>
-                        <Table.Cell>{tour.price}</Table.Cell>
+                        <Table.Cell name="tourPrice">Hinta</Table.Cell>
+                        <Table.Cell name="priceValue">{tour.price}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Maksimikoko</Table.Cell>
-                        <Table.Cell>{tour.maxNumberOfPeople}</Table.Cell>
+                        <Table.Cell name="tourMax">Maksimikoko</Table.Cell>
+                        <Table.Cell name="maxValue">{tour.maxNumberOfPeople}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Lisätiedot</Table.Cell>
-                        <Table.Cell>{tour.tourInfo}</Table.Cell>
+                        <Table.Cell name="tourInfo">Lisätiedot</Table.Cell>
+                        <Table.Cell name="infoValue">{tour.tourInfo}</Table.Cell>
                     </Table.Row>
                 </Table.Body>
             </Table>

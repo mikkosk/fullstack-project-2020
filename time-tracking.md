@@ -14,10 +14,11 @@
 | 10.5. | 1.5   | created page for individual tours, created modal for updating tours and for that extended reducer and service, problems with closing modal & state |
 | 11.5. | 2   | updating state configuration, learning how to write tests with enzyme (run into few problems), created a few frontend tests  |
 | 12.5. | 2   | fought with enzyme and formik compability and with enzyme and with testing and dispatching. not much got done |
-| 12.5. | 2   | wrote tests for tour actions, still figuring out testing redux-react |
-| 13.5. | 1.5   | rewrote test to match better good practices, add tests |
-| 14.5. | 1.5   | wrote more tests |
+| 13.5. | 2   | wrote tests for tour actions, still figuring out testing redux-react |
+| 14.5. | 1.5   | rewrote test to match better good practices, add tests |
+| 15.5. | 1.5   | wrote more tests |
+| 16.5. | 1.5   | even more tests |
 
-Total: 26.5 hours 
+Total: 28 hours 
 
 (1cr)

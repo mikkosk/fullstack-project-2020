@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NewTour } from "../types";
+import { NewTour, NewMuseum, GuidedTour } from "../types";
 
 const isString = (text: any): text is string => {
     return typeof text === 'string' || text instanceof String;
@@ -30,7 +30,7 @@ const isTime = (time: string): boolean => {
     if(minutes.substr(0,1) === "0") {
         minutes = minutes.substr(1,1);
     }
-    return Boolean(Number(minutes) > -1 && Number(minutes) < 60 && Number(hours) > -1 && Number(hours) < 24);
+    return Boolean(Number(minutes) > -1 && Number(minutes) < 60 && Number(hours) > -1 && Number(hours) < 24 && time.substring(2,1) === ':');
 };
 
 const parseGenericTextField = (text: any): string => {
@@ -109,6 +109,24 @@ const parseLanguages = (languages: any): string[] => {
     return languages;
 };
 
+const parseTime = (time: any): string => {
+    if (!time || !isString(time) || !isTime(time)) {
+        throw new Error('Incorrect or missing time');
+    }
+    return time;
+};
+
+
+const parseId = (id: any): string => {
+    try {
+        const parsedInfo = parseGenericTextField(id);
+        return parsedInfo;
+    } catch {
+        throw new Error('Missing or invalid id');
+    }
+};
+
+
 export const toNewTour = (object: any): NewTour => {
     const newTour =
         {
@@ -127,5 +145,70 @@ export const toNewTour = (object: any): NewTour => {
     } else {
         return newTour;
     }
+    
+};
+
+const parseGuidedTour = (tour: any): GuidedTour => {
+    try {
+        const newTour: NewTour = toNewTour(tour);
+        const _id = parseId(tour._id);
+        const guidedTour: GuidedTour = {
+            ...newTour,
+            _id
+        }
+        return guidedTour;
+    } catch {
+        throw new Error('Missing or invalid tour');
+    }
+};
+
+const parseGuidedTours = (tours: any): GuidedTour[] => {
+    if(!tours || !Array.isArray(tours)) {
+        throw new Error('Incorrect or missing list of tours');
+    }
+    tours.forEach((t: any): GuidedTour => parseGuidedTour(t));
+    return tours;
+};
+
+export const toNewMuseum = (object: any): NewMuseum => {
+    let newMuseum: NewMuseum =
+        {
+            museumName: parseName(object.possibleLanguages),
+            open: {
+                mon: parseTime(object.open.mon),
+                tue: parseTime(object.open.tue),
+                wed: parseTime(object.open.wed),
+                thu: parseTime(object.open.thu),
+                fri: parseTime(object.open.fri),
+                sat: parseTime(object.open.sat),
+                sun: parseTime(object.open.sun),
+            },
+            closed: {
+                mon: parseTime(object.open.mon),
+                tue: parseTime(object.open.tue),
+                wed: parseTime(object.open.wed),
+                thu: parseTime(object.open.thu),
+                fri: parseTime(object.open.fri),
+                sat: parseTime(object.open.sat),
+                sun: parseTime(object.open.sun),
+            },
+            offeredTours: parseGuidedTours(object.offeredTours)
+        };
+
+    if(object.openInfo) {
+        newMuseum = {
+            ...newMuseum,
+            openInfo: parseInfo(object.openInfo)
+        };
+    }
+
+    if(object.openInfo) {
+        newMuseum = {
+            ...newMuseum,
+            museumInfo: parseInfo(object.museumInfo)
+        };
+    }
+    
+    return newMuseum;
     
 };

@@ -29,13 +29,13 @@ beforeEach(async () => {
 
 test('tours are returned as json', async () => {
   await api
-    .get('/museum')
+    .get('/tour')
     .expect(200)
     .expect('Content-Type', /application\/json/);
 });
 
 test('all tours are returned initially', async () => {
-    const res = await api.get('/museum');
+    const res = await api.get('/tour');
     expect(res.body).toHaveLength(initialTours.length);
 });
 
@@ -43,9 +43,9 @@ describe('adding a tour', () => {
 
     test('increases length by one', async () => {
     
-        await api.post('/museum').send(newTour);
+        await api.post('/tour').send(newTour);
         
-        const res = await api.get('/museum');
+        const res = await api.get('/tour');
     
         expect(res.body).toHaveLength(initialTours.length + 1);
     });
@@ -55,23 +55,23 @@ describe('adding a tour', () => {
 describe('deleting a tour', () => {
 
     test('deleting tour removes an object', async() => {
-        await api.delete(`/museum/${id}`);
-        const res = await api.get('/museum');
+        await api.delete(`/tour/${id}`);
+        const res = await api.get('/tour');
         expect(res.body).toHaveLength(initialTours.length - 1);
     });
     
     test('deleting removes right object', async() => {
-        await api.delete(`/museum/${id}`);
-        const res = await api.get('/museum');
-        expect(!res.body.find((t:any) => t._id === id)).toBeTruthy();
+        await api.delete(`/tour/${id}`);
+        const res = await api.get('/tour');
+        expect(!res.body.find((t: any) => t._id === id)).toBeTruthy();
     });
 
 });
 
 describe('updating', () => {
     test('updated tour is saved correctly', async() => {
-        await api.put(`/museum/${id}`).send(newTour).expect(200);
-        const res = await api.get('/museum');
+        await api.put(`/tour/${id}`).send(newTour).expect(200);
+        const res = await api.get('/tour');
         const updatedTour = (res.body.find((t: any) => t._id === String(id)));
         delete updatedTour.__v;
         delete updatedTour._id;
@@ -79,15 +79,15 @@ describe('updating', () => {
     });
     
     test('updating tour does not affect size', async() => {
-        await api.put(`/museum/${id}`).send(newTour).expect(200);
-        await api.post('/museum').send(newTour);
-        const res = await api.get('/museum');
+        await api.put(`/tour/${id}`).send(newTour).expect(200);
+        await api.post('/tour').send(newTour);
+        const res = await api.get('/tour');
         expect(res.body).toHaveLength(initialTours.length + 1);
     });
     
     test('trying to update with faulty id does not work', async() => {
-        await api.put(`/museum/faultyId`).send(newTour).expect(400);
-        const res = await api.get('/museum');
+        await api.put(`/tour/faultyId`).send(newTour).expect(400);
+        const res = await api.get('/tour');
         const updatedTour = (res.body.find((t: any) => t._id === String(id)));
         delete updatedTour.__v;
         delete updatedTour._id;
@@ -103,8 +103,8 @@ describe('updating', () => {
             price: "ok",
             tourInfo: "Opastus museoon"
         };
-        await api.put(`/museum/${id}`).send(faultyTour).expect(400);
-        const res = await api.get('/museum');
+        await api.put(`/tour/${id}`).send(faultyTour).expect(400);
+        const res = await api.get('/tour');
         const updatedTour = (res.body.find((t: any) => t._id === String(id)));
         delete updatedTour.__v;
         delete updatedTour._id;

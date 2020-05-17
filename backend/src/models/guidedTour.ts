@@ -4,7 +4,6 @@ import { GuidedTour } from '../types';
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 
 const tourSchema: Schema = new Schema({
-    id: String,
     possibleLanguages: [{ type: String }],
     lengthInMinutes: Number,
     tourName: String,
@@ -13,4 +12,4 @@ const tourSchema: Schema = new Schema({
     tourInfo: String || undefined
 });
 
-export default mongoose.model<GuidedTour & Document>('Tour', tourSchema);
+export default mongoose.model<GuidedTour & Document>('TourMon', tourSchema);

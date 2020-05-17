@@ -18,7 +18,8 @@
 | 14.5. | 1.5   | rewrote test to match better good practices, add tests |
 | 15.5. | 1.5   | wrote more tests |
 | 16.5. | 1.5   | even more tests |
+| 17.5. | 1.5   | last tests for now in the front - schema, router and service for museum in the backend |
 
-Total: 28 hours 
+Total: 29.5 hours 
 
 (1cr)

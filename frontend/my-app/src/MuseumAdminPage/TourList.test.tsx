@@ -41,13 +41,13 @@ function setup(store: MockStoreEnhanced<unknown, {}>) {
 }
 
 describe('TourList', () => {
-    it('empty store does not render any tours', () => {
+    test('empty store does not render any tours', () => {
         const { enzymeWrapper } = setup(emptyStore)
         expect(enzymeWrapper.find('ListItem')).toHaveLength(0)
     })
 
-    it('store with multiple objects return right amount of list items', () => {
+    test('store with multiple objects return right amount of list items', () => {
         const { enzymeWrapper } = setup(storeWithMultipleTours)
-        expect(enzymeWrapper.find('ListItem')).toHaveLength(4)
+        expect(enzymeWrapper.find('ListHeader')).toHaveLength(2)
     })
 })

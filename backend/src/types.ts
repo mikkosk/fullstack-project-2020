@@ -1,6 +1,6 @@
 
 export interface GuidedTour {
-    id: string;
+    _id: string;
     possibleLanguages: Array<string>;
     lengthInMinutes: number;
     tourName: string;
@@ -32,7 +32,8 @@ export interface Guide {
 }
 
 export interface Museum {
-    MuseumName: string;
+    _id: string;
+    museumName: string;
     open: {
         mon: string;
         tue: string;
@@ -51,9 +52,10 @@ export interface Museum {
         sat: string;
         sun: string;
     };
+    openInfo?: string;
     offeredTours: GuidedTour[];
-    reservedTours: ReservedTour[];
-    guides: Guide[];
+    museumInfo?: string;
 }
 
+export type NewMuseum = Omit<Museum, '_id'>;
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;

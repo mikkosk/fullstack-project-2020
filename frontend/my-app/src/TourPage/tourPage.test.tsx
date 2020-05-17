@@ -9,7 +9,7 @@ import thunk from 'redux-thunk'
 import { useParams } from 'react-router-dom'
 import TourPage from './index'
 import { act } from 'react-dom/test-utils'
-import { wait } from '@testing-library/react'
+import { wait, waitForElement } from '@testing-library/react'
 
 Enzyme.configure({adapter: new Adapter() })
 
@@ -20,6 +20,7 @@ jest.mock('react-router-dom', () => ({
     useParams: () => ({
       id: "two"
   })}));
+  
 
 
 function setup() {
@@ -93,6 +94,11 @@ describe ('Tour Page', () => {
         expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(false)
     })
     test("clicking submit closes modal", async () => {
-        console.log("jotain")
+        const { enzymeWrapper } = setup()
+        enzymeWrapper.find('Button[name="openModal"]').simulate('click')
+        expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(true)
+        await waitForElement(() => enzymeWrapper.find('Button[name="submit"]').simulate('submit'))
+        enzymeWrapper.update()
+        expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(false)
     })
 })

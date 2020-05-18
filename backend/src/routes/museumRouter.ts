@@ -30,7 +30,6 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-    console.log(req.params.id);
     await museumService.deleteMuseum(req.params.id);
 
     res.status(204).end();

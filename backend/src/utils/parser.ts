@@ -30,7 +30,7 @@ const isTime = (time: string): boolean => {
     if(minutes.substr(0,1) === "0") {
         minutes = minutes.substr(1,1);
     }
-    return Boolean(Number(minutes) > -1 && Number(minutes) < 60 && Number(hours) > -1 && Number(hours) < 24 && time.substring(2,1) === ':');
+    return Boolean(Number(minutes) > -1 && Number(minutes) < 60 && Number(hours) > -1 && Number(hours) < 24);
 };
 
 const parseGenericTextField = (text: any): string => {
@@ -70,7 +70,7 @@ const parseName = (name: any): string => {
         const parsedName = parseGenericTextField(name);
         return parsedName;
     } catch {
-        throw new Error('Missing or invalid name');
+        throw new Error('Missing or invalid name' + name);
     }
 };
 
@@ -148,32 +148,11 @@ export const toNewTour = (object: any): NewTour => {
     
 };
 
-const parseGuidedTour = (tour: any): GuidedTour => {
-    try {
-        const newTour: NewTour = toNewTour(tour);
-        const _id = parseId(tour._id);
-        const guidedTour: GuidedTour = {
-            ...newTour,
-            _id
-        }
-        return guidedTour;
-    } catch {
-        throw new Error('Missing or invalid tour');
-    }
-};
-
-const parseGuidedTours = (tours: any): GuidedTour[] => {
-    if(!tours || !Array.isArray(tours)) {
-        throw new Error('Incorrect or missing list of tours');
-    }
-    tours.forEach((t: any): GuidedTour => parseGuidedTour(t));
-    return tours;
-};
 
 export const toNewMuseum = (object: any): NewMuseum => {
     let newMuseum: NewMuseum =
         {
-            museumName: parseName(object.possibleLanguages),
+            museumName: parseName(object.museumName),
             open: {
                 mon: parseTime(object.open.mon),
                 tue: parseTime(object.open.tue),
@@ -181,18 +160,17 @@ export const toNewMuseum = (object: any): NewMuseum => {
                 thu: parseTime(object.open.thu),
                 fri: parseTime(object.open.fri),
                 sat: parseTime(object.open.sat),
-                sun: parseTime(object.open.sun),
+                sun: parseTime(object.open.sun)
             },
             closed: {
-                mon: parseTime(object.open.mon),
-                tue: parseTime(object.open.tue),
-                wed: parseTime(object.open.wed),
-                thu: parseTime(object.open.thu),
-                fri: parseTime(object.open.fri),
-                sat: parseTime(object.open.sat),
-                sun: parseTime(object.open.sun),
+                mon: parseTime(object.closed.mon),
+                tue: parseTime(object.closed.tue),
+                wed: parseTime(object.closed.wed),
+                thu: parseTime(object.closed.thu),
+                fri: parseTime(object.closed.fri),
+                sat: parseTime(object.closed.sat),
+                sun: parseTime(object.closed.sun)
             },
-            offeredTours: parseGuidedTours(object.offeredTours)
         };
 
     if(object.openInfo) {

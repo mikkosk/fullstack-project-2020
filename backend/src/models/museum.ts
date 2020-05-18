@@ -5,7 +5,7 @@ import uniqueValidator from 'mongoose-unique-validator';
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 
 const museumSchema: Schema = new Schema({
-    MuseumName: {
+    museumName: {
         type: String,
         unique: true
     },
@@ -33,13 +33,12 @@ const museumSchema: Schema = new Schema({
     offeredTours: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Tour'
+            ref: 'TourMon'
         }
     ],
     museumInfo: {
         type: String || undefined,
     }
-
 });
 
 museumSchema.plugin(uniqueValidator);

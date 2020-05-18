@@ -4,7 +4,7 @@ import cors from 'cors';
 import toursRouter from './routes/toursRouter';
 require('dotenv').config();
 import mongoose from 'mongoose';
-import museum from './models/museum';
+import museumRouter from './routes/museumRouter';
 
 mongoose.set('useCreateIndex', true);
 let MONGODB_URI = process.env.MONGODB_URI;

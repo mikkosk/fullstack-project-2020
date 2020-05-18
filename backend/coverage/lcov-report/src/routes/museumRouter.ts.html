@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/routes/toursRouter.ts</title>
+    <title>Code coverage report for src/routes/museumRouter.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/routes</a> toursRouter.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/routes</a> museumRouter.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.55% </span>
+                <span class="strong">89.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/29</span>
+                <span class='fraction'>26/29</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.24% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>20/21</span>
+                <span class='fraction'>18/21</span>
             </div>
         
             
@@ -101,8 +101,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -110,9 +110,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -120,9 +120,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -130,35 +130,35 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span></td><td class="text"><pre class="prettyprint lang-js">import express from 'express';
-import toursService from '../services/toursService';
-import { toNewTour } from '../utils/parser';
+import museumService from '../services/museumService';
+import { toNewMuseum } from '../utils/parser';
 &nbsp;
 const router = express.Router();
 &nbsp;
 router.get('/', async (_req, res) =&gt; {
-    res.json(await toursService.getTours());
+    res.json(await museumService.getMuseums());
 });
 &nbsp;
 &nbsp;
-router.post('/museum/:id', async (req, res) =&gt; {
+router.post('/', async (req, res) =&gt; {
     try {
-        const newTour = toNewTour(req.body);
-        const addedTour = await toursService.addTour(newTour, req.params.id);
-        res.json(addedTour);
+        const newMuseum = toNewMuseum(req.body);
+        const addedMuseum = await museumService.addMuseum(newMuseum);
+<span class="cstat-no" title="statement not covered" >        res.json(addedMuseum);</span>
     } catch (e) {
-<span class="cstat-no" title="statement not covered" >        res.status(400).send(e.message);</span>
+        res.status(400).send(e.message);
     }
 });
 &nbsp;
 router.put('/:id', async (req, res) =&gt; {
     try {
-        const newTour = toNewTour(req.body);
-        const updatedEntry = await toursService.updateTour(newTour, req.params.id);
-        res.json(updatedEntry);
+        const newMuseum = toNewMuseum(req.body);
+        const updatedEntry = await museumService.updateMuseum(newMuseum, req.params.id);
+<span class="cstat-no" title="statement not covered" >        res.json(updatedEntry);</span>
     } catch (e) {
         res.status(400).send(e.message);
     }
@@ -166,9 +166,9 @@ router.put('/:id', async (req, res) =&gt; {
 &nbsp;
 router.delete('/:id', async (req, res) =&gt; {
     console.log(req.params.id);
-    await toursService.deleteTour(req.params.id);
+    await museumService.deleteMuseum(req.params.id);
 &nbsp;
-    res.status(204).end();
+<span class="cstat-no" title="statement not covered" >    res.status(204).end();</span>
 });
 &nbsp;
 export default router;</pre></td></tr></table></pre>

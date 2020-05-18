@@ -57,5 +57,5 @@ export interface Museum {
     museumInfo?: string;
 }
 
-export type NewMuseum = Omit<Museum, '_id'>;
+export type NewMuseum = Omit<Museum, '_id' | 'offeredTours'>;
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;

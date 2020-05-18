@@ -9,17 +9,18 @@ const getMuseums = async (): Promise<Museum[]> => {
 const addMuseum = async (entry: NewMuseum): Promise<Museum> => {
     const newMuseum = new MuseumMon({
         ...entry,
+        offeredTours: []
     });
-    const savedTour = await newMuseum.save();
-    return savedTour;
+    const savedMuseum = await newMuseum.save();
+    return savedMuseum;
 };
 
 const updateMuseum = async (entry: NewMuseum, id: Museum['_id']): Promise<Museum> => {
-    const updatedTour = await MuseumMon.findByIdAndUpdate(id, entry, {new: true}).populate('offeredTours');
-    if(!updatedTour) {
+    const updatedMuseum = await MuseumMon.findByIdAndUpdate(id, entry, {new: true}).populate('offeredTours');
+    if(!updatedMuseum) {
         throw new Error('Kyseistä museota ei löytynyt');
     }
-    return updatedTour;
+    return updatedMuseum;
 };
 
 const deleteMuseum = async (id: string) => {

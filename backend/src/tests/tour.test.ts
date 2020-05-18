@@ -2,11 +2,14 @@
 import mongoose from 'mongoose';
 import supertest from 'supertest';
 import app from '../app';
-import Tour from '../models/guidedTour';
+import TourMon from '../models/guidedTour';
+import MuseumMon from '../models/museum';
 import initialTours from '../../data/guidedTours';
+import initialMuseums from '../../data/museums';
 
 const api = supertest(app);
-let id: string;
+let tourId: string;
+let museumId: string;
 const newTour = {
     possibleLanguages: ["Venäjä"],
     lengthInMinutes: 45,
@@ -17,14 +20,19 @@ const newTour = {
 };
 
 beforeEach(async () => {
-    await Tour.deleteMany({});
-  
-    let noteObject = new Tour(initialTours[0]);
+    await TourMon.deleteMany({});
+    await MuseumMon.deleteMany({});
+
+    const museum = new MuseumMon({...initialMuseums[0], offeredTours: []});
+    await museum.save();
+
+    let noteObject = new TourMon(initialTours[0]);
     await noteObject.save();
   
-    noteObject = new Tour(initialTours[1]);
+    noteObject = new TourMon(initialTours[1]);
     await noteObject.save();
-    id = noteObject._id;
+    tourId = noteObject._id;
+    museumId = museum._id;
   });
 
 test('tours are returned as json', async () => {
@@ -43,7 +51,7 @@ describe('adding a tour', () => {
 
     test('increases length by one', async () => {
     
-        await api.post('/tour').send(newTour);
+        await api.post(`/tour/museum/${museumId}`).send(newTour);
         
         const res = await api.get('/tour');
     
@@ -55,40 +63,40 @@ describe('adding a tour', () => {
 describe('deleting a tour', () => {
 
     test('deleting tour removes an object', async() => {
-        await api.delete(`/tour/${id}`);
+        await api.delete(`/tour/${tourId}`);
         const res = await api.get('/tour');
         expect(res.body).toHaveLength(initialTours.length - 1);
     });
     
     test('deleting removes right object', async() => {
-        await api.delete(`/tour/${id}`);
+        await api.delete(`/tour/${tourId}`);
         const res = await api.get('/tour');
-        expect(!res.body.find((t: any) => t._id === id)).toBeTruthy();
+        expect(!res.body.find((t: any) => t._id === tourId)).toBeTruthy();
     });
 
 });
 
 describe('updating', () => {
     test('updated tour is saved correctly', async() => {
-        await api.put(`/tour/${id}`).send(newTour).expect(200);
+        await api.put(`/tour/${tourId}`).send(newTour).expect(200);
         const res = await api.get('/tour');
-        const updatedTour = (res.body.find((t: any) => t._id === String(id)));
+        const updatedTour = (res.body.find((t: any) => t._id === String(tourId)));
         delete updatedTour.__v;
         delete updatedTour._id;
         expect(updatedTour).toEqual({...newTour});
     });
     
     test('updating tour does not affect size', async() => {
-        await api.put(`/tour/${id}`).send(newTour).expect(200);
+        await api.put(`/tour/${tourId}`).send(newTour).expect(200);
         await api.post('/tour').send(newTour);
         const res = await api.get('/tour');
-        expect(res.body).toHaveLength(initialTours.length + 1);
+        expect(res.body).toHaveLength(initialTours.length);
     });
     
     test('trying to update with faulty id does not work', async() => {
         await api.put(`/tour/faultyId`).send(newTour).expect(400);
         const res = await api.get('/tour');
-        const updatedTour = (res.body.find((t: any) => t._id === String(id)));
+        const updatedTour = (res.body.find((t: any) => t._id === String(tourId)));
         delete updatedTour.__v;
         delete updatedTour._id;
         expect(updatedTour).toEqual({...initialTours[1]});
@@ -103,9 +111,9 @@ describe('updating', () => {
             price: "ok",
             tourInfo: "Opastus museoon"
         };
-        await api.put(`/tour/${id}`).send(faultyTour).expect(400);
+        await api.put(`/tour/${tourId}`).send(faultyTour).expect(400);
         const res = await api.get('/tour');
-        const updatedTour = (res.body.find((t: any) => t._id === String(id)));
+        const updatedTour = (res.body.find((t: any) => t._id === String(tourId)));
         delete updatedTour.__v;
         delete updatedTour._id;
         expect(updatedTour).toEqual({...initialTours[1]});

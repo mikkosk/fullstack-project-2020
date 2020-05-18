@@ -9,10 +9,10 @@ router.get('/', async (_req, res) => {
 });
 
 
-router.post('/', async (req, res) => {
+router.post('/museum/:id', async (req, res) => {
     try {
         const newTour = toNewTour(req.body);
-        const addedTour = await toursService.addTour(newTour);
+        const addedTour = await toursService.addTour(newTour, req.params.id);
         res.json(addedTour);
     } catch (e) {
         res.status(400).send(e.message);
@@ -30,7 +30,6 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-    console.log(req.params.id);
     await toursService.deleteTour(req.params.id);
 
     res.status(204).end();

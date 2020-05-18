@@ -19,7 +19,7 @@
 | 15.5. | 1.5   | wrote more tests |
 | 16.5. | 1.5   | even more tests |
 | 17.5. | 1.5   | last tests for now in the front - schema, router and service for museum in the backend |
-
-Total: 29.5 hours 
+| 18.5. | 2   | tests for handling museum, updated tour router and service (And tests) to handle adding tours for specific museums |
+Total: 31.5 hours 
 
 (1cr)

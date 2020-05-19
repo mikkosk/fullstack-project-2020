@@ -5,12 +5,14 @@ import { useDispatch } from 'react-redux';
 import { Container } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import TourPage from './TourPage';
+import { allMuseums } from './reducers/museumReducer';
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() =>{
     dispatch(allTours())
+    dispatch(allMuseums())
   },[dispatch])
 
   return (
@@ -18,8 +20,8 @@ function App() {
       <Router>
         <Container textAlign="center">
           <Switch>
-            <Route path="/:id" render={() => <TourPage />}/>
-            <Route path="/" render={() => <MuseumAdminPage />}/>
+            <Route path="/tour/:id" render={() => <TourPage />}/>
+            <Route path="/museum/:id" render={() => <MuseumAdminPage />}/>
           </Switch>
         </Container>
       </Router>

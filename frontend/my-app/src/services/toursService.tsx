@@ -1,15 +1,15 @@
 import axios from 'axios'
 import { GuidedTour, NewTour, Guide } from '../types'
 
-const baseUrl = 'http://localhost:3001/museum'
+const baseUrl = 'http://localhost:3001/tour'
 
 const getAll = async (): Promise<GuidedTour[]> => {
     const res = await axios.get(baseUrl)
     return res.data
 }
 
-const addTour = async (newTour: NewTour): Promise<GuidedTour> => {
-    const res = await axios.post(baseUrl, newTour)
+const addTour = async (newTour: NewTour, museumId: string): Promise<GuidedTour> => {
+    const res = await axios.post(`${baseUrl}/museum/${museumId}`, newTour)
     return res.data
 }
 

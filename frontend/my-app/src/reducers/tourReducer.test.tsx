@@ -1,11 +1,12 @@
 import moxios from "moxios";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import tourReducer, { allTours, addTour, updateTour, deleteTour } from './tourReducer';
-import { GuidedTour, TourState } from '../types';
+import { GuidedTour, TourState, Museum } from '../types';
 import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"
 import createMockStore from "redux-mock-store";
+import { initialStateEmptyTours, initialStateEmptyMuseums, initialStateEmpty } from '../../data/testData'
 
 const middlewares: Array<Middleware> = [thunk]
 type DispatchExts = ThunkDispatch<RootState, undefined, AnyAction>
@@ -23,7 +24,7 @@ describe("Tour actions", () => {
     })
 
     test('calling AllTours dispatches GET_ALL_TOURS and returns right objects', async () => {
-        const initialState: RootState = {tours: {tours:{}}}
+        const initialState: RootState = initialStateEmpty
         const store = mockStoreCreator(initialState)
         const response: GuidedTour[] = [
                 {lengthInMinutes: 2, 
@@ -63,7 +64,8 @@ describe("Tour actions", () => {
     })
 
     test('addTour dispatches ADD_TOUR and returns right tour', async () => {
-        const initialState: RootState = {tours: {tours:{}}}
+        const initialState: RootState = initialStateEmptyTours
+        const museum: Museum = initialStateEmptyTours.museums.museums["iidee"]
         const store = mockStoreCreator(initialState)
         const response: GuidedTour = 
                 {lengthInMinutes: 2, 
@@ -82,7 +84,7 @@ describe("Tour actions", () => {
             })
         })
         
-        await store.dispatch<any>(addTour(response))
+        await store.dispatch<any>(addTour(response, museum._id))
         const actions = store.getActions()
 
         expect.assertions(2)
@@ -91,13 +93,7 @@ describe("Tour actions", () => {
     })
 
     test('updateTour dispatches UPDATE_TOUR and return updated tour', async () => {
-        const initialState: RootState = {tours: {tours: {"three": {lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["Two"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "three"}}}}
+        const initialState: RootState = initialStateEmptyMuseums
         const store = mockStoreCreator(initialState)
         const response: GuidedTour = 
                 {lengthInMinutes: 2, 
@@ -124,18 +120,12 @@ describe("Tour actions", () => {
         expect(actions[0].payload).toMatchObject(response)
     })
 
-    test('deleting updates store', async () => {
-        const initialState: RootState = {tours: {tours: {"three": {lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["Two"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "three"}}}} 
+    test('deleteTour dispatches DELETE_TOUR and returns 200', async () => {
+        const initialState: RootState = initialStateEmptyMuseums
 
         const store = mockStoreCreator(initialState)
         
-        moxios.stubRequest('http://localhost:3001/museum/three', {
+        moxios.stubRequest('http://localhost:3001/tour/three', {
             status: 200,
           })
         

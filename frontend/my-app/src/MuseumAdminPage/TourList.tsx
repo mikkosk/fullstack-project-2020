@@ -3,14 +3,18 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../store'
 import { List, Button } from 'semantic-ui-react'
 import { deleteTour } from '../reducers/tourReducer'
+import { useParams } from 'react-router-dom'
 
 const TourList = () => {
     const dispatch = useDispatch()
-
+    const { id } = useParams<{ id: string }>();
     const deleteATour = (id: string) => {
         dispatch(deleteTour(id))
     }
-    const tours = useSelector((state: RootState) => state.tours.tours)
+    const tours = useSelector((state: RootState) => state.museums.museums[id]?.offeredTours) || undefined;
+    if(!tours) {
+        return null
+    }
     return (
         <div>
             <List divided>

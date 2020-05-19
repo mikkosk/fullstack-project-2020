@@ -26,6 +26,8 @@ const initialState: TourState = {
     tours: {}
 }
 
+//Päivitä state niin, että museokin päivittyy
+//Korjaa testit
 const tourReducer = (state = initialState, action: Action): TourState => {
     switch(action.type) {
         case 'GET_ALL_TOURS':
@@ -51,9 +53,9 @@ export const allTours = (): ThunkAction<void, RootState, unknown, Action> => {
     }
 }
 
-export const addTour = (newTour: NewTour): ThunkAction<void, RootState, unknown, Action> => {
+export const addTour = (newTour: NewTour, museumId: string): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
-        const payload: GuidedTour = await toursService.addTour(newTour);
+        const payload: GuidedTour = await toursService.addTour(newTour, museumId);
         dispatch({
             type:"ADD_TOUR",
             payload

@@ -93,7 +93,7 @@ export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel, initialTour }
                         name="tourInfo"
                         component={TextField}
                     />
-                    <Button type="submit" name="submit" onClick={() => console.log(dirty)} disabled={!dirty || !isValid}>
+                    <Button type="submit" name="submit" disabled={!dirty || !isValid}>
                         Lisää!
                     </Button>
                     {initialTour && <Button onClick={onCancel} name="cancelForm" color="red">Peruuta</Button>}

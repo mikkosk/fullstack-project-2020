@@ -20,6 +20,7 @@
 | 16.5. | 1.5   | even more tests |
 | 17.5. | 1.5   | last tests for now in the front - schema, router and service for museum in the backend |
 | 18.5. | 2   | tests for handling museum, updated tour router and service (And tests) to handle adding tours for specific museums |
+| 19.5. | 1.5   | created reducer and actions for handling museums. wrote tests for those. started to change the museumAdminPage |
 Total: 31.5 hours 
 
 (1cr)

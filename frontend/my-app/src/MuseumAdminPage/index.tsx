@@ -2,17 +2,26 @@ import React from 'react'
 import { Header, Grid } from 'semantic-ui-react'
 import TourList from './TourList'
 import { AddTourForm } from '../AddTour/AddTourForm'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addTour } from '../reducers/tourReducer'
 import { NewTour } from '../types'
+import { useParams } from 'react-router-dom'
+import { RootState } from '../store'
 
 const MuseumAdminPage: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
     const dispatch = useDispatch()
+    
 
     const submitNewTour = async (newTour: NewTour) => {
-        dispatch(addTour(newTour))
+        dispatch(addTour(newTour, id))
     }
 
+    const museum = useSelector((state: RootState) => state.museums.museums[id])
+
+    if(!museum) {
+        return <Header as="h2">Museota ei löytynyt</Header>
+    }
 
     return (
         <div>

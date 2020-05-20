@@ -1,8 +1,9 @@
 import museumsService from "../services/museumService"
-import { Museum, MuseumState, NewMuseum } from "../types"
+import { Museum, MuseumState, NewMuseum, NewTour, AddTourPayload, GuidedTour } from "../types"
 import { Dispatch, memo } from "react"
 import { ThunkAction } from "redux-thunk"
 import { RootState } from "../store"
+import toursService from "../services/toursService"
 
 export type Action= 
     | {
@@ -21,6 +22,15 @@ export type Action=
         type: "UPDATE_MUSEUM"
         payload: Museum
     } 
+    |{
+        type: "ADD_TOUR"
+        payload: AddTourPayload
+    }
+    |{
+        type: "DELETE_TOUR"
+        museumId: Museum["_id"];
+        tourId: GuidedTour["_id"];
+    }
 
 const initialState: MuseumState = {
     museums: {}
@@ -32,10 +42,16 @@ const museumReducer = (state = initialState, action: Action): MuseumState => {
             return {...state, museums: {...action.payload.reduce((memo, museum: Museum) => ({...memo, [museum._id]: museum}), {})}}
         case 'ADD_MUSEUM':
             return {...state, museums: {...state.museums, [action.payload._id]: action.payload}}
+        case 'ADD_TOUR':
+            return {...state, museums: {...state.museums, [action.payload.museumId]: {
+                ...state.museums[action.payload.museumId], offeredTours: [...state.museums[action.payload.museumId].offeredTours, action.payload.tour]
+            }}}
         case 'UPDATE_MUSEUM':
             return {...state, museums: {...state.museums, [action.payload._id]: {...action.payload}}}
         case 'DELETE_MUSEUM':
             return {...state, museums: Object.values(state.museums).filter(t => t._id !== action.id).reduce((memo, museum) => ({...memo, [museum._id]: museum}), {})}
+        case 'DELETE_TOUR':
+            return {...state, museums: {...state.museums, [action.museumId]: {...state.museums[action.museumId], offeredTours: state.museums[action.museumId].offeredTours.filter(t => t._id !== action.tourId)}}}
         default: 
             return state
     }
@@ -61,6 +77,16 @@ export const addMuseum = (newMuseum: NewMuseum): ThunkAction<void, RootState, un
     }
 }
 
+export const addTour = (newTour: NewTour, museumId: string): ThunkAction<void, RootState, unknown, Action> => {
+    return async (dispatch: Dispatch<Action>) => {
+        const payload: AddTourPayload = await toursService.addTour(newTour, museumId);
+        dispatch({
+            type:"ADD_TOUR",
+            payload
+        })
+    }
+}
+
 export const updateMuseum = (newMuseum: NewMuseum, id: string): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
         const payload: Museum = await museumsService.updateMuseum(newMuseum, id);
@@ -77,6 +103,17 @@ export const deleteMuseum = (id: string): ThunkAction<void, RootState, unknown, 
         dispatch({
             type:"DELETE_MUSEUM",
             id
+        })
+    }
+}
+
+export const deleteTour = (museumId: string, tourId: string): ThunkAction<void, RootState, unknown, Action> => {
+    return async(dispatch: Dispatch<Action>) => {
+        await toursService.deleteTour(tourId);
+        dispatch({
+            type:"DELETE_TOUR",
+            tourId,
+            museumId
         })
     }
 }

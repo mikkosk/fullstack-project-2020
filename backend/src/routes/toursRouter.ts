@@ -12,8 +12,8 @@ router.get('/', async (_req, res) => {
 router.post('/museum/:id', async (req, res) => {
     try {
         const newTour = toNewTour(req.body);
-        const addedTour = await toursService.addTour(newTour, req.params.id);
-        res.json(addedTour);
+        const addedMuseum = await toursService.addTour(newTour, req.params.id);
+        res.json(addedMuseum);
     } catch (e) {
         res.status(400).send(e.message);
     }

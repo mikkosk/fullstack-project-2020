@@ -6,33 +6,20 @@ import Enzyme, {mount} from 'enzyme'
 import { Provider } from 'react-redux'
 import TourList from './TourList'
 import thunk from 'redux-thunk'
+import { initialStateEmptyTours, initialState } from '../../data/testData'
 
 Enzyme.configure({adapter: new Adapter() })
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
+    useParams: () => ({
+      id: "iidee"
+  })}));
+
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
-const emptyStore = mockStore({tours: {tours: {}}})
-const storeWithMultipleTours = mockStore({tours: 
-    {tours: 
-        {"ok": 
-            {lengthInMinutes: 1, 
-            maxNumberOfPeople:1, 
-            possibleLanguages: ["OK"],
-            price: 1, 
-            tourName: "Ok", 
-            tourInfo: "ok", 
-            _id: "ok"}, 
-        "two": 
-            {lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["Two"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "two"}
-        }
-    }, 
-})
+const emptyStore = mockStore(initialStateEmptyTours)
+const storeWithMultipleTours = mockStore(initialState)
 function setup(store: MockStoreEnhanced<unknown, {}>) {
     const enzymeWrapper = mount(<Provider store={store}><TourList /></Provider>)
     return {
@@ -46,8 +33,8 @@ describe('TourList', () => {
         expect(enzymeWrapper.find('ListItem')).toHaveLength(0)
     })
 
-    test('store with multiple objects return right amount of list items', () => {
+    test('store with objects return right amount of list items', () => {
         const { enzymeWrapper } = setup(storeWithMultipleTours)
-        expect(enzymeWrapper.find('ListHeader')).toHaveLength(2)
+        expect(enzymeWrapper.find('ListHeader')).toHaveLength(1)
     })
 })

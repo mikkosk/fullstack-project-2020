@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GuidedTour, NewTour, Guide } from '../types'
+import { GuidedTour, NewTour, Museum, AddTourPayload } from '../types'
 
 const baseUrl = 'http://localhost:3001/tour'
 
@@ -8,7 +8,7 @@ const getAll = async (): Promise<GuidedTour[]> => {
     return res.data
 }
 
-const addTour = async (newTour: NewTour, museumId: string): Promise<GuidedTour> => {
+const addTour = async (newTour: NewTour, museumId: string): Promise<AddTourPayload> => {
     const res = await axios.post(`${baseUrl}/museum/${museumId}`, newTour)
     return res.data
 }

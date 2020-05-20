@@ -1,12 +1,12 @@
 import moxios from "moxios";
 import thunk, { ThunkDispatch } from "redux-thunk";
-import tourReducer, { allTours, addTour, updateTour, deleteTour } from './tourReducer';
-import { GuidedTour, TourState, Museum } from '../types';
+import tourReducer, { allTours, updateTour } from './tourReducer';
+import { GuidedTour, TourState } from '../types';
 import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"
 import createMockStore from "redux-mock-store";
-import { initialStateEmptyTours, initialStateEmptyMuseums, initialStateEmpty } from '../../data/testData'
+import { initialStateEmptyMuseums, initialStateEmpty } from '../../data/testData'
 
 const middlewares: Array<Middleware> = [thunk]
 type DispatchExts = ThunkDispatch<RootState, undefined, AnyAction>
@@ -63,35 +63,6 @@ describe("Tour actions", () => {
 
     })
 
-    test('addTour dispatches ADD_TOUR and returns right tour', async () => {
-        const initialState: RootState = initialStateEmptyTours
-        const museum: Museum = initialStateEmptyTours.museums.museums["iidee"]
-        const store = mockStoreCreator(initialState)
-        const response: GuidedTour = 
-                {lengthInMinutes: 2, 
-                maxNumberOfPeople:2, 
-                possibleLanguages: ["Two"],
-                price: 1, 
-                tourName: "Two", 
-                tourInfo: "Two", 
-                _id: "three"}
-
-        moxios.wait(() => {
-            const request = moxios.requests.mostRecent();
-            request.respondWith({
-                status: 200,
-                response
-            })
-        })
-        
-        await store.dispatch<any>(addTour(response, museum._id))
-        const actions = store.getActions()
-
-        expect.assertions(2)
-        expect(actions[0].type).toEqual("ADD_TOUR")
-        expect(actions[0].payload).toMatchObject(response)
-    })
-
     test('updateTour dispatches UPDATE_TOUR and return updated tour', async () => {
         const initialState: RootState = initialStateEmptyMuseums
         const store = mockStoreCreator(initialState)
@@ -119,25 +90,8 @@ describe("Tour actions", () => {
         expect(actions[0].type).toEqual("UPDATE_TOUR")
         expect(actions[0].payload).toMatchObject(response)
     })
-
-    test('deleteTour dispatches DELETE_TOUR and returns 200', async () => {
-        const initialState: RootState = initialStateEmptyMuseums
-
-        const store = mockStoreCreator(initialState)
-        
-        moxios.stubRequest('http://localhost:3001/tour/three', {
-            status: 200,
-          })
-        
-        await store.dispatch<any>(deleteTour(initialState.tours.tours["three"]._id))
-        const actions = store.getActions()
-
-        expect.assertions(1)
-        expect(actions[0].type).toEqual("DELETE_TOUR")
-    })
-
-
 });
+
 
 describe('reducers', () => {
     const initialState: TourState = {
@@ -184,32 +138,6 @@ describe('reducers', () => {
         )
     })
 
-    test('ADD_TOUR works correctly', () => {
-        const reducer = tourReducer(initialState, {type: "ADD_TOUR", payload: 
-            {lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["Two"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "three"}
-        })
-
-        expect(reducer).toEqual({
-            tours: {
-                    "three":
-                    {lengthInMinutes: 2, 
-                    maxNumberOfPeople:2, 
-                    possibleLanguages: ["Two"],
-                    price: 1, 
-                    tourName: "Two", 
-                    tourInfo: "Two", 
-                    _id: "three"}
-            }
-        }
-        )
-    })
-
     test('UPDATE_TOUR works correctly', () => {
         const reducer = tourReducer(initialStateNotEmpty, {type: "UPDATE_TOUR", payload: 
             {lengthInMinutes: 2, 
@@ -234,14 +162,6 @@ describe('reducers', () => {
             }
         }
         )
-    })
-
-    test('DELETE_TOUR works correctly', () => {
-        const reducer = tourReducer(initialStateNotEmpty, {type: "DELETE_TOUR", id: "three"})
-
-        expect(reducer).toEqual({
-            tours: {}
-        })
     })
 
 

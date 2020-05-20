@@ -7,7 +7,12 @@ const getTours = async (): Promise<GuidedTour[]> => {
     return tours;
 };
 
-const addTour = async (entry: NewTour, museumId: Museum['_id']): Promise<GuidedTour> => {
+type AddTourPayload = {
+    tour: GuidedTour;
+    museumId: string;
+};
+
+const addTour = async (entry: NewTour, museumId: Museum['_id']): Promise<AddTourPayload> => {
     const newTour = new TourMon({
         ...entry,
         tourInfo: entry.tourInfo || "Ei infoa saatavilla"
@@ -22,7 +27,10 @@ const addTour = async (entry: NewTour, museumId: Museum['_id']): Promise<GuidedT
     
     museum.offeredTours = museum.offeredTours.concat(savedTour._id);
     await museum.save();
-    return savedTour;
+    return {
+        tour: savedTour,
+        museumId
+    };
 };
 
 const updateTour = async (entry: NewTour, id: GuidedTour['_id']): Promise<GuidedTour> => {

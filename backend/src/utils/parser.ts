@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NewTour, NewMuseum, GuidedTour } from "../types";
+import { NewTour, NewMuseum } from "../types";
 
 const isString = (text: any): text is string => {
     return typeof text === 'string' || text instanceof String;

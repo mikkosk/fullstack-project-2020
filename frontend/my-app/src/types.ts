@@ -66,3 +66,8 @@ export interface TourState {
 export interface MuseumState {
     museums: { [_id: string]: Museum}
 }
+
+export type AddTourPayload = {
+    tour: GuidedTour;
+    museumId: string;
+};

@@ -4,11 +4,11 @@ import supertest from 'supertest';
 import app from '../app';
 import TourMon from '../models/guidedTour';
 import MuseumMon from '../models/museum';
-import initialTours from '../../data/guidedTours';
+//import initialTours from '../../data/guidedTours';
 import initialMuseums from '../../data/museums';
 
 const api = supertest(app);
-let tourId: string;
+//let tourId: string;
 let museumId: string;
 const newMuseum = {
     museumName: "Uusi",

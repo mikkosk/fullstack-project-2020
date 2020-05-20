@@ -1,12 +1,12 @@
 import moxios from "moxios";
 import thunk, { ThunkDispatch } from "redux-thunk";
-import museumReducer, { allMuseums, addMuseum, updateMuseum, deleteMuseum } from './museumReducer';
-import { Museum, MuseumState } from '../types';
+import museumReducer, { allMuseums, addMuseum, updateMuseum, deleteMuseum, addTour, deleteTour } from './museumReducer';
+import { Museum, MuseumState, NewTour, GuidedTour } from '../types';
 import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"
 import createMockStore from "redux-mock-store";
-import { initialStateEmptyTours, initialStateEmptyMuseums, initialStateEmpty } from '../../data/testData'
+import { initialStateEmptyTours, initialStateEmptyMuseums, initialStateEmpty, initialState } from '../../data/testData'
 
 const middlewares: Array<Middleware> = [thunk]
 type DispatchExts = ThunkDispatch<RootState, undefined, AnyAction>
@@ -77,7 +77,6 @@ describe("Museum actions", () => {
 
     test('addMuseum dispatches ADD_MUSEUM and returns right museum', async () => {
         const initialState: RootState = initialStateEmptyMuseums
-        const museum: Museum = initialStateEmptyMuseums.museums.museums["iidee"]
         const store = mockStoreCreator(initialState)
         const response: Museum = 
             {
@@ -121,6 +120,63 @@ describe("Museum actions", () => {
         expect.assertions(2)
         expect(actions[0].type).toEqual("ADD_MUSEUM")
         expect(actions[0].payload).toMatchObject(response)
+    })
+
+    test('addTour dispatches ADD_TOUR and dispatches right tour', async () => {
+        const initialState: RootState = initialStateEmptyTours
+        const museum: Museum = initialStateEmptyTours.museums.museums["iidee"]
+        const store = mockStoreCreator(initialState)
+        const response: GuidedTour = {
+            lengthInMinutes: 2, 
+            maxNumberOfPeople:2, 
+            possibleLanguages: ["Two"],
+            price: 1, 
+            tourName: "Two", 
+            tourInfo: "Two", 
+            _id: "three"
+        }
+        const payload: Museum = 
+            {
+                _id: "iidee",
+                museumName: "muuttunut",
+                open: {
+                    mon: "10:00",
+                    tue: "10:00",
+                    wed: "10:00",
+                    thu: "10:00",
+                    fri: "10:00",
+                    sat: "10:00",
+                    sun: "10:00"
+                },
+                closed: {
+                    mon: "10:00",
+                    tue: "10:00",
+                    wed: "10:00",
+                    thu: "10:00",
+                    fri: "10:00",
+                    sat: "10:00",
+                    sun: "10:00"
+                    
+                },
+                offeredTours:[response],
+                openInfo: "Auki",
+                museumInfo: "Museo"   
+            }
+
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                response: payload
+            })
+        })
+        
+        await store.dispatch<any>(addTour(response, museum._id))
+        const actions = store.getActions()
+
+        expect.assertions(2)
+        expect(actions[0].type).toEqual("ADD_TOUR")
+        expect(actions[0].payload).toMatchObject(payload)
     })
 
     test('updateMuseum dispatches UPDATE_MUSEUM and return updated museum', async () => {
@@ -186,6 +242,19 @@ describe("Museum actions", () => {
         expect(actions[0].type).toEqual("DELETE_MUSEUM")
     })
 
+    test('deleteTour dispatches DELETE_TOUR and returns 200', async () => {
+        const store = mockStoreCreator(initialState)
+        
+        moxios.stubRequest('http://localhost:3001/tour/three', {
+            status: 200,
+          })
+        
+        await store.dispatch<any>(deleteTour(initialState.museums.museums["iidee"]._id, initialState.tours.tours["three"]._id))
+        const actions = store.getActions()
+
+        expect.assertions(1)
+        expect(actions[0].type).toEqual("DELETE_TOUR")
+    })
 
 });
 
@@ -276,5 +345,39 @@ describe('reducers', () => {
         })
     })
 
+    test('ADD_TOUR works correctly', () => {
+        const reducer = museumReducer(initialStateNotEmpty, {type: "ADD_TOUR", payload: {
+            tour: {
+                lengthInMinutes: 2, 
+                maxNumberOfPeople:2, 
+                possibleLanguages: ["Two"],
+                price: 1, 
+                tourName: "Two", 
+                tourInfo: "Two", 
+                _id: "three"
+            },
+            museumId: "iidee" 
+            }
+        })
+
+        expect(reducer.museums["iidee"].offeredTours).toEqual(
+            [{
+                    lengthInMinutes: 2, 
+                    maxNumberOfPeople:2, 
+                    possibleLanguages: ["Two"],
+                    price: 1, 
+                    tourName: "Two", 
+                    tourInfo: "Two", 
+                    _id: "three"
+            }]
+        )
+    })
+
+    
+    test('DELETE_TOUR works correctly', () => {
+        const reducer = museumReducer(initialStateNotEmpty, {type: "DELETE_TOUR", museumId: "iidee", tourId: "three"})
+
+        expect(reducer.museums["iidee"].offeredTours).toEqual([])
+    })
 
 })

@@ -6,14 +6,21 @@ import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
+import { initialStateEmpty, initialStateEmptyTours } from '../../data/testData'
 
 Enzyme.configure({adapter: new Adapter() })
 
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
+    useParams: () => ({
+      id: "iidee"
+  })}));
+  
 
 function setup() {
-    const store = mockStore({tours:{tours: {}}})
+    const store = mockStore(initialStateEmptyTours)
     const enzymeWrapper = mount(<Provider store={store}><MuseumAdminPage /></Provider>)
 
     return {

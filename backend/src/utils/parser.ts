@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NewTour, NewMuseum } from "../types";
+import { NewTour, NewMuseum, NewUser, UserTypes } from "../types";
 
 const isString = (text: any): text is string => {
     return typeof text === 'string' || text instanceof String;
@@ -31,6 +31,10 @@ const isTime = (time: string): boolean => {
         minutes = minutes.substr(1,1);
     }
     return Boolean(Number(minutes) > -1 && Number(minutes) < 60 && Number(hours) > -1 && Number(hours) < 24);
+};
+
+const isType = (type: any): type is "Customer" | "Admin" => {
+    return Object.values(UserTypes).includes(type);
 };
 
 const parseGenericTextField = (text: any): string => {
@@ -116,16 +120,21 @@ const parseTime = (time: any): string => {
     return time;
 };
 
-
-const parseId = (id: any): string => {
-    try {
-        const parsedInfo = parseGenericTextField(id);
-        return parsedInfo;
-    } catch {
-        throw new Error('Missing or invalid id');
-    }
+const parseType = (type: any): "Customer" | "Admin" => {
+    if(!type || !isType(type)) {
+        throw new Error('Incorrect or missing user type');
+    } 
+    return type;
 };
 
+const parsePassword = (hash: any): string => {
+    try {
+        const parsedPassword = parseGenericTextField(hash);
+        return parsedPassword;
+    } catch {
+        throw new Error('Faulty password');
+    }
+};
 
 export const toNewTour = (object: any): NewTour => {
     const newTour =
@@ -189,4 +198,15 @@ export const toNewMuseum = (object: any): NewMuseum => {
     
     return newMuseum;
     
+};
+
+export const toNewUser = (object: any): NewUser => {
+    const newUser: NewUser = {
+        type: parseType(object.type),
+        name: parseName(object.name),
+        username: parseName(object.username),
+        password: parsePassword(object.passwordHash)
+    };
+
+    return newUser;
 };

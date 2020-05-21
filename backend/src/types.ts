@@ -57,5 +57,31 @@ export interface Museum {
     museumInfo?: string;
 }
 
+export interface User {
+    _id: string;
+    name: string;
+    username: string;
+    passwordHash: string;
+}
+
+export interface Customer extends User {
+    type: "Customer";
+}
+
+export interface Admin extends User{
+    type: "Admin";
+    museums: Museum[];
+}
+
+export type UserAnyType = Customer | Admin;
+
+export type UniversalUser = Customer & Admin;
+
+export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {password: string};
 export type NewMuseum = Omit<Museum, '_id' | 'offeredTours'>;
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;
+
+export enum UserTypes {
+    'Customer',
+    'Admin'
+}

@@ -23,6 +23,7 @@
 | 19.5. | 1.5   | created reducer and actions for handling museums. wrote tests for those. started to change the museumAdminPage |
 | 20.5. | 2.5   | updated the components and reducers to handle only tours of the current museum |
 | 21.5. | 2   | started to add user management to the backend, problems with mongoose & typescript |
-Total: 36 hours 
+| 22.5. | 1.5   | finished services and router for adding users. wrote most of the tests for those. |
+Total: 37.5 hours 
 
 (2cr)

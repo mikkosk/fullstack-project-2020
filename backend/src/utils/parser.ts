@@ -33,7 +33,7 @@ const isTime = (time: string): boolean => {
     return Boolean(Number(minutes) > -1 && Number(minutes) < 60 && Number(hours) > -1 && Number(hours) < 24);
 };
 
-const isType = (type: any): type is "Customer" | "Admin" => {
+const isType = (type: any): type is UserTypes.Customer | UserTypes.Customer => {
     return Object.values(UserTypes).includes(type);
 };
 
@@ -120,7 +120,7 @@ const parseTime = (time: any): string => {
     return time;
 };
 
-const parseType = (type: any): "Customer" | "Admin" => {
+const parseType = (type: any): UserTypes.Customer | UserTypes.Admin => {
     if(!type || !isType(type)) {
         throw new Error('Incorrect or missing user type');
     } 
@@ -205,7 +205,7 @@ export const toNewUser = (object: any): NewUser => {
         type: parseType(object.type),
         name: parseName(object.name),
         username: parseName(object.username),
-        password: parsePassword(object.passwordHash)
+        password: parsePassword(object.password)
     };
 
     return newUser;

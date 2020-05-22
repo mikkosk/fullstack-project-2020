@@ -1,6 +1,7 @@
-import { User, NewUser, UserAnyType, Admin, Customer } from '../types';
+import { User, NewUser, UserAnyType, Museum } from '../types';
 import UserMon from '../models/user';
-import { Document } from 'mongoose';
+import MuseumMon from '../models/museum';
+import bcrypt from 'bcrypt';
 
 const getUsers = async (): Promise<UserAnyType[]> => {
     const users = await UserMon.find({}).populate('museums');
@@ -17,39 +18,49 @@ const getUser = async (id: string): Promise<UserAnyType> => {
 
 const addUser = async (entry: NewUser): Promise<UserAnyType> => {
     const { type, name, username, password } = entry;
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
     const newUser = new UserMon({
         type,
         name,
         username,
-        passwordHash: "lol",
+        passwordHash,
         museums: []
     });
     const savedUser = await newUser.save();
-    if(type === "Admin") {
-        const returnUser: (Admin) = savedUser;
-        return returnUser;
-    }
-    if(type === "Customer") {
-        const returnUser: (Customer) = savedUser;
-        return returnUser;
-    }
-    throw new Error("Käyttäjää ei voitu lisätä");
+
+    return savedUser;
 };
 
 const updateUser = async (entry: NewUser, id: User['_id']): Promise<UserAnyType> => {
-    const { type, name, username, password } = entry;
+    const { name, username, password, type } = entry;
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
     const newUser = {
-        type,
         name,
+        type,
         username,
-        passwordHash: "lol",
-        museums: []
+        passwordHash,
     };
-    const updatedUser = await UserMon.findByIdAndUpdate(id, {newUser}, {new: true}).populate('museums');
+    const updatedUser = await UserMon.findByIdAndUpdate(id, newUser, {new: true}).populate('museums');
     if(!updatedUser) {
-        throw new Error('Kyseistä museota ei löytynyt');
+        throw new Error('Kyseistä käyttäjää ei löytynyt');
     }
     return updatedUser;
+};
+
+const addUserToMuseum = async (museum: Museum["_id"], id: User['_id']): Promise<UserAnyType> => {
+    const existingMuseum = await MuseumMon.findById(museum);
+    if(!existingMuseum) {
+        throw new Error("Kyseistä museota ei löytynyt");
+    }
+    const user = await UserMon.findById(id);
+    if(!user) {
+        throw new Error('Kyseistä käyttäjää ei löytynyt');
+    }
+    user.museums = user.museums.concat(existingMuseum?._id);
+    await user.save();
+    return user;
 };
 
 const deleteUser = async (id: string) => {
@@ -61,5 +72,6 @@ export default {
     getUser,
     addUser,
     updateUser,
+    addUserToMuseum,
     deleteUser
 };

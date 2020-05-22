@@ -65,17 +65,17 @@ export interface User {
 }
 
 export interface Customer extends User {
-    type: "Customer";
+    type: UserTypes.Customer;
 }
 
 export interface Admin extends User{
-    type: "Admin";
+    type: UserTypes.Admin;
     museums: Museum[];
 }
 
 export type UserAnyType = Customer | Admin;
 
-export type UniversalUser = Customer & Admin;
+export type UniversalUser = Omit<Customer & Admin, "type"> & {type: UserTypes};
 
 export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {password: string};
 export type NewMuseum = Omit<Museum, '_id' | 'offeredTours'>;

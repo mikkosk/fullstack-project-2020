@@ -1,22 +1,19 @@
 import express from 'express';
-import userService from '../services/userService';
-import { toNewUser } from '../utils/parser';
+import museumService from '../services/museumService';
+import { toNewMuseum } from '../utils/parser';
 
 const router = express.Router();
 
 router.get('/', async (_req, res) => {
-    res.json(await userService.getUsers());
+    res.json(await museumService.getMuseums());
 });
 
-router.get('/:id', async (req, res) => {
-    res.json(await userService.getUser(req.params.id));
-});
 
 router.post('/', async (req, res) => {
     try {
-        const newUser = toNewUser(req.body);
-        const addedUser = await userService.addUser(newUser);
-        res.json(addedUser);
+        const newMuseum = toNewMuseum(req.body);
+        const addedMuseum = await museumService.addMuseum(newMuseum);
+        res.json(addedMuseum);
     } catch (e) {
         res.status(400).send(e.message);
     }
@@ -24,8 +21,8 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        const newUser = toNewUser(req.body);
-        const updatedEntry = await userService.updateUser(newUser, req.params.id);
+        const newMuseum = toNewMuseum(req.body);
+        const updatedEntry = await museumService.updateMuseum(newMuseum, req.params.id);
         res.json(updatedEntry);
     } catch (e) {
         res.status(400).send(e.message);
@@ -33,7 +30,8 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-    await userService.deleteUser(req.params.id);
+    console.log(req.params.id);
+    await museumService.deleteMuseum(req.params.id);
 
     res.status(204).end();
 });

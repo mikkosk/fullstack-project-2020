@@ -5,6 +5,7 @@ import toursRouter from './routes/toursRouter';
 require('dotenv').config();
 import mongoose from 'mongoose';
 import museumRouter from './routes/museumRouter';
+import userRouter from './routes/userRouter';
 
 mongoose.set('useCreateIndex', true);
 let MONGODB_URI = process.env.MONGODB_URI;
@@ -30,5 +31,6 @@ app.use(cors());
 
 app.use('/tour', toursRouter);
 app.use('/museum', museumRouter);
+app.use('/user', userRouter);
 
 export default app;

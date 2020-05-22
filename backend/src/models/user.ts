@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
-import { UserAnyType, UniversalUser } from '../types';
+import { UniversalUser } from '../types';
 
 const userSchema: Schema = new Schema({
   username: {

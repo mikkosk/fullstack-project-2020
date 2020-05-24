@@ -65,11 +65,11 @@ export interface User {
 }
 
 export interface Customer extends User {
-    type: UserTypes.Customer;
+    type: "Customer";
 }
 
 export interface Admin extends User{
-    type: UserTypes.Admin;
+    type: "Admin";
     museums: Museum[];
 }
 
@@ -81,7 +81,7 @@ export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {p
 export type NewMuseum = Omit<Museum, '_id' | 'offeredTours'>;
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;
 
-export enum UserTypes {
-    'Customer',
+export type UserTypes =
+    'Customer' |
     'Admin'
-}
+;

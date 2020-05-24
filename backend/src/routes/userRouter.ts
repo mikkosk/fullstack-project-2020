@@ -32,6 +32,15 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+router.put('/:userid/museum/:museumid', async (req, res) => {
+    try {
+        const updatedEntry = await userService.addUserToMuseum(req.params.museumid, req.params.userid);
+        res.json(updatedEntry);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
+});
+
 router.delete('/:id', async (req, res) => {
     await userService.deleteUser(req.params.id);
 

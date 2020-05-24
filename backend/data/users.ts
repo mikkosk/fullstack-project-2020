@@ -1,5 +1,3 @@
-import { NewUser, UserTypes } from "../src/types";
-
 const users = [{
     name: "One",
     type: "Admin",
@@ -10,6 +8,6 @@ const users = [{
     type: "Customer",
     username: "Two",
     password: "Two"
-}]
+}];
 
 export default users;

@@ -88,7 +88,6 @@ describe('updating', () => {
     
     test('updating tour does not affect size', async() => {
         await api.put(`/tour/${tourId}`).send(newTour).expect(200);
-        await api.post('/tour').send(newTour);
         const res = await api.get('/tour');
         expect(res.body).toHaveLength(initialTours.length);
     });

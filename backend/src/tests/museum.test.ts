@@ -1,15 +1,20 @@
 /* eslint-disable no-undef */
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import supertest from 'supertest';
 import app from '../app';
 import TourMon from '../models/guidedTour';
 import MuseumMon from '../models/museum';
+import UserMon from '../models/user';
 //import initialTours from '../../data/guidedTours';
 import initialMuseums from '../../data/museums';
+import initialUsers from '../../data/users';
+import { User } from '../types';
+import jwt from 'jsonwebtoken';
 
 const api = supertest(app);
 //let tourId: string;
 let museumId: string;
+let user: User & Document;
 const newMuseum = {
     museumName: "Uusi",
     open: {
@@ -37,6 +42,7 @@ const newMuseum = {
 };
 
 beforeEach(async () => {
+    await UserMon.deleteMany({});
     await TourMon.deleteMany({});
     await MuseumMon.deleteMany({});
     let museum = new MuseumMon({...initialMuseums[0], offeredTours: []});
@@ -45,6 +51,8 @@ beforeEach(async () => {
     museum = new MuseumMon({...initialMuseums[1], offeredTours: []});
     await museum.save();
 
+    user = new UserMon({...initialUsers[0]});
+    await user.save();
     museumId = museum._id;
   });
 
@@ -63,8 +71,22 @@ test('all museums are returned initially', async () => {
 describe('adding a museum', () => {
 
     test('increases length by one', async () => {
+        const {_id, username } = user;
     
-        await api.post(`/museum`).send(newMuseum);
+        const token = {
+            id: _id,
+            user: username
+        };
+
+        if(!process.env.SECRET) {
+            return;
+        }
+
+        const header = jwt.sign(token, process.env.SECRET);
+        const headers = {
+            'Authorization': `bearer ${header}`
+        };
+        await api.post(`/museum`).set(headers).send(newMuseum);
         
         const res = await api.get('/museum');
     
@@ -102,7 +124,6 @@ describe('updating', () => {
     
     test('updating museum does not affect size', async() => {
         await api.put(`/museum/${museumId}`).send(newMuseum).expect(200);
-        await api.post('/museum').send(newMuseum);
         const res = await api.get('/museum');
         expect(res.body).toHaveLength(initialMuseums.length);
     });

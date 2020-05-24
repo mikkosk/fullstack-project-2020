@@ -1,21 +1,25 @@
 /* eslint-disable no-undef */
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import supertest from 'supertest';
 import app from '../app';
 import UserMon from '../models/user';
 import MuseumMon from '../models/museum';
 //import initialTours from '../../data/guidedTours';
 import initialUsers from '../../data/users';
+import initialMuseums from '../../data/museums';
+import { Museum } from '../types';
 
 const api = supertest(app);
 //let tourId: string;
 let userId: string;
+let museumId: string;
 const newUser = {
     name: "Name",
     username: "Username",
     type: "Admin",
     password: "Password"
 };
+let savedMuseum: Museum & Document;
 
 beforeEach(async () => {
     await UserMon.deleteMany({});
@@ -26,6 +30,10 @@ beforeEach(async () => {
     user = new UserMon({...initialUsers[1], passwordHash: "HashTwo"});
     await user.save();
 
+    savedMuseum = new MuseumMon({...initialMuseums[0]});
+    await savedMuseum.save();
+
+    museumId = savedMuseum._id;
     userId = user._id;
   });
 
@@ -88,7 +96,6 @@ describe('updating', () => {
     
     test('updating user does not affect size', async() => {
         await api.put(`/user/${userId}`).send(newUser).expect(200);
-        await api.post('/user').send(newUser);
         const res = await api.get('/user');
         expect(res.body).toHaveLength(initialUsers.length);
     });
@@ -111,11 +118,14 @@ describe('updating', () => {
         delete initial.password;
         expect(updatedUser).toEqual(initial);
     });
+
+    test('adding user to museum works correctly', async() => {
+        await api.put(`/user/${userId}/museum/${museumId}`).expect(200);
+        const res = await api.get('/user');
+        const updatedUser = (res.body.find((t: any) => t._id === String(userId)));
+        expect(updatedUser.museums[0]._id === savedMuseum._id);
+    });
 });
-
-//Lisää testi joka testaa käyttäjän adminiksi lisäämisen
-//Lisää sitä ennen toiminnallisuus
-
 
 afterAll(() => {
   mongoose.connection.close();

@@ -33,8 +33,8 @@ const isTime = (time: string): boolean => {
     return Boolean(Number(minutes) > -1 && Number(minutes) < 60 && Number(hours) > -1 && Number(hours) < 24);
 };
 
-const isType = (type: any): type is UserTypes.Customer | UserTypes.Customer => {
-    return Object.values(UserTypes).includes(type);
+const isType = (type: any): boolean => {
+    return type === "Customer" || type === "Admin";
 };
 
 const parseGenericTextField = (text: any): string => {
@@ -120,7 +120,7 @@ const parseTime = (time: any): string => {
     return time;
 };
 
-const parseType = (type: any): UserTypes.Customer | UserTypes.Admin => {
+const parseType = (type: any): "Customer" | "Admin" => {
     if(!type || !isType(type)) {
         throw new Error('Incorrect or missing user type');
     } 

@@ -6,6 +6,14 @@ const getMuseums = async (): Promise<Museum[]> => {
     return museums;
 };
 
+const getMuseum = async (id: Museum["_id"]): Promise<Museum> => {
+    const museum = await MuseumMon.findOne({id}).populate('offeredTours');
+    if(!museum) {
+        throw new Error("Kyseistä museota ei löytynyt");
+    }
+    return museum;
+};
+
 const addMuseum = async (entry: NewMuseum): Promise<Museum> => {
     const newMuseum = new MuseumMon({
         ...entry,
@@ -29,6 +37,7 @@ const deleteMuseum = async (id: string) => {
 
 export default {
     getMuseums,
+    getMuseum,
     addMuseum,
     updateMuseum,
     deleteMuseum

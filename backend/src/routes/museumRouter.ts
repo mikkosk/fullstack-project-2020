@@ -2,11 +2,7 @@ import express from 'express';
 import museumService from '../services/museumService';
 import { toNewMuseum } from '../utils/parser';
 import userService from '../services/userService';
-import jwt from 'jsonwebtoken';
-interface Token {
-    user: string;
-    id: string;
-}
+import { decodedToken, allowedUserType, allowedMuseum } from '../utils/userManagement';
 const router = express.Router();
 
 router.get('/', async (_req, res) => {
@@ -15,19 +11,15 @@ router.get('/', async (_req, res) => {
 
 
 router.post('/', async (req, res) => {
-    const secret = process.env.SECRET;
-    if(!secret || !req.headers.authorization) {
-        throw new Error("Jotain meni pieleen");
-    }
-    const decodedToken  = jwt.verify(req.headers.authorization.substr(7), secret) as Token;
     try {
-        const user = await userService.getUser(decodedToken.id);
-        if(!user || user.type !== "Admin") {
-            throw new Error("Ei oikeuksia luoda museota");
+        const token = decodedToken(req.headers.authorization);
+        const user = await userService.getUser(token.id);
+        if(!user || !allowedUserType("Admin", user)) {
+            res.status(401).send("Ei oikeuksia luoda museota");
         }
         const newMuseum = toNewMuseum(req.body);
         const addedMuseum = await museumService.addMuseum(newMuseum);
-        await userService.addUserToMuseum(addedMuseum._id, decodedToken.id);
+        await userService.addUserToMuseum(addedMuseum._id, token.id);
         res.json(addedMuseum);
     } catch (e) {
         res.status(400).send(e.message);
@@ -36,16 +28,28 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        const newMuseum = toNewMuseum(req.body);
-        const updatedEntry = await museumService.updateMuseum(newMuseum, req.params.id);
+        const museumId = req.params.id;
+        const token = decodedToken(req.headers.authorization);
+        const user = await userService.getUser(token.id);
+        if(!user || !allowedUserType("Admin", user) || !allowedMuseum(museumId, user)) {
+            res.status(401).send("Ei oikeuksia muokata museota");
+        }
+        const updatedMuseum = toNewMuseum(req.body);
+        const updatedEntry = await museumService.updateMuseum(updatedMuseum, req.params.id);
         res.json(updatedEntry);
     } catch (e) {
+        console.log(e.message);
         res.status(400).send(e.message);
     }
 });
 
 router.delete('/:id', async (req, res) => {
-    console.log(req.params.id);
+    const museumId = req.params.id;
+    const token = decodedToken(req.headers.authorization);
+    const user = await userService.getUser(token.id);
+    if(!user || !allowedUserType("Admin", user) || !allowedMuseum(museumId, user)) {
+        res.status(401).send("Ei oikeuksia poistaa museota");
+    }
     await museumService.deleteMuseum(req.params.id);
 
     res.status(204).end();

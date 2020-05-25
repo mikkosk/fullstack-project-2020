@@ -15,6 +15,7 @@ const api = supertest(app);
 //let tourId: string;
 let museumId: string;
 let user: User & Document;
+let headers: {Authorization: string};
 const newMuseum = {
     museumName: "Uusi",
     open: {
@@ -45,15 +46,29 @@ beforeEach(async () => {
     await UserMon.deleteMany({});
     await TourMon.deleteMany({});
     await MuseumMon.deleteMany({});
+
     let museum = new MuseumMon({...initialMuseums[0], offeredTours: []});
     await museum.save();
-
     museum = new MuseumMon({...initialMuseums[1], offeredTours: []});
     await museum.save();
-
-    user = new UserMon({...initialUsers[0]});
-    await user.save();
     museumId = museum._id;
+
+    user = new UserMon({...initialUsers[0], museums:[museumId]});
+    await user.save();
+
+    const {_id, username } = user;
+    const token = {
+        id: _id,
+        user: username
+    };
+    if(!process.env.SECRET) {
+         return;
+    }
+    const header = jwt.sign(token, process.env.SECRET);
+    headers = {
+        'Authorization': `bearer ${header}`
+    };
+ 
   });
 
 test('museums are returned as json', async () => {
@@ -71,21 +86,6 @@ test('all museums are returned initially', async () => {
 describe('adding a museum', () => {
 
     test('increases length by one', async () => {
-        const {_id, username } = user;
-    
-        const token = {
-            id: _id,
-            user: username
-        };
-
-        if(!process.env.SECRET) {
-            return;
-        }
-
-        const header = jwt.sign(token, process.env.SECRET);
-        const headers = {
-            'Authorization': `bearer ${header}`
-        };
         await api.post(`/museum`).set(headers).send(newMuseum);
         
         const res = await api.get('/museum');
@@ -98,13 +98,13 @@ describe('adding a museum', () => {
 describe('deleting a museum', () => {
 
     test('deleting museum removes an object', async() => {
-        await api.delete(`/museum/${museumId}`);
+        await api.delete(`/museum/${museumId}`).set(headers);
         const res = await api.get('/museum');
         expect(res.body).toHaveLength(initialMuseums.length - 1);
     });
     
     test('deleting removes right object', async() => {
-        await api.delete(`/museum/${museumId}`);
+        await api.delete(`/museum/${museumId}`).set(headers);
         const res = await api.get('/museum');
         expect(!res.body.find((t: any) => t._id === museumId)).toBeTruthy();
     });
@@ -113,7 +113,7 @@ describe('deleting a museum', () => {
 
 describe('updating', () => {
     test('updated museum is saved correctly', async() => {
-        await api.put(`/museum/${museumId}`).send(newMuseum).expect(200);
+        await api.put(`/museum/${museumId}`).set(headers).send(newMuseum).expect(200);
         const res = await api.get('/museum');
         const updatedMuseum = (res.body.find((t: any) => t._id === String(museumId)));
         delete updatedMuseum.__v;
@@ -123,19 +123,9 @@ describe('updating', () => {
     });
     
     test('updating museum does not affect size', async() => {
-        await api.put(`/museum/${museumId}`).send(newMuseum).expect(200);
+        await api.put(`/museum/${museumId}`).set(headers).send(newMuseum).expect(200);
         const res = await api.get('/museum');
         expect(res.body).toHaveLength(initialMuseums.length);
-    });
-    
-    test('trying to update with faulty id does not work', async() => {
-        await api.put(`/museum/faultyId`).send(newMuseum).expect(400);
-        const res = await api.get('/museum');
-        const updatedMuseum = (res.body.find((t: any) => t._id === String(museumId)));
-        delete updatedMuseum.__v;
-        delete updatedMuseum._id;
-        delete updatedMuseum.offeredTours;
-        expect(updatedMuseum).toEqual({...initialMuseums[1]});
     });
     
     test('trying to update with faulty data does not work', async() => {
@@ -163,7 +153,7 @@ describe('updating', () => {
             openInfo: "Auki",
             museumInfo: "Museo"
         };
-        await api.put(`/museum/${museumId}`).send(faultyMuseum).expect(400);
+        await api.put(`/museum/${museumId}`).set(headers).send(faultyMuseum).expect(400);
         const res = await api.get('/museum');
         const updatedMuseum = (res.body.find((t: any) => t._id === String(museumId)));
         delete updatedMuseum.__v;

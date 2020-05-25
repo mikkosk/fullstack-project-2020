@@ -2,7 +2,7 @@ const users = [{
     name: "One",
     type: "Admin",
     username: "One",
-    password: "One"
+    password: "One",
 }, {
     name: "Two",
     type: "Customer",

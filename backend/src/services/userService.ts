@@ -8,8 +8,8 @@ const getUsers = async (): Promise<UserAnyType[]> => {
     return users;
 };
 
-const getUser = async (id: string): Promise<UserAnyType> => {
-    const user = await UserMon.findById(id).populate('museums');
+const getUser = async (id: UserAnyType["_id"]): Promise<UserAnyType> => {
+    const user = await UserMon.findById(id);
     if(!user) {
         throw new Error('Kyseistä käyttäjää ei löytynyt');
     }

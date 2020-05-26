@@ -6,7 +6,7 @@ import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"
 import createMockStore from "redux-mock-store";
-import { initialStateEmptyMuseums, initialStateEmpty } from '../../data/testData'
+import { initialStateEmptyMuseums, initialStateEmpty, initialState } from '../../data/testData'
 
 const middlewares: Array<Middleware> = [thunk]
 type DispatchExts = ThunkDispatch<RootState, undefined, AnyAction>
@@ -64,8 +64,8 @@ describe("Tour actions", () => {
     })
 
     test('updateTour dispatches UPDATE_TOUR and return updated tour', async () => {
-        const initialState: RootState = initialStateEmptyMuseums
-        const store = mockStoreCreator(initialState)
+        const initial: RootState = initialState;
+        const store = mockStoreCreator(initial);
         const response: GuidedTour = 
                 {lengthInMinutes: 2, 
                 maxNumberOfPeople:2, 
@@ -83,7 +83,7 @@ describe("Tour actions", () => {
             })
         })
         
-        await store.dispatch<any>(updateTour(response, initialState.tours.tours["three"]._id))
+        await store.dispatch<any>(updateTour(response, initial.museums.museums["iidee"]._id, initial.tours.tours["three"]._id))
         const actions = store.getActions()
 
         expect.assertions(2)

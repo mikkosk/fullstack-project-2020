@@ -29,7 +29,14 @@ beforeEach(async () => {
     await MuseumMon.deleteMany({});
     await UserMon.deleteMany({});
 
-    const museum = new MuseumMon({...initialMuseums[0], offeredTours: []});
+    let noteObject = new TourMon(initialTours[0]);
+    await noteObject.save();
+  
+    noteObject = new TourMon(initialTours[1]);
+    await noteObject.save();
+    tourId = noteObject._id;
+
+    const museum = new MuseumMon({...initialMuseums[0], offeredTours: [tourId]});
     await museum.save();
     museumId = museum._id;
 
@@ -49,12 +56,7 @@ beforeEach(async () => {
         'Authorization': `bearer ${header}`
     };
 
-    let noteObject = new TourMon(initialTours[0]);
-    await noteObject.save();
-  
-    noteObject = new TourMon(initialTours[1]);
-    await noteObject.save();
-    tourId = noteObject._id;
+
   });
 
 test('tours are returned as json', async () => {
@@ -85,13 +87,13 @@ describe('adding a tour', () => {
 describe('deleting a tour', () => {
 
     test('deleting tour removes an object', async() => {
-        await api.delete(`/tour/${tourId}`).set(headers);
+        await api.delete(`/tour/${tourId}/museum/${museumId}`).set(headers);
         const res = await api.get('/tour');
         expect(res.body).toHaveLength(initialTours.length - 1);
     });
     
     test('deleting removes right object', async() => {
-        await api.delete(`/tour/${tourId}`).set(headers);
+        await api.delete(`/tour/${tourId}/museum/${museumId}`).set(headers);
         const res = await api.get('/tour');
         expect(!res.body.find((t: any) => t._id === tourId)).toBeTruthy();
     });

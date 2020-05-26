@@ -49,9 +49,9 @@ export const allTours = (): ThunkAction<void, RootState, unknown, Action> => {
     }
 }
 
-export const updateTour = (newTour: NewTour, id: string): ThunkAction<void, RootState, unknown, Action> => {
+export const updateTour = (newTour: NewTour, museumId: string, tourId: string): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
-        const payload: GuidedTour = await toursService.updateTour(newTour, id);
+        const payload: GuidedTour = await toursService.updateTour(newTour, museumId, tourId);
         dispatch({
             type:"UPDATE_TOUR",
             payload

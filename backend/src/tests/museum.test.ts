@@ -15,7 +15,9 @@ const api = supertest(app);
 //let tourId: string;
 let museumId: string;
 let user: User & Document;
+let faultyUser: User & Document;
 let headers: {Authorization: string};
+let faultyHeaders: {Authorization: string};
 const newMuseum = {
     museumName: "Uusi",
     open: {
@@ -43,9 +45,9 @@ const newMuseum = {
 };
 
 beforeEach(async () => {
-    await UserMon.deleteMany({});
     await TourMon.deleteMany({});
     await MuseumMon.deleteMany({});
+    await UserMon.deleteMany({});
 
     let museum = new MuseumMon({...initialMuseums[0], offeredTours: []});
     await museum.save();
@@ -55,18 +57,31 @@ beforeEach(async () => {
 
     user = new UserMon({...initialUsers[0], museums:[museumId]});
     await user.save();
+    faultyUser = new UserMon({...initialUsers[1], museums: []});
+    await faultyUser.save();
 
     const {_id, username } = user;
     const token = {
         id: _id,
         user: username
     };
+    const faultyToken = {
+        id: faultyUser._id,
+        user: faultyUser.username
+    };
+
     if(!process.env.SECRET) {
          return;
     }
+
     const header = jwt.sign(token, process.env.SECRET);
+    const faultyHeader = jwt.sign(faultyToken, process.env.SECRET);
+
     headers = {
         'Authorization': `bearer ${header}`
+    };
+    faultyHeaders = {
+        'Authorization': `bearer ${faultyHeader}`
     };
  
   });
@@ -163,6 +178,18 @@ describe('updating', () => {
     });
 });
 
+
+    test('updating is not possible', async() => {
+        await api.put(`/museum/${museumId}`).set(faultyHeaders).send(newMuseum).expect(401);
+    });
+    test('posting is not possible', async() => {
+        const lol = await api.post(`/museum`).set(faultyHeaders).send(newMuseum);
+        expect(lol.status).toBe(401);
+    });
+    test('deleting is not possible', async() => {
+        const result = await api.delete(`/museum/${museumId}`).set(faultyHeaders);
+        expect(result.status).toBe(401);
+    });
 
 
 afterAll(() => {

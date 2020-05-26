@@ -19,27 +19,21 @@ export const allowedUserType = (expected: UserTypes, received: UserAnyType): boo
     if(expected === received.type) {
         return true;
     }
-    console.log(received);
-    console.log("Usertype");
     return false;
 };
 
 export const allowedMuseum = (museumId: Museum["_id"], user: UserAnyType): boolean => {
     if(user.type !== "Admin") {
-        console.log("NoAdmin");
         return false;
     }
     if(!user.museums.find((m: Museum) => m._id.toString() === museumId)) {
-        console.log(museumId);
-        console.log(user.museums);
-        console.log("MuseumNot");
         return false;
     }
     return true;
 };
 
 export const allowedTour = (museum: Museum, tourId: GuidedTour["_id"]): boolean => {
-    if(!museum.offeredTours.find((t: GuidedTour) => t._id === tourId)) {
+    if(!museum.offeredTours.find((t: GuidedTour) => t._id.toString() === tourId)) {
         return false;
     }
     return true;

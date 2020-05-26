@@ -109,7 +109,7 @@ export const deleteMuseum = (id: string): ThunkAction<void, RootState, unknown, 
 
 export const deleteTour = (museumId: string, tourId: string): ThunkAction<void, RootState, unknown, Action> => {
     return async(dispatch: Dispatch<Action>) => {
-        await toursService.deleteTour(tourId);
+        await toursService.deleteTour(museumId, tourId);
         dispatch({
             type:"DELETE_TOUR",
             tourId,

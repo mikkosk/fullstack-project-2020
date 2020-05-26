@@ -1,7 +1,7 @@
 import moxios from "moxios";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import museumReducer, { allMuseums, addMuseum, updateMuseum, deleteMuseum, addTour, deleteTour } from './museumReducer';
-import { Museum, MuseumState, NewTour, GuidedTour } from '../types';
+import { Museum, MuseumState, GuidedTour } from '../types';
 import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"
@@ -245,7 +245,7 @@ describe("Museum actions", () => {
     test('deleteTour dispatches DELETE_TOUR and returns 200', async () => {
         const store = mockStoreCreator(initialState)
         
-        moxios.stubRequest('http://localhost:3001/tour/three', {
+        moxios.stubRequest('http://localhost:3001/tour/three/museum/iidee', {
             status: 200,
           })
         

@@ -16,6 +16,7 @@ router.post('/', async (req, res) => {
         const user = await userService.getUser(token.id);
         if(!user || !allowedUserType("Admin", user)) {
             res.status(401).send("Ei oikeuksia luoda museota");
+            return;
         }
         const newMuseum = toNewMuseum(req.body);
         const addedMuseum = await museumService.addMuseum(newMuseum);
@@ -33,6 +34,7 @@ router.put('/:id', async (req, res) => {
         const user = await userService.getUser(token.id);
         if(!user || !allowedUserType("Admin", user) || !allowedMuseum(museumId, user)) {
             res.status(401).send("Ei oikeuksia muokata museota");
+            return;
         }
         const updatedMuseum = toNewMuseum(req.body);
         const updatedEntry = await museumService.updateMuseum(updatedMuseum, req.params.id);
@@ -49,6 +51,7 @@ router.delete('/:id', async (req, res) => {
     const user = await userService.getUser(token.id);
     if(!user || !allowedUserType("Admin", user) || !allowedMuseum(museumId, user)) {
         res.status(401).send("Ei oikeuksia poistaa museota");
+        return;
     }
     await museumService.deleteMuseum(req.params.id);
 

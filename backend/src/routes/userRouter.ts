@@ -28,6 +28,7 @@ router.put('/:id', async (req, res) => {
         const token = decodedToken(req.headers.authorization);
         if(req.params.id !== token.id) {
             res.status(401).send("Ei oikeuksia muokata käyttäjää");
+            return;
         }
         const newUser = toNewUser(req.body);
         const updatedEntry = await userService.updateUser(newUser, req.params.id);
@@ -44,6 +45,7 @@ router.put('/:userid/museum/:museumid', async (req, res) => {
         const user = await userService.getUser(token.id);
         if(!user || !allowedUserType("Admin", user) || !allowedMuseum(museumId, user)) {
             res.status(401).send("Ei oikeuksia lisätä käyttäjää museoon");
+            return;
         }
         const updatedEntry = await userService.addUserToMuseum(req.params.museumid, req.params.userid);
         res.json(updatedEntry);
@@ -54,8 +56,9 @@ router.put('/:userid/museum/:museumid', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     const token = decodedToken(req.headers.authorization);
-    if(req.params._id !== token.id) {
+    if(req.params.id !== token.id) {
         res.status(401).send("Ei oikeuksia poistaa käyttäjää");
+        return;
     }
     await userService.deleteUser(req.params.id);
 

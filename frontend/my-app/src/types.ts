@@ -58,6 +58,7 @@ export interface Museum {
 
 export type NewMuseum = Omit<Museum, '_id' | 'offeredTours'>;
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;
+export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {password: string};
 
 export interface TourState {
     tours: { [_id: string]: GuidedTour}
@@ -67,7 +68,41 @@ export interface MuseumState {
     museums: { [_id: string]: Museum}
 }
 
+export interface UserState {
+    users: { [_id: string]: UserAnyType}
+}
+
 export type AddTourPayload = {
     tour: GuidedTour;
     museumId: string;
 };
+
+export interface User {
+    _id: string;
+    name: string;
+    username: string;
+    passwordHash: string;
+}
+
+export interface Customer extends User {
+    type: "Customer";
+}
+
+export interface Admin extends User{
+    type: "Admin";
+    museums: Museum[];
+}
+
+export type UserAnyType = Customer | Admin;
+
+export type UserTypes =
+    'Customer' |
+    'Admin'
+;
+
+export interface LoginState extends User {
+    type: UserTypes | undefined,
+    token: string
+}
+
+export type LoggedInUser = UserAnyType & {token: string}

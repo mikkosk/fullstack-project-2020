@@ -26,8 +26,6 @@ const initialState: TourState = {
     tours: {}
 }
 
-//Päivitä state niin, että museokin päivittyy
-//Korjaa testit
 const tourReducer = (state = initialState, action: Action): TourState => {
     switch(action.type) {
         case 'GET_ALL_TOURS':

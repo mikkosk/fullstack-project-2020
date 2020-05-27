@@ -1,6 +1,9 @@
 import { RootState } from '../src/store'
 
 export const initialStateEmpty: RootState = {
+    users: {
+        users: {}
+    },
     tours: {
         tours: {}
     },
@@ -10,6 +13,25 @@ export const initialStateEmpty: RootState = {
 }
 
 export const initialStateEmptyTours: RootState = {
+    users: {
+        users: {
+            "UserOne":{
+                name: "One",
+                type: "Admin",
+                username: "One",
+                passwordHash: "One",
+                _id: "UserOne",
+                museums: []
+            }, 
+            "UserTwo": {
+                name: "Two",
+                type: "Customer",
+                username: "Two",
+                passwordHash: "Two",
+                _id: "UserTwo"
+            }
+        }
+    },
     tours: {
         tours: {}
     },
@@ -46,6 +68,25 @@ export const initialStateEmptyTours: RootState = {
 }
 
 export const initialStateEmptyMuseums: RootState = {
+    users: {
+        users: {
+            "UserOne":{
+                name: "One",
+                type: "Admin",
+                username: "One",
+                passwordHash: "One",
+                _id: "UserOne",
+                museums: []
+            }, 
+            "UserTwo": {
+                name: "Two",
+                type: "Customer",
+                username: "Two",
+                passwordHash: "Two",
+                _id: "UserTwo"
+            }
+        }
+    },
     tours: {
         tours: {"three": {lengthInMinutes: 2, 
             maxNumberOfPeople:2, 
@@ -62,6 +103,25 @@ export const initialStateEmptyMuseums: RootState = {
 }
 
 export const initialState: RootState = {
+    users: {
+        users: {
+            "UserOne":{
+                name: "One",
+                type: "Admin",
+                username: "One",
+                passwordHash: "One",
+                _id: "UserOne",
+                museums: []
+            }, 
+            "UserTwo": {
+                name: "Two",
+                type: "Customer",
+                username: "Two",
+                passwordHash: "Two",
+                _id: "UserTwo"
+            }
+        }
+    },
     tours: {
         tours: {"three": {lengthInMinutes: 2, 
             maxNumberOfPeople:2, 

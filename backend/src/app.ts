@@ -32,5 +32,6 @@ app.use(cors());
 app.use('/tour', toursRouter);
 app.use('/museum', museumRouter);
 app.use('/user', userRouter);
+app.use('/login', loginRouter);
 
 export default app;

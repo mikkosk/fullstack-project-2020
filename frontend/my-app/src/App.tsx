@@ -20,7 +20,7 @@ function App() {
       <Router>
         <Container textAlign="center">
           <Switch>
-            <Route path="/tour/:id" render={() => <TourPage />}/>
+            <Route path="/museum/:museumid/tour/:tourid" render={() => <TourPage />}/>
             <Route path="/museum/:id" render={() => <MuseumAdminPage />}/>
           </Switch>
         </Container>

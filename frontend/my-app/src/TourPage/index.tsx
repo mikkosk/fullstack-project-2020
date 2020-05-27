@@ -7,8 +7,8 @@ import { updateTour } from '../reducers/tourReducer'
 import { NewTour } from '../types'
 import UpdateTourModal from './updateTourModal'
 const TourPage: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-    const tour = useSelector((state: RootState) => Object.values(state.tours.tours).find(t => t._id === id))
+    const { museumid, tourid }= useParams<{ tourid: string, museumid: string }>();
+    const tour = useSelector((state: RootState) => Object.values(state.tours.tours).find(t => t._id === tourid))
     const dispatch = useDispatch()
 
     const [ modalOpen, setModalOpen ] = useState<boolean>(false);
@@ -22,7 +22,7 @@ const TourPage: React.FC = () => {
     }
 
     const updateCurrentTour = async (values: NewTour) => {
-        dispatch(updateTour(values, id))
+        dispatch(updateTour(values, museumid, tourid))
     }
 
     const handleSubmit = async (values: NewTour) => {

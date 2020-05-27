@@ -26,6 +26,7 @@
 | 22.5. | 1.5   | finished services and router for adding users. wrote most of the tests for those. |
 | 24.5. | 3   | continued with user management |
 | 25.5. | 3   | finished user management for now and wrote most of the tests for changes |
-Total: 45 hours 
+| 26.5. | 3   | finished tests for changed backend, started to integrate changed backend in frontend |
+Total: 48 hours 
 
 (2cr)

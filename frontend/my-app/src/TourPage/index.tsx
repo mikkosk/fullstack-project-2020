@@ -8,7 +8,7 @@ import { NewTour } from '../types'
 import UpdateTourModal from './updateTourModal'
 const TourPage: React.FC = () => {
     const { museumid, tourid }= useParams<{ tourid: string, museumid: string }>();
-    const tour = useSelector((state: RootState) => Object.values(state.tours.tours).find(t => t._id === tourid))
+    const tour = useSelector((state: RootState) => Object.values(state.museums.museums[museumid].offeredTours).find(t => t._id === tourid))
     const dispatch = useDispatch()
 
     const [ modalOpen, setModalOpen ] = useState<boolean>(false);

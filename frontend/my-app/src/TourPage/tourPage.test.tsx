@@ -18,33 +18,49 @@ const mockStore = configureStore(middlewares)
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
     useParams: () => ({
-      id: "two"
+      tourid: "three",
+      museumid: "iidee"
   })}));
   
 
 
 function setup() {
-    const store = mockStore({tours: 
-        {tours: 
-            {"ok": 
-                {lengthInMinutes: 1, 
-                maxNumberOfPeople:1, 
-                possibleLanguages: ["OK"],
-                price: 1, 
-                tourName: "Ok", 
-                tourInfo: "ok", 
-                _id: "ok"}, 
-            "two": 
-                {lengthInMinutes: 2, 
-                maxNumberOfPeople:2, 
-                possibleLanguages: ["Two"],
-                price: 1, 
-                tourName: "Two", 
-                tourInfo: "Two", 
-                _id: "two"}
+    const store = mockStore({museums: {
+        museums: {
+            "iidee": {
+                _id: "iidee",
+                museumName: "testi",
+                open: {
+                    mon: "10:00",
+                    tue: "10:00",
+                    wed: "10:00",
+                    thu: "10:00",
+                    fri: "10:00",
+                    sat: "10:00",
+                    sun: "10:00"
+                },
+                closed: {
+                    mon: "10:00",
+                    tue: "10:00",
+                    wed: "10:00",
+                    thu: "10:00",
+                    fri: "10:00",
+                    sat: "10:00",
+                    sun: "10:00"
+                    
+                },
+                offeredTours:[{lengthInMinutes: 2, 
+                    maxNumberOfPeople:2, 
+                    possibleLanguages: ["Two"],
+                    price: 1, 
+                    tourName: "Two", 
+                    tourInfo: "Two", 
+                    _id: "three"}],
+                openInfo: "Auki",
+                museumInfo: "Museo"   
             }
-        }, 
-    })
+        }
+    }})
     const enzymeWrapper = mount(<Provider store={store}><TourPage /></Provider>)
 
     return {

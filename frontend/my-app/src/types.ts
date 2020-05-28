@@ -103,6 +103,7 @@ export type UserTypes =
 export interface LoginState extends User {
     type: UserTypes | undefined,
     token: string
+    museums?: Museum[]
 }
 
 export type LoggedInUser = UserAnyType & {token: string}

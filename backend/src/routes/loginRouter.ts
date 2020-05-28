@@ -28,3 +28,6 @@ router.post('/', async (req, res) => {
 
     res.status(200).send({token, user});
 });
+
+
+export default router;

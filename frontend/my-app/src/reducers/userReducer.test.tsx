@@ -2,12 +2,13 @@ import moxios from "moxios";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import tourReducer, { allTours, updateTour } from './tourReducer';
 import userReducers, { getUsers, addUser, updateUser, userToMuseum, deleteUser } from './userReducer'
-import { GuidedTour, TourState, UserAnyType, User, NewTour, NewUser } from '../types';
+import { GuidedTour, TourState, UserAnyType, User, NewTour, NewUser, UserState } from '../types';
 import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"
 import createMockStore from "redux-mock-store";
 import { initialStateEmpty, initialState } from '../../data/testData'
+import userReducer from "./userReducer";
 
 const middlewares: Array<Middleware> = [thunk]
 type DispatchExts = ThunkDispatch<RootState, undefined, AnyAction>
@@ -211,71 +212,168 @@ describe("User actions", () => {
 
 
 describe('reducers', () => {
-    const initialState: TourState = {
-        tours: {
+    const initialState: UserState = {
+        users: {
         }
     }
 
-    const initialStateNotEmpty: TourState = {
-        tours: {
-            "three":
-            {lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["Two"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "three"}
+    const initialStateNotEmpty: UserState = {
+        users: {
+            "UserOne":
+            {username: "UserOne",
+            name: "UserOne",
+            passwordHash: "UserOne",
+            type: "Admin", 
+            _id: "UserOne",
+            museums: []}
     }
     }
 
-    test('GET_ALL_TOURS works correctly', () => {
-        const reducer = tourReducer(initialState, {type: "GET_ALL_TOURS", payload: [
-            {lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["Two"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "three"}
+    test('GET_USERS works correctly', () => {
+        const reducer = userReducer(initialState, {type: "GET_USERS", payload: [
+            {username: "UserOne",
+            name: "UserOne",
+            passwordHash: "UserOne",
+            type: "Customer", 
+            _id: "UserOne"}
         ]})
 
         expect(reducer).toEqual({
-            tours: {
-                    "three":
-                    {lengthInMinutes: 2, 
-                    maxNumberOfPeople:2, 
-                    possibleLanguages: ["Two"],
-                    price: 1, 
-                    tourName: "Two", 
-                    tourInfo: "Two", 
-                    _id: "three"}
+            users: {
+                "UserOne":
+                {username: "UserOne",
+                name: "UserOne",
+                passwordHash: "UserOne",
+                type: "Customer", 
+                _id: "UserOne"}
             }
         }
         )
     })
 
-    test('UPDATE_TOUR works correctly', () => {
-        const reducer = tourReducer(initialStateNotEmpty, {type: "UPDATE_TOUR", payload: 
-            {lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["One"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "three"}
+    test('ADD_USER works correctly', () => {
+        const reducer = userReducer(initialState, {type: "ADD_USER", payload: 
+            {username: "UserOne",
+            name: "UserOne",
+            passwordHash: "UserOne",
+            type: "Customer", 
+            _id: "UserOne"}
         })
 
         expect(reducer).toEqual({
-            tours: {
-                    "three":
-                    {lengthInMinutes: 2, 
-                    maxNumberOfPeople:2, 
-                    possibleLanguages: ["One"],
-                    price: 1, 
-                    tourName: "Two", 
-                    tourInfo: "Two", 
-                    _id: "three"}
+            users: {
+                "UserOne":
+                {username: "UserOne",
+                name: "UserOne",
+                passwordHash: "UserOne",
+                type: "Customer", 
+                _id: "UserOne"}
+            }
+        }
+        )
+    })
+
+    test('UPDATE_USER works correctly', () => {
+        const reducer = userReducer(initialStateNotEmpty, {type: "UPDATE_USER", payload: 
+            {username: "UserTwo",
+            name: "UserOne",
+            passwordHash: "UserOne",
+            type: "Customer", 
+            _id: "UserOne"}
+        })
+
+        expect(reducer).toEqual({
+            users: {
+                "UserOne":
+                {username: "UserTwo",
+                name: "UserOne",
+                passwordHash: "UserOne",
+                type: "Customer", 
+                _id: "UserOne"}
+            }
+        }
+        )
+    })
+
+    test('ADD_USER_TO_MUSEUM works correctly', () => {
+        const reducer = userReducer(initialStateNotEmpty, {type: "ADD_USER_TO_MUSEUM", payload: 
+            {username: "UserOne",
+            name: "UserOne",
+            passwordHash: "UserOne",
+            type: "Admin", 
+            _id: "UserOne",
+            museums:[{
+                _id: "iidee",
+                museumName: "muuttunut",
+                open: {
+                    mon: "10:00",
+                    tue: "10:00",
+                    wed: "10:00",
+                    thu: "10:00",
+                    fri: "10:00",
+                    sat: "10:00",
+                    sun: "10:00"
+                },
+                closed: {
+                    mon: "10:00",
+                    tue: "10:00",
+                    wed: "10:00",
+                    thu: "10:00",
+                    fri: "10:00",
+                    sat: "10:00",
+                    sun: "10:00"
+                    
+                },
+                offeredTours:[],
+                openInfo: "Auki",
+                museumInfo: "Museo"   
+            }]}
+        })
+
+        expect(reducer).toEqual({
+            users: {
+                "UserOne":
+                {username: "UserOne",
+                name: "UserOne",
+                passwordHash: "UserOne",
+                type: "Admin", 
+                _id: "UserOne",
+                museums:[{
+                    _id: "iidee",
+                    museumName: "muuttunut",
+                    open: {
+                        mon: "10:00",
+                        tue: "10:00",
+                        wed: "10:00",
+                        thu: "10:00",
+                        fri: "10:00",
+                        sat: "10:00",
+                        sun: "10:00"
+                    },
+                    closed: {
+                        mon: "10:00",
+                        tue: "10:00",
+                        wed: "10:00",
+                        thu: "10:00",
+                        fri: "10:00",
+                        sat: "10:00",
+                        sun: "10:00"
+                        
+                    },
+                    offeredTours:[],
+                    openInfo: "Auki",
+                    museumInfo: "Museo"   
+                }]}
+            }
+        }
+        )
+    })
+
+    test('DELETE_USER works correctly', () => {
+        const reducer = userReducer(initialStateNotEmpty, {type: "DELETE_USER", id: "UserOne"});
+
+        expect(reducer).toEqual({
+            users: {
             }
         }
         )

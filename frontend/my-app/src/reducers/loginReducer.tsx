@@ -1,4 +1,4 @@
-import { LoginState, UserAnyType, LoggedInUser } from "../types"
+import { LoginState, UserAnyType, LoggedInUser, Museum } from "../types"
 import loginService from "../services/loginService"
 import { RootState } from "../store"
 import { ThunkAction } from "redux-thunk"
@@ -25,21 +25,24 @@ const initialState: LoginState = {
 const loginReducer = (state = initialState, action: Action): LoginState => {
     switch(action.type) {
         case 'LOGIN':
-            const { _id, username, name, passwordHash, type, token } = action.payload
-            return {_id, username, name, passwordHash, type, token}
+            const { _id, username, name, passwordHash, type, token} = action.payload
+            let museums: Museum[] = [];
+            if(action.payload.type === "Admin") {
+                museums = action.payload.museums
+            }
+            return {_id, username, name, passwordHash, type, token, museums}
         case 'LOGOUT':
-            return {_id: "", username: "", name: "", passwordHash: "", type: undefined, token: ""}
+            return {_id: "", username: "", name: "", passwordHash: "", type: undefined, token: "", museums: []}
         default: 
             return state
     }
 }
 
-export const login = (username: string, password: string): ThunkAction<void, RootState, unknown, Action> => {
+export const login = (loggedInUser: LoggedInUser): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
-        const payload: LoggedInUser = await loginService.login(username, password);
         dispatch({
             type:"LOGIN",
-            payload
+            payload: loggedInUser
         })
     }
 }

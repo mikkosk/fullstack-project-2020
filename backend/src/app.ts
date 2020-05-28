@@ -6,6 +6,7 @@ require('dotenv').config();
 import mongoose from 'mongoose';
 import museumRouter from './routes/museumRouter';
 import userRouter from './routes/userRouter';
+import loginRouter from './routes/loginRouter';
 
 mongoose.set('useCreateIndex', true);
 let MONGODB_URI = process.env.MONGODB_URI;

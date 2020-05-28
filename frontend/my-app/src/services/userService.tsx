@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { UserAnyType, NewUser } from '../types'
+import authenticationHelper from '../utils/authenticationHelper'
 
 const baseUrl = 'http://localhost:3001/user'
 
@@ -19,17 +20,17 @@ const addUser = async (newUser: NewUser): Promise<UserAnyType> => {
 }
 
 const updateUser = async (newUser: NewUser, id: string): Promise<UserAnyType> => {
-    const res = await axios.put(`${baseUrl}/${id}`, newUser)
+    const res = await axios.put(`${baseUrl}/${id}`, newUser, authenticationHelper.getAuthenticationHeaders())
     return res.data
 }
 
 const addUserToMuseum = async (userId: string, museumId: string): Promise<UserAnyType> => {
-    const res = await axios.put(`${baseUrl}/${userId}/museum/${museumId}`);
+    const res = await axios.put(`${baseUrl}/${userId}/museum/${museumId}`, authenticationHelper.getAuthenticationHeaders());
     return res.data
 }
 
 const deleteUser = async (id: string) => {
-    await axios.delete(`${baseUrl}/${id}`);
+    await axios.delete(`${baseUrl}/${id}`, authenticationHelper.getAuthenticationHeaders());
 }
 
 

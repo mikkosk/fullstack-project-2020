@@ -34,6 +34,24 @@ export const TextField: React.FC<TextProps> = ({field, label, placeholder}) => (
     </Form.Field>
 )
 
+interface TypeProps extends FieldProps {
+    label: string
+}
+
+export const TypeField: React.FC<TextProps> = ({field, label}: TypeProps) => (
+    <Form.Field>
+        <Field as="select">
+            <label>{label}</label>
+            <option value="" label="Valitse käyttäjätyyppi" />
+            <option value="Customer" label="Asiakas" />
+            <option value="Admin" label="Ylläpitäjä" />
+        </Field>
+        <div style={{ color:"red"}}>
+            <ErrorMessage name={field.name} />
+        </div>
+    </Form.Field>
+)
+
 interface ArrayProps extends FieldProps {
     label: string;
     values: string[]

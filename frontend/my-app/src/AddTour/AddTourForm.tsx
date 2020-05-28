@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Button } from "semantic-ui-react";
 import { Field, Formik, Form, ErrorMessage, getIn, FieldArray } from "formik";
-import { NumberField, TextField, ArrayField } from "./FormFields";
+import { NumberField, TextField, ArrayField } from "../utils/FormFields";
 import { NewTour } from "../types";
 
 interface Props {

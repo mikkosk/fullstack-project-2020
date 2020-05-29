@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../store'
+import { RootState } from '../../store'
 import { List, Button } from 'semantic-ui-react'
-import { deleteTour } from '../reducers/museumReducer'
+import { deleteTour } from '../../reducers/museumReducer'
 import { useParams } from 'react-router-dom'
 
 const TourList = () => {

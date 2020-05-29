@@ -34,21 +34,18 @@ export const TextField: React.FC<TextProps> = ({field, label, placeholder}) => (
     </Form.Field>
 )
 
-interface TypeProps extends FieldProps {
-    label: string
+interface TypeProps {
+    label: string;
+    name: string;
 }
 
-export const TypeField: React.FC<TextProps> = ({field, label}: TypeProps) => (
+export const TypeField: React.FC<TypeProps> = ({label, name}: TypeProps) => (
     <Form.Field>
-        <Field as="select">
-            <label>{label}</label>
-            <option value="" label="Valitse käyttäjätyyppi" />
+        <label>{label}</label>
+        <Field as="select" className="ui dropdown" name={name}>
             <option value="Customer" label="Asiakas" />
             <option value="Admin" label="Ylläpitäjä" />
         </Field>
-        <div style={{ color:"red"}}>
-            <ErrorMessage name={field.name} />
-        </div>
     </Form.Field>
 )
 
@@ -67,7 +64,7 @@ export const ArrayField: React.FC<ArrayProps> = ({field, label, values}) => (
                                     values.map((language, index) => (
                                         <div key={index}>
                                             <Field name={`possibleLanguages.${index}`} />
-                                            <Button type="button" onClick={() => arrayHelpers.remove(index)}> - </Button>
+                                            <Button type="button" onClick={() => arrayHelpers.remove(index)}>-</Button>
                                             <Button type="button" onClick={() => arrayHelpers.insert(index, '')}>+</Button>
                                         </div>
                                     ))

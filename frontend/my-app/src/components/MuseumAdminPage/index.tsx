@@ -3,10 +3,10 @@ import { Header, Grid } from 'semantic-ui-react'
 import TourList from './TourList'
 import { AddTourForm } from '../AddTour/AddTourForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { addTour } from '../reducers/museumReducer'
-import { NewTour } from '../types'
+import { addTour } from '../../reducers/museumReducer'
+import { NewTour } from '../../types'
 import { useParams } from 'react-router-dom'
-import { RootState } from '../store'
+import { RootState } from '../../store'
 
 const MuseumAdminPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();

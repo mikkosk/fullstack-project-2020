@@ -6,7 +6,7 @@ import Enzyme, {mount} from 'enzyme'
 import { Provider } from 'react-redux'
 import TourList from './TourList'
 import thunk from 'redux-thunk'
-import { initialStateEmptyTours, initialState } from '../../data/testData'
+import { initialStateEmptyTours, initialState } from '../../../data/testData'
 
 Enzyme.configure({adapter: new Adapter() })
 

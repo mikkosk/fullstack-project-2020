@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formik, Form, Field } from 'formik'
-import { TextField } from '../utils/FormFields'
+import { TextField } from '../../utils/FormFields'
 import { Button } from 'semantic-ui-react'
 
 interface Props {
@@ -47,7 +47,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
                     component={TextField}
                 />
                 <Button type="submit" name="submit" disabled={!dirty || !isValid}>
-                        Lisää!
+                       Kirjaudu sisään
                 </Button>
             </Form>
             )

@@ -28,6 +28,7 @@
 | 25.5. | 3   | finished user management for now and wrote most of the tests for changes |
 | 26.5. | 3   | finished tests for changed backend, started to integrate changed backend in frontend |
 | 27.5. | 3   | added reducers and services for users and login in the frontend. wrote some tests for those |
-Total: 51 hours 
+| 28.5. | 3   | finished login and user reducers and their tests. alomst done with a login and registeration page |
+Total: 54 hours 
 
-(2cr)
+(3cr)

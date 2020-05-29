@@ -1,8 +1,8 @@
 import React from 'react'
 import { Formik, Form, Field } from 'formik'
-import { TextField, TypeField } from '../utils/FormFields'
+import { TextField, TypeField } from '../../utils/FormFields'
 import { Button } from 'semantic-ui-react'
-import { NewUser } from '../types'
+import { NewUser } from '../../types'
 
 interface Props {
     onSubmit: (values: NewUser) => void;
@@ -32,10 +32,10 @@ export const RegisterationForm: React.FC<Props> = ({ onSubmit }) => {
                 errors.password = "Kenttä vaaditaan"
             }
             if(values.name.length === 0) {
-                errors.password = "Kenttä vaaditaan"
+                errors.name = "Kenttä vaaditaan"
             }
             if(values.type !== "Admin" && values.type !== "Customer") {
-                errors.password = "Käyttäjän täytyy kuulua johonkin ennalta valittuun ryhmään"
+                errors.type = "Käyttäjän täytyy kuulua johonkin ennalta valittuun ryhmään"
             }
             return errors;
         }}
@@ -61,14 +61,12 @@ export const RegisterationForm: React.FC<Props> = ({ onSubmit }) => {
                     name="password"
                     component={TextField}
                 />
-                <Field
+                <TypeField
                     label="Käyttäjätyyppi"
-                    placeholder="Käyttäjätyyppi"
                     name="type"
-                    component={TypeField}
                 />
                 <Button type="submit" name="submit" disabled={!dirty || !isValid}>
-                        Lisää!
+                        Lisää käyttäjä
                 </Button>
             </Form>
             )

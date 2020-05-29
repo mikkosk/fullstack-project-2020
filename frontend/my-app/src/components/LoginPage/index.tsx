@@ -2,17 +2,18 @@ import React from 'react'
 import { Header, Segment, Grid } from 'semantic-ui-react'
 import { LoginForm } from './LoginForm'
 import { RegisterationForm } from './RegisterationForm'
-import loginService from '../services/loginService'
-import loginStorage from '../utils/loginStorage'
-import { NewUser } from '../types'
-import userService from '../services/userService'
+import loginService from '../../services/loginService'
+import loginStorage from '../../utils/loginStorage'
+import { NewUser } from '../../types'
 import { useDispatch } from 'react-redux'
-import { login } from '../reducers/loginReducer'
+import { login } from '../../reducers/loginReducer'
+import { addUser } from '../../reducers/userReducer'
 
-const LoginPage: React.FC = () => {
+export const LoginPage: React.FC = () => {
     const dispatch = useDispatch()
 
     const submitLogin = async (credentials: {username: string, password: string}) => {
+        console.log(credentials)
         const {username, password} = credentials;
         try {
             const loggedInUser = await loginService.login(username, password);
@@ -25,9 +26,13 @@ const LoginPage: React.FC = () => {
         }
     }
 
-    //JATKUU
     const submitRegisteration = async (newUser: NewUser) => {
-        const savedUser = await userService.addUser(newUser);
+        console.log(newUser)
+        try {
+            dispatch(addUser(newUser));
+        } catch {
+            console.log("Käyttäjää ei voi lisätä")
+        }
     }
 
     return (

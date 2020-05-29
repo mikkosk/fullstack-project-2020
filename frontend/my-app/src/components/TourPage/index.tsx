@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../store'
+import { RootState } from '../../store'
 import { useParams } from 'react-router-dom'
 import { Table, Header, Button } from 'semantic-ui-react'
-import { updateTour } from '../reducers/tourReducer'
-import { NewTour } from '../types'
+import { updateTour } from '../../reducers/tourReducer'
+import { NewTour } from '../../types'
 import UpdateTourModal from './updateTourModal'
 const TourPage: React.FC = () => {
     const { museumid, tourid }= useParams<{ tourid: string, museumid: string }>();

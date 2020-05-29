@@ -5,7 +5,7 @@ import AddTourForm from './AddTourForm'
 import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
 import thunk from 'redux-thunk'
-import { GuidedTour } from '../types'
+import { GuidedTour } from '../../types'
 import { act } from 'react-dom/test-utils'
 import { wait } from '@testing-library/react'
 

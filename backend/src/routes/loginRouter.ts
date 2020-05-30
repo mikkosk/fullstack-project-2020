@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import loginService from '../services/loginService';
 import express from 'express';
 import { Token } from '../utils/userManagement';
+import { UserAnyType } from '../types';
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -26,7 +27,18 @@ router.post('/', async (req, res) => {
 
     const token = jwt.sign(userToken, process.env.SECRET);
 
-    res.status(200).send({token, user});
+    const {name, username, type, passwordHash, _id} = user;
+    const loggedInUser: UserAnyType & {token: string} = {
+        token,
+        name,
+        username,
+        type,
+        passwordHash,
+        _id,
+        museums: user.type === "Admin" ? user.museums : []
+    };
+
+    res.status(200).send(loggedInUser);
 });
 
 

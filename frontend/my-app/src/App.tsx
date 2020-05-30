@@ -7,6 +7,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import TourPage from './components/TourPage';
 import { allMuseums } from './reducers/museumReducer';
 import { LoginPage } from './components/LoginPage';
+import { AdminPage } from './components/AdminPage';
+import loginStorage from './utils/loginStorage';
+import { login } from './reducers/loginReducer';
 
 function App() {
   const dispatch = useDispatch();
@@ -14,6 +17,10 @@ function App() {
   useEffect(() =>{
     dispatch(allTours())
     dispatch(allMuseums())
+    const user = loginStorage.loadUser()
+    if(user) {
+      dispatch(login(user));
+    }
   },[dispatch])
 
   return (
@@ -24,6 +31,7 @@ function App() {
             <Route path="/login" render={() => <LoginPage />} />
             <Route path="/museum/:museumid/tour/:tourid" render={() => <TourPage />}/>
             <Route path="/museum/:id" render={() => <MuseumAdminPage />}/>
+            <Route path="/admin/" render={() => <AdminPage />}/>
           </Switch>
         </Container>
       </Router>

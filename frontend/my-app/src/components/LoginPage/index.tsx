@@ -8,9 +8,11 @@ import { NewUser } from '../../types'
 import { useDispatch } from 'react-redux'
 import { login } from '../../reducers/loginReducer'
 import { addUser } from '../../reducers/userReducer'
+import { useHistory } from 'react-router-dom'
 
 export const LoginPage: React.FC = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const submitLogin = async (credentials: {username: string, password: string}) => {
         console.log(credentials)
@@ -20,7 +22,16 @@ export const LoginPage: React.FC = () => {
             if(loggedInUser) {
                 loginStorage.saveUser(loggedInUser);
             }
+            console.log(loggedInUser)
             dispatch(login(loggedInUser));
+                //siirrä
+            if(loggedInUser.type === "Admin") {
+                if(loggedInUser.museums.length === 1) {
+                    history.push(`/museum/${loggedInUser.museums[0]._id}`)
+                } else {
+                    history.push(`/admin`)
+                }
+            }
         } catch {
             console.log("Väärät tunnukset")
         }
@@ -39,7 +50,7 @@ export const LoginPage: React.FC = () => {
         <div>
             <Header as="h1">Kirjaudu sisään tai luo käyttäjä</Header>
             <Segment>
-                <Grid columns={2} relaxed="very" stackable>
+                <Grid columns={2} relaxed="very" stackable divided>
                     <Grid.Column>
                         <LoginForm onSubmit={submitLogin}/>
                     </Grid.Column>

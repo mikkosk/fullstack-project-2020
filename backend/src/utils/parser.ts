@@ -15,6 +15,9 @@ const isDate = (date: string): boolean => {
 };
 
 const isTime = (time: string): boolean => {
+    if(time === "closed") {
+        return true;
+    }
     if(time.length !== 5) {
         return false;
     }

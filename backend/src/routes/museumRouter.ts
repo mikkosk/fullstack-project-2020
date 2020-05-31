@@ -23,6 +23,7 @@ router.post('/', async (req, res) => {
         await userService.addUserToMuseum(addedMuseum._id, token.id);
         res.json(addedMuseum);
     } catch (e) {
+        console.log(e.message);
         res.status(400).send(e.message);
     }
 });

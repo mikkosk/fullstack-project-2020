@@ -1,9 +1,9 @@
-import toursService from "../services/toursService"
-import { GuidedTour, TourState, NewTour, UserAnyType, UserState, NewUser } from "../types"
-import { Dispatch, memo } from "react"
+import { UserAnyType, UserState, NewUser, NewMuseum, Museum, Admin } from "../types"
+import { Dispatch } from "react"
 import { ThunkAction } from "redux-thunk"
 import { RootState } from "../store"
 import userService from "../services/userService"
+import museumsService from "../services/museumService"
 
 export type Action= 
     |{
@@ -26,6 +26,11 @@ export type Action=
         type: "ADD_USER_TO_MUSEUM",
         payload: UserAnyType
     }
+    | {
+        type: "ADD_MUSEUM",
+        payload: Museum
+        id: string
+    }
 
 const initialState: UserState = {
     users: {}
@@ -41,6 +46,14 @@ const userReducer = (state = initialState, action: Action): UserState => {
             return {...state, users: {...state.users, [action.payload._id]: {...action.payload}}}
         case 'ADD_USER_TO_MUSEUM':
             return {...state, users: {...state.users, [action.payload._id]: {...action.payload}}}
+        case 'ADD_MUSEUM':
+            const user = state.users[action.id]
+            const admin: Admin | undefined = user.type === "Admin" ? user : undefined
+            if(!admin) {
+                return state
+            }
+            const updatedAdmin = {...admin, museums: admin.museums.concat(action.payload)}
+            return {...state, users: {...state.users, [action.id]: updatedAdmin}}
         case 'DELETE_USER':
             return {...state, users: Object.values(state.users).filter(u => u._id !== action.id).reduce((memo, user) => ({...memo, [user._id]: user}), {})}
         default:
@@ -65,6 +78,17 @@ export const addUser = (newUser: NewUser): ThunkAction<void, RootState, unknown,
         dispatch({
             type: "ADD_USER",
             payload
+        })
+    }
+}
+
+export const addMuseum = (newMuseum: NewMuseum, id: UserAnyType["_id"]): ThunkAction<void, RootState, unknown, Action> => {
+    return async (dispatch: Dispatch<Action>) => {
+        const payload: Museum = await museumsService.addMuseum(newMuseum);
+        dispatch({
+            type:"ADD_MUSEUM",
+            payload,
+            id
         })
     }
 }

@@ -30,6 +30,9 @@
 | 27.5. | 3   | added reducers and services for users and login in the frontend. wrote some tests for those |
 | 28.5. | 3   | finished login and user reducers and their tests. alomst done with a login and registeration page |
 | 29.5. | 2   | finished login and registeration forms and their tests. started with admin page |
-Total: 56 hours 
+| 30.5. | 1.5   | created admin page, started working on a form for adding museums, added links and paths |
+| 31.5. | 3   | created form for adding museums, updated reducers to alupd updating user when adding the museum, added more tests for new compnents |
+Total: 60.5 hours 
+
 
 (3cr)

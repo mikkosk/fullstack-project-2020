@@ -1,8 +1,8 @@
 import React from 'react'
 import { Formik, Form, Field } from 'formik'
-import { TextField, TypeField } from '../../utils/FormFields'
+import { TextField, SelectField } from '../../utils/FormFields'
 import { Button } from 'semantic-ui-react'
-import { NewUser } from '../../types'
+import { NewUser, OptionField } from '../../types'
 
 interface Props {
     onSubmit: (values: NewUser) => void;
@@ -14,6 +14,10 @@ const initialValues: NewUser = {
     password: "",
     type: "Customer",
 }
+const options: OptionField[] = [
+    {label: "Asiakas", value: "Customer"},
+    {label: "Ylläpitäjä", value: "Admin"},
+]
 
 export const RegisterationForm: React.FC<Props> = ({ onSubmit }) => {
     return (
@@ -61,9 +65,10 @@ export const RegisterationForm: React.FC<Props> = ({ onSubmit }) => {
                     name="password"
                     component={TextField}
                 />
-                <TypeField
+                <SelectField
                     label="Käyttäjätyyppi"
                     name="type"
+                    options={options}
                 />
                 <Button type="submit" name="submit" disabled={!dirty || !isValid}>
                         Lisää käyttäjä

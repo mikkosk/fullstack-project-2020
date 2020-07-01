@@ -107,3 +107,8 @@ export interface LoginState extends User {
 }
 
 export type LoggedInUser = UserAnyType & {token: string}
+
+export interface OptionField {
+    label: string,
+    value: string
+}

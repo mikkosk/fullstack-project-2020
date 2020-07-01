@@ -1,6 +1,7 @@
 import React from 'react'
 import { ErrorMessage, Field, FieldProps, FormikProps, FieldArray } from 'formik'
 import { Dropdown, DropdownProps, Form, Button } from 'semantic-ui-react'
+import { OptionField } from '../types';
 
 interface NumberProps extends FieldProps {
     label: string,
@@ -37,14 +38,16 @@ export const TextField: React.FC<TextProps> = ({field, label, placeholder}) => (
 interface TypeProps {
     label: string;
     name: string;
+    options: OptionField[];
 }
 
-export const TypeField: React.FC<TypeProps> = ({label, name}: TypeProps) => (
+export const SelectField: React.FC<TypeProps> = ({label, name, options}: TypeProps) => (
     <Form.Field>
         <label>{label}</label>
         <Field as="select" className="ui dropdown" name={name}>
-            <option value="Customer" label="Asiakas" />
-            <option value="Admin" label="Ylläpitäjä" />
+            {options.map((o: OptionField) => 
+                <option key={o.label} value={o.value}>{o.label}</option>
+            )}
         </Field>
     </Form.Field>
 )

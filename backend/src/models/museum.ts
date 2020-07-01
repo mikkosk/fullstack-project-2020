@@ -10,22 +10,22 @@ const museumSchema: Schema = new Schema({
         unique: true
     },
     open: {
-        mon: {type: String, minlength: 5, maxlength: 5},
-        tue: {type: String, minlength: 5, maxlength: 5},
-        wed: {type: String, minlength: 5, maxlength: 5},
-        thu: {type: String, minlength: 5, maxlength: 5},
-        fri: {type: String, minlength: 5, maxlength: 5},
-        sat: {type: String, minlength: 5, maxlength: 5},
-        sun: {type: String, minlength: 5, maxlength: 5}
+        mon: {type: String, minlength: 5, maxlength: 6},
+        tue: {type: String, minlength: 5, maxlength: 6},
+        wed: {type: String, minlength: 5, maxlength: 6},
+        thu: {type: String, minlength: 5, maxlength: 6},
+        fri: {type: String, minlength: 5, maxlength: 6},
+        sat: {type: String, minlength: 5, maxlength: 6},
+        sun: {type: String, minlength: 5, maxlength: 6}
     },
     closed: {
-        mon: {type: String, minlength: 5, maxlength: 5},
-        tue: {type: String, minlength: 5, maxlength: 5},
-        wed: {type: String, minlength: 5, maxlength: 5},
-        thu: {type: String, minlength: 5, maxlength: 5},
-        fri: {type: String, minlength: 5, maxlength: 5},
-        sat: {type: String, minlength: 5, maxlength: 5},
-        sun: {type: String, minlength: 5, maxlength: 5}
+        mon: {type: String, minlength: 5, maxlength: 6},
+        tue: {type: String, minlength: 5, maxlength: 6},
+        wed: {type: String, minlength: 5, maxlength: 6},
+        thu: {type: String, minlength: 5, maxlength: 6},
+        fri: {type: String, minlength: 5, maxlength: 6},
+        sat: {type: String, minlength: 5, maxlength: 6},
+        sun: {type: String, minlength: 5, maxlength: 6}
     },
     openInfo: {
         type: String || undefined,

@@ -30,6 +30,7 @@ router.post('/museum/:id', async (req, res) => {
 });
 
 router.put('/:tourid/museum/:museumid/', async (req, res) => {
+    console.log("Lol");
     const museumId = req.params.museumid;
     try {
         const token = decodedToken(req.headers.authorization);
@@ -43,6 +44,7 @@ router.put('/:tourid/museum/:museumid/', async (req, res) => {
         const updatedEntry = await toursService.updateTour(newTour, req.params.tourid);
         res.json(updatedEntry);
     } catch (e) {
+        console.log(e.message);
         res.status(400).send(e.message);
     }
 });

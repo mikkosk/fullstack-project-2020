@@ -1,18 +1,48 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Button } from 'semantic-ui-react';
+import { AddMuseumForm } from './AddMuseumForm';
+import AddMuseumModal from './AddMuseumModal';
+import { NewMuseum } from '../../types';
+import { addMuseum } from '../../reducers/userReducer';
+import { allMuseums } from '../../reducers/museumReducer';
 
 export const AdminPage: React.FC = () => {
-    const user = useSelector((state: RootState) => state.login);
+    const user = useSelector((state: RootState) => state.users.users[state.login._id]);
     const dispatch = useDispatch();
     const history = useHistory();
+    const [ modalOpen, setModalOpen ] = useState<boolean>(false);
 
     console.log(user)
     if(!user || user.type !== "Admin") {
         return <div>Mitään ei löytynyt</div>
     }
+    const openModal = (): void => {
+        setModalOpen(true)
+    }
+    const closeModal = (): void => {
+        setModalOpen(false)
+    }
+
+    const dispatchAddMuseum = async (values: NewMuseum) => {
+        dispatch(addMuseum(values, user._id))
+        console.log(values)
+    }
+
+    const handleSubmit = async (values: NewMuseum) => {
+        try {
+            await dispatchAddMuseum(values)
+        } catch (e) {
+            console.log(e.message)
+        }
+        closeModal()
+        window.location.reload()
+
+    }
+
+    
 
     return (
         <div>
@@ -31,7 +61,9 @@ export const AdminPage: React.FC = () => {
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column>
-                        {user.museums && user.museums.map(m => <Link to={`/museum/${m._id}`}>{m.museumName}</Link>)}
+                        {user.museums && user.museums.map(m => 
+                            <div key={m._id}><Link to={`/museum/${m._id}`}>{m.museumName}</Link></div>
+                        )}
                     </Grid.Column>
                     <Grid.Column>
                         <Grid columns={2} stackable>
@@ -58,7 +90,10 @@ export const AdminPage: React.FC = () => {
                 </Grid.Row>
 
             </Grid>
+            <Button onClick={openModal}>Lisää museo!</Button>
+            <AddMuseumModal modalOpen={modalOpen} onSubmit={handleSubmit} onClose={closeModal}/>
         </div>
+
     )
 
 

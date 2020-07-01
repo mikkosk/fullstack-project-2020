@@ -40,8 +40,6 @@ const museumReducer = (state = initialState, action: Action): MuseumState => {
     switch(action.type) {
         case 'GET_ALL_MUSEUMS':
             return {...state, museums: {...action.payload.reduce((memo, museum: Museum) => ({...memo, [museum._id]: museum}), {})}}
-        case 'ADD_MUSEUM':
-            return {...state, museums: {...state.museums, [action.payload._id]: action.payload}}
         case 'ADD_TOUR':
             return {...state, museums: {...state.museums, [action.payload.museumId]: {
                 ...state.museums[action.payload.museumId], offeredTours: [...state.museums[action.payload.museumId].offeredTours, action.payload.tour]
@@ -62,16 +60,6 @@ export const allMuseums = (): ThunkAction<void, RootState, unknown, Action> => {
         const payload: Museum[] = await museumsService.getAll();
         dispatch({
             type:"GET_ALL_MUSEUMS",
-            payload
-        })
-    }
-}
-
-export const addMuseum = (newMuseum: NewMuseum): ThunkAction<void, RootState, unknown, Action> => {
-    return async (dispatch: Dispatch<Action>) => {
-        const payload: Museum = await museumsService.addMuseum(newMuseum);
-        dispatch({
-            type:"ADD_MUSEUM",
             payload
         })
     }

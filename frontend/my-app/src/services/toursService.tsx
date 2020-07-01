@@ -15,7 +15,7 @@ const addTour = async (newTour: NewTour, museumId: string): Promise<AddTourPaylo
 }
 
 const updateTour = async (newTour: NewTour, museumId: string, tourId: string): Promise<GuidedTour> => {
-    const res = await axios.put(`${baseUrl}/${tourId}/museum/${museumId}}`, newTour, authenticationHelper.getAuthenticationHeaders())
+    const res = await axios.put(`${baseUrl}/${tourId}/museum/${museumId}`, newTour, authenticationHelper.getAuthenticationHeaders())
     return res.data
 }
 

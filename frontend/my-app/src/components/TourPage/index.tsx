@@ -6,11 +6,15 @@ import { Table, Header, Button } from 'semantic-ui-react'
 import { updateTour } from '../../reducers/tourReducer'
 import { NewTour } from '../../types'
 import UpdateTourModal from './updateTourModal'
-const TourPage: React.FC = () => {
-    const { museumid, tourid }= useParams<{ tourid: string, museumid: string }>();
-    const tour = useSelector((state: RootState) => Object.values(state.museums.museums[museumid].offeredTours).find(t => t._id === tourid))
-    const dispatch = useDispatch()
+import { allMuseums } from '../../reducers/museumReducer'
 
+const TourPage: React.FC = () => {
+    const { tourid, museumid }= useParams<{ tourid: string, museumid: string }>();
+    
+    const dispatch = useDispatch()
+    const museum = useSelector((state: RootState) => state.museums.museums[museumid])
+    console.log(museum)
+    
     const [ modalOpen, setModalOpen ] = useState<boolean>(false);
 
     const openModal = (): void => {
@@ -25,15 +29,26 @@ const TourPage: React.FC = () => {
         dispatch(updateTour(values, museumid, tourid))
     }
 
+    const updateMuseum = async () => {
+        dispatch(allMuseums())
+    }
+
     const handleSubmit = async (values: NewTour) => {
         await updateCurrentTour(values)
+        setTimeout(async () => await updateMuseum(), 100)
         closeModal();
     }
+
+    if(!museum || !museum.offeredTours) {
+        return null
+    }
+    const tour = museum.offeredTours.find(t => t._id === tourid)
 
     if(!tour) {
         return null
     }
 
+    console.log(tour)
     return (
         <div>
             <Header>{tour.tourName}</Header>

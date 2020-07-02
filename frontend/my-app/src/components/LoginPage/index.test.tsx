@@ -10,6 +10,13 @@ import { initialState } from '../../../data/testData'
 
 Enzyme.configure({adapter: new Adapter() })
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useHistory: () => ({
+        push: jest.fn()
+    })
+}));
+
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
 

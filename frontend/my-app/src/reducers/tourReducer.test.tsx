@@ -87,19 +87,21 @@ describe("Tour actions", () => {
         const actions = store.getActions()
 
         expect.assertions(2)
-        expect(actions[0].type).toEqual("UPDATE_TOUR")
-        expect(actions[0].payload).toMatchObject(response)
+        expect(actions[1].type).toEqual("UPDATE_TOUR")
+        expect(actions[1].payload).toMatchObject(response)
     })
 });
 
 
 describe('reducers', () => {
     const initialState: TourState = {
+        finished: true,
         tours: {
         }
     }
 
     const initialStateNotEmpty: TourState = {
+        finished: true,
         tours: {
             "three":
             {lengthInMinutes: 2, 
@@ -124,6 +126,7 @@ describe('reducers', () => {
         ]})
 
         expect(reducer).toEqual({
+            finished: true,
             tours: {
                     "three":
                     {lengthInMinutes: 2, 
@@ -150,6 +153,7 @@ describe('reducers', () => {
         })
 
         expect(reducer).toEqual({
+            finished: true,
             tours: {
                     "three":
                     {lengthInMinutes: 2, 

@@ -1,12 +1,12 @@
 import moxios from "moxios";
 import thunk, { ThunkDispatch } from "redux-thunk";
-import museumReducer, { allMuseums, addMuseum, updateMuseum, deleteMuseum, addTour, deleteTour } from './museumReducer';
+import museumReducer, { allMuseums, updateMuseum, deleteMuseum, addTour, deleteTour } from './museumReducer';
 import { Museum, MuseumState, GuidedTour } from '../types';
 import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"
 import createMockStore from "redux-mock-store";
-import { initialStateEmptyTours, initialStateEmptyMuseums, initialStateEmpty, initialState } from '../../data/testData'
+import { initialStateEmptyTours, initialStateEmpty, initialState } from '../../data/testData'
 
 const middlewares: Array<Middleware> = [thunk]
 type DispatchExts = ThunkDispatch<RootState, undefined, AnyAction>
@@ -75,52 +75,7 @@ describe("Museum actions", () => {
 
     })
 
-    test('addMuseum dispatches ADD_MUSEUM and returns right museum', async () => {
-        const initialState: RootState = initialStateEmptyMuseums
-        const store = mockStoreCreator(initialState)
-        const response: Museum = 
-            {
-                _id: "iidee",
-                museumName: "testi",
-                open: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                },
-                closed: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                    
-                },
-                offeredTours:[],
-                openInfo: "Auki",
-                museumInfo: "Museo"   
-            }
-
-        moxios.wait(() => {
-            const request = moxios.requests.mostRecent();
-            request.respondWith({
-                status: 200,
-                response
-            })
-        })
-        
-        await store.dispatch<any>(addMuseum(response))
-        const actions = store.getActions()
-
-        expect.assertions(2)
-        expect(actions[0].type).toEqual("ADD_MUSEUM")
-        expect(actions[0].payload).toMatchObject(response)
-    })
+    
 
     test('addTour dispatches ADD_TOUR and dispatches right tour', async () => {
         const initialState: RootState = initialStateEmptyTours
@@ -301,19 +256,6 @@ describe('reducers', () => {
         const reducer = museumReducer(initialState, {type: "GET_ALL_MUSEUMS", payload: [
             museum
         ]})
-
-        expect(reducer).toEqual({
-            museums: {
-                "iidee": museum
-            }
-        }
-        )
-    })
-
-    test('ADD_MUSEUM works correctly', () => {
-        const reducer = museumReducer(initialState, {type: "ADD_MUSEUM", payload: 
-            museum
-        })
 
         expect(reducer).toEqual({
             museums: {

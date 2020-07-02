@@ -7,11 +7,12 @@ import { Provider } from 'react-redux'
 import TourList from './TourList'
 import thunk from 'redux-thunk'
 import { initialStateEmptyTours, initialState } from '../../../data/testData'
+import { BrowserRouter } from 'react-router-dom'
 
 Enzyme.configure({adapter: new Adapter() })
 
 jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
+    ...jest.requireActual('react-router-dom'),
     useParams: () => ({
       id: "iidee"
   })}));
@@ -21,7 +22,7 @@ const mockStore = configureStore(middlewares)
 const emptyStore = mockStore(initialStateEmptyTours)
 const storeWithMultipleTours = mockStore(initialState)
 function setup(store: MockStoreEnhanced<unknown, {}>) {
-    const enzymeWrapper = mount(<Provider store={store}><TourList /></Provider>)
+    const enzymeWrapper = mount(<Provider store={store}><BrowserRouter><TourList /></BrowserRouter></Provider>)
     return {
         enzymeWrapper
     }
@@ -35,6 +36,6 @@ describe('TourList', () => {
 
     test('store with objects return right amount of list items', () => {
         const { enzymeWrapper } = setup(storeWithMultipleTours)
-        expect(enzymeWrapper.find('ListHeader')).toHaveLength(1)
+        expect(enzymeWrapper.find('Link')).toHaveLength(1)
     })
 })

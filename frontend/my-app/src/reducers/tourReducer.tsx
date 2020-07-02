@@ -20,18 +20,24 @@ export type Action=
     | {
         type: "UPDATE_TOUR"
         payload: GuidedTour
-    } 
+    } |
+    {
+        type: "START_UPDATE"
+    }
 
 const initialState: TourState = {
-    tours: {}
+    tours: {},
+    finished: true
 }
 
 const tourReducer = (state = initialState, action: Action): TourState => {
     switch(action.type) {
         case 'GET_ALL_TOURS':
-            return {...state, tours: {...action.payload.reduce((memo, tour: GuidedTour) => ({...memo, [tour._id]: tour}), {})}}
+            return {...state, finished: true, tours: {...action.payload.reduce((memo, tour: GuidedTour) => ({...memo, [tour._id]: tour}), {})}}
         case 'UPDATE_TOUR':
-            return {...state, tours: {...state.tours, [action.payload._id]: {...action.payload}}}
+            return {...state, finished: true, tours: {...state.tours, [action.payload._id]: {...action.payload}}}
+        case 'START_UPDATE':
+            return {...state, finished: false}
         default: 
             return state
     }
@@ -49,6 +55,9 @@ export const allTours = (): ThunkAction<void, RootState, unknown, Action> => {
 
 export const updateTour = (newTour: NewTour, museumId: string, tourId: string): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type:"START_UPDATE"
+        })
         const payload: GuidedTour = await toursService.updateTour(newTour, museumId, tourId);
         dispatch({
             type:"UPDATE_TOUR",

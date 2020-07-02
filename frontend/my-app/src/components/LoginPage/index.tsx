@@ -24,7 +24,6 @@ export const LoginPage: React.FC = () => {
             }
             console.log(loggedInUser)
             dispatch(login(loggedInUser));
-                //siirrä
             if(loggedInUser.type === "Admin") {
                 if(loggedInUser.museums.length === 1) {
                     history.push(`/museum/${loggedInUser.museums[0]._id}`)

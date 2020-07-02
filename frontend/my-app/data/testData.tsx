@@ -6,12 +6,14 @@ export const initialStateEmpty: RootState = {
         users: {}
     },
     tours: {
+        finished: true,
         tours: {}
     },
     museums: {
         museums: {}
     }
 }
+
 
 export const initialStateEmptyTours: RootState = {
     login: {
@@ -42,6 +44,7 @@ export const initialStateEmptyTours: RootState = {
         }
     },
     tours: {
+        finished: true,
         tours: {}
     },
     museums: {
@@ -105,6 +108,7 @@ export const initialStateEmptyMuseums: RootState = {
         }
     },
     tours: {
+        finished: true,
         tours: {"three": {lengthInMinutes: 2, 
             maxNumberOfPeople:2, 
             possibleLanguages: ["Two"],
@@ -149,6 +153,7 @@ export const initialState: RootState = {
         }
     },
     tours: {
+        finished: true,
         tours: {"three": {lengthInMinutes: 2, 
             maxNumberOfPeople:2, 
             possibleLanguages: ["Two"],
@@ -194,3 +199,4 @@ export const initialState: RootState = {
         }
     }
 }
+

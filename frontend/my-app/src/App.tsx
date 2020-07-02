@@ -11,6 +11,7 @@ import { AdminPage } from './components/AdminUserPage';
 import loginStorage from './utils/loginStorage';
 import { login } from './reducers/loginReducer';
 import { getUsers } from './reducers/userReducer';
+import LogoutBar from './components/Logout/LogoutBar';
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
     <div>
       <Router>
         <Container textAlign="center">
+          <LogoutBar />
           <Switch>
             <Route path="/login" render={() => <LoginPage />} />
             <Route path="/museum/:museumid/tour/:tourid" render={() => <TourPage />}/>

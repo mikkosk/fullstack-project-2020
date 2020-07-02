@@ -8,6 +8,8 @@ import { GuidedTour } from '../../types'
 import { act } from 'react-dom/test-utils'
 import { wait } from '@testing-library/react'
 import AddMuseumForm from './AddMuseumForm'
+import { initialState } from '../../../data/testData'
+import { Provider } from 'react-redux'
 
 Enzyme.configure({adapter: new Adapter() })
 
@@ -20,7 +22,8 @@ const selects = [
     "open.mon","open.tue","open.wed","open.thu","open.fri","open.sat","open.sun",
     "closed.mon","closed.tue","closed.wed","closed.thu","closed.fri","closed.sat","closed.sun"]
 function setup() {
-    const enzymeWrapper = mount(<AddMuseumForm onSubmit={onSubmit} onCancel={onCancel}/>)
+    const store = mockStore(initialState)
+    const enzymeWrapper = mount(<Provider store={store}><AddMuseumForm onCancel={onCancel} onSubmit={onSubmit} initialTour={undefined} /></Provider>)
 
     return {
         enzymeWrapper
@@ -56,7 +59,7 @@ describe('AddMuseumForm', () => {
 
 
     test('Clicking button triggers onSubmit if fields are correct', async () => {
-        const enzymeWrapper = mount(<AddMuseumForm onSubmit={onSubmit} onCancel={onCancel} initialTour={undefined}/>)
+        const { enzymeWrapper } = setup()
         const inputsToChange = findTags(enzymeWrapper, inputs, "input");
         const selectsToChange = findTags(enzymeWrapper, selects, "select");
         expect(inputs.length === inputsToChange.length).toBe(true)
@@ -67,7 +70,7 @@ describe('AddMuseumForm', () => {
                 inputsToChange[i].simulate('change', {persist: () => {}, target: {name: inputs[i], value: 'values'}})
             }
             for(i = 0; i < selectsToChange.length; i++) {
-                selectsToChange[i].simulate('change', {persist: () => {}, target: {name: inputs[i], value: 'closed'}})
+                selectsToChange[i].simulate('change', {persist: () => {}, target: {name: selects[i], value: 'closed'}})
             }
         });
         await act(async () => {
@@ -79,7 +82,7 @@ describe('AddMuseumForm', () => {
     // JATKUU
     test('Clicking button does not trigger onSubmit if fields are incorrect', async () => {
         onSubmit.mockClear()
-        const enzymeWrapper = mount(<AddMuseumForm onSubmit={onSubmit} onCancel={onCancel} initialTour={undefined}/>)
+        const { enzymeWrapper } = setup()
         await act(async () => {
             enzymeWrapper.find('button[name="submit"]').simulate('submit', { preventDefault: () => {} })
         });
@@ -88,14 +91,9 @@ describe('AddMuseumForm', () => {
     })
 
     test('Clicking cancel button triggers onCancel even if fields are not correct', async () => {
-        const enzymeWrapper = mount(<AddMuseumForm onSubmit={onSubmit} onCancel={onCancel}/>)
+        const { enzymeWrapper } = setup()
         await act(async () => {
-            enzymeWrapper.find('input[name="tourName"]').simulate('change', {persist: () => {}, target: {name: 'tourName', value: 'ok'}})
-            enzymeWrapper.find('input[name="possibleLanguages.0"]').simulate('change', {persist: () => {}, target: {name: 'possibleLanguages.0', value: "ok"}})
-            enzymeWrapper.find('input[name="price"]').simulate('change', {persist: () => {}, target: {name: 'price', value: -999}})
-            enzymeWrapper.find('input[name="lengthInMinutes"]').simulate('change', {target: {name: 'lengthInMinutes', value: 1}})
-            enzymeWrapper.find('input[name="maxNumberOfPeople"]').simulate('change', {target: {name: 'maxNumberOfPeople', value: 1}})
-            enzymeWrapper.find('input[name="tourInfo"]').simulate('change', {target: {name: 'tourInfo', value: ''}})
+            enzymeWrapper.find('input[name="museumName"]').simulate('change', {persist: () => {}, target: {name: 'museumName', value: 'ok'}})
         });
         await act(async () => {
             enzymeWrapper.find('Button[name="cancelForm"]').simulate('click')
@@ -105,35 +103,40 @@ describe('AddMuseumForm', () => {
     })
 
     test('error is shown when field is not filled', async () => {
-        const enzymeWrapper = mount(<AddMuseumForm onSubmit={onSubmit} onCancel={onCancel}/>)
+        const { enzymeWrapper } = setup()
         await act(async () => {
-            enzymeWrapper.find('input[name="tourName"]').simulate('change', {persist: () => {}, target: {name: 'tourName', value: "NImi"}})
-            enzymeWrapper.find('input[name="tourName"]').simulate('blur')
+            enzymeWrapper.find('input[name="museumName"]').simulate('change', {persist: () => {}, target: {name: 'tourName', value: "NImi"}})
+            enzymeWrapper.find('input[name="museumName"]').simulate('blur')
         });
         await wait()
         enzymeWrapper.update()
         expect(enzymeWrapper.text()).toContain("Kenttä vaaditaan")
     })
     describe('After form has been submitted', () => {
-        const enzymeWrapper = mount(<AddMuseumForm onSubmit={onSubmit} onCancel={onCancel}/>)
+        const { enzymeWrapper } = setup()
 
         beforeEach(async () => {
+            const inputsToChange = findTags(enzymeWrapper, inputs, "input");
+            const selectsToChange = findTags(enzymeWrapper, selects, "select");
+            expect(inputs.length === inputsToChange.length).toBe(true)
+            expect(selects.length === selectsToChange.length).toBe(true)
             await act(async () => {
-                enzymeWrapper.find('input[name="tourName"]').simulate('change', {persist: () => {}, target: {name: 'tourName', value: 'ok'}})
-                enzymeWrapper.find('input[name="possibleLanguages.0"]').simulate('change', {persist: () => {}, target: {name: 'possibleLanguages.0', value: "ok"}})
-                enzymeWrapper.find('input[name="price"]').simulate('change', {persist: () => {}, target: {name: 'price', value: 1}})
-                enzymeWrapper.find('input[name="lengthInMinutes"]').simulate('change', {target: {name: 'lengthInMinutes', value: 1}})
-                enzymeWrapper.find('input[name="maxNumberOfPeople"]').simulate('change', {target: {name: 'maxNumberOfPeople', value: 1}})
-                enzymeWrapper.find('input[name="tourInfo"]').simulate('change', {target: {name: 'tourInfo', value: ''}})
+                let i;
+                for(i = 0; i < inputsToChange.length; i++) {
+                    inputsToChange[i].simulate('change', {persist: () => {}, target: {name: inputs[i], value: 'values'}})
+                }
+                for(i = 0; i < selectsToChange.length; i++) {
+                    selectsToChange[i].simulate('change', {persist: () => {}, target: {name: selects[i], value: 'closed'}})
+                }
             });
             await act(async () => {
-                enzymeWrapper.find('form').simulate('submit', {preventDefault: () => {}})
+                enzymeWrapper.find('Button[name="submit"]').simulate('submit', { preventDefault: () => {} })
             });
         })
 
         test('form is resetted', async () => {
             enzymeWrapper.update()
-            const name = enzymeWrapper.find('input[name="tourName"]')
+            const name = enzymeWrapper.find('input[name="museumName"]')
             expect(name.get(0).props.value).toBe("")
         })
     })

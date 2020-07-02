@@ -13,7 +13,11 @@ const TourPage: React.FC = () => {
     
     const dispatch = useDispatch()
     const museum = useSelector((state: RootState) => state.museums.museums[museumid])
-    console.log(museum)
+    const finished = useSelector((state: RootState) => state.tours.finished)
+
+    useEffect(() => {
+        dispatch(allMuseums())
+    },[finished, dispatch])
     
     const [ modalOpen, setModalOpen ] = useState<boolean>(false);
 
@@ -29,13 +33,9 @@ const TourPage: React.FC = () => {
         dispatch(updateTour(values, museumid, tourid))
     }
 
-    const updateMuseum = async () => {
-        dispatch(allMuseums())
-    }
 
     const handleSubmit = async (values: NewTour) => {
         await updateCurrentTour(values)
-        setTimeout(async () => await updateMuseum(), 100)
         closeModal();
     }
 
@@ -48,7 +48,6 @@ const TourPage: React.FC = () => {
         return null
     }
 
-    console.log(tour)
     return (
         <div>
             <Header>{tour.tourName}</Header>

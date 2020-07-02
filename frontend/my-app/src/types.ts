@@ -61,7 +61,8 @@ export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' |
 export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {password: string};
 
 export interface TourState {
-    tours: { [_id: string]: GuidedTour}
+    tours: { [_id: string]: GuidedTour},
+    finished: boolean
 }
 
 export interface MuseumState {

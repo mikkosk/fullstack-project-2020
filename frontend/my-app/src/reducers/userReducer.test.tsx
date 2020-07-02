@@ -1,13 +1,13 @@
 import moxios from "moxios";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import tourReducer, { allTours, updateTour } from './tourReducer';
-import userReducers, { getUsers, addUser, updateUser, userToMuseum, deleteUser } from './userReducer'
-import { GuidedTour, TourState, UserAnyType, User, NewTour, NewUser, UserState } from '../types';
+import userReducers, { getUsers, addUser, updateUser, userToMuseum, deleteUser, addMuseum } from './userReducer'
+import { GuidedTour, TourState, UserAnyType, User, NewTour, NewUser, UserState, Museum } from '../types';
 import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"
 import createMockStore from "redux-mock-store";
-import { initialStateEmpty, initialState } from '../../data/testData'
+import { initialStateEmpty, initialState, initialStateEmptyMuseums } from '../../data/testData'
 import userReducer from "./userReducer";
 
 const middlewares: Array<Middleware> = [thunk]
@@ -208,6 +208,53 @@ describe("User actions", () => {
         expect.assertions(1)
         expect(actions[0].type).toEqual("DELETE_USER")
     })
+
+    test('addMuseum dispatches ADD_MUSEUM and returns right museum', async () => {
+        const initialState: RootState = initialStateEmptyMuseums
+        const store = mockStoreCreator(initialState)
+        const response: Museum = 
+            {
+                _id: "iidee",
+                museumName: "testi",
+                open: {
+                    mon: "10:00",
+                    tue: "10:00",
+                    wed: "10:00",
+                    thu: "10:00",
+                    fri: "10:00",
+                    sat: "10:00",
+                    sun: "10:00"
+                },
+                closed: {
+                    mon: "10:00",
+                    tue: "10:00",
+                    wed: "10:00",
+                    thu: "10:00",
+                    fri: "10:00",
+                    sat: "10:00",
+                    sun: "10:00"
+                    
+                },
+                offeredTours:[],
+                openInfo: "Auki",
+                museumInfo: "Museo"   
+            }
+
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                response
+            })
+        })
+        
+        await store.dispatch<any>(addMuseum(response, initialState.login._id))
+        const actions = store.getActions()
+
+        expect.assertions(2)
+        expect(actions[0].type).toEqual("ADD_MUSEUM")
+        expect(actions[0].payload).toMatchObject(response)
+    })
 });
 
 
@@ -374,6 +421,53 @@ describe('reducers', () => {
 
         expect(reducer).toEqual({
             users: {
+            }
+        }
+        )
+    })
+
+    test('ADD_MUSEUM works correctly', () => {
+        const museum = {
+            _id: "iidee",
+                    museumName: "testi",
+                    open: {
+                        mon: "10:00",
+                        tue: "10:00",
+                        wed: "10:00",
+                        thu: "10:00",
+                        fri: "10:00",
+                        sat: "10:00",
+                        sun: "10:00"
+                    },
+                    closed: {
+                        mon: "10:00",
+                        tue: "10:00",
+                        wed: "10:00",
+                        thu: "10:00",
+                        fri: "10:00",
+                        sat: "10:00",
+                        sun: "10:00"
+                        
+                    },
+                    offeredTours:[],
+                    openInfo: "Auki",
+                    museumInfo: "Museo"  
+        }
+
+        const reducer = userReducer(initialStateNotEmpty, {type: "ADD_MUSEUM", payload: 
+            museum,
+            id: initialStateNotEmpty.users["UserOne"]._id
+        })
+
+        expect(reducer).toEqual({
+            users: {
+                "UserOne":
+                {username: "UserOne",
+                name: "UserOne",
+                passwordHash: "UserOne",
+                type: "Admin", 
+                _id: "UserOne",
+                museums: [museum]}
             }
         }
         )

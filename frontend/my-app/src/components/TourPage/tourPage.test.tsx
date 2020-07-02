@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 import TourPage from './index'
 import { act } from 'react-dom/test-utils'
 import { wait, waitForElement } from '@testing-library/react'
+import { initialState } from '../../../data/testData'
 
 Enzyme.configure({adapter: new Adapter() })
 
@@ -25,42 +26,7 @@ jest.mock('react-router-dom', () => ({
 
 
 function setup() {
-    const store = mockStore({museums: {
-        museums: {
-            "iidee": {
-                _id: "iidee",
-                museumName: "testi",
-                open: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                },
-                closed: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                    
-                },
-                offeredTours:[{lengthInMinutes: 2, 
-                    maxNumberOfPeople:2, 
-                    possibleLanguages: ["Two"],
-                    price: 1, 
-                    tourName: "Two", 
-                    tourInfo: "Two", 
-                    _id: "three"}],
-                openInfo: "Auki",
-                museumInfo: "Museo"   
-            }
-        }
-    }})
+    const store = mockStore(initialState)
     const enzymeWrapper = mount(<Provider store={store}><TourPage /></Provider>)
 
     return {

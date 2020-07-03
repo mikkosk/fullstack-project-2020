@@ -19,7 +19,7 @@ const initialState: LoginState = {
     name: "",
     passwordHash: "",
     type: undefined,
-    token: ""
+    token: "",
 }
 
 const loginReducer = (state = initialState, action: Action): LoginState => {

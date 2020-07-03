@@ -62,15 +62,20 @@ export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {p
 
 export interface TourState {
     tours: { [_id: string]: GuidedTour},
-    finished: boolean
+    finished: boolean,
+    notification: MessageError
 }
 
 export interface MuseumState {
-    museums: { [_id: string]: Museum}
+    museums: { [_id: string]: Museum},
+    finished: boolean,
+    notification: MessageError
 }
 
 export interface UserState {
-    users: { [_id: string]: UserAnyType}
+    users: { [_id: string]: UserAnyType},
+    finished: boolean,
+    notification: MessageError
 }
 
 export type AddTourPayload = {
@@ -112,4 +117,13 @@ export type LoggedInUser = UserAnyType & {token: string}
 export interface OptionField {
     label: string,
     value: string
+}
+
+export interface MessageError {
+    message: string,
+    error: boolean
+}
+
+export interface NotificationState {
+    notification: MessageError
 }

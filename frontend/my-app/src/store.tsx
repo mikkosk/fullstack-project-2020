@@ -5,12 +5,14 @@ import tourReducer from './reducers/tourReducer'
 import museumReducer from './reducers/museumReducer'
 import userReducer from './reducers/userReducer'
 import loginReducer from './reducers/loginReducer'
+import notificationReducer from './reducers/notificationReducer'
 
 export const rootReducer = combineReducers({
     tours: tourReducer,
     museums: museumReducer,
     users: userReducer,
-    login: loginReducer
+    login: loginReducer,
+    notification: notificationReducer
 })
 
 export default createStore(rootReducer, composeWithDevTools(

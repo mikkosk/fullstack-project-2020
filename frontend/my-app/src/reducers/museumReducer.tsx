@@ -1,5 +1,5 @@
 import museumsService from "../services/museumService"
-import { Museum, MuseumState, NewMuseum, NewTour, AddTourPayload, GuidedTour } from "../types"
+import { Museum, MuseumState, NewMuseum, NewTour, AddTourPayload, GuidedTour, MessageError } from "../types"
 import { Dispatch, memo } from "react"
 import { ThunkAction } from "redux-thunk"
 import { RootState } from "../store"
@@ -7,49 +7,82 @@ import toursService from "../services/toursService"
 
 export type Action= 
     | {
-        type: "GET_ALL_MUSEUMS"
+        type: "GET_ALL_MUSEUMS_SUCCESS"
         payload: Museum[]
-    }
-    | {
-        type: "ADD_MUSEUM"
-        payload: Museum
-    }
-    | {
-        type: "DELETE_MUSEUM"
-        id: Museum['_id']
-    }
-    | {
-        type: "UPDATE_MUSEUM"
-        payload: Museum
+        notification: MessageError
     } 
     |{
-        type: "ADD_TOUR"
-        payload: AddTourPayload
+        type: "GET_ALL_MUSEUMS_ERROR"
+        notification: MessageError
+    }
+    | {
+        type: "DELETE_MUSEUM_SUCCESS"
+        id: Museum['_id'],
+        notification: MessageError
     }
     |{
-        type: "DELETE_TOUR"
+        type: "DELETE_MUSEUM_ERROR"
+        notification: MessageError
+    }
+    | {
+        type: "UPDATE_MUSEUM_SUCCESS"
+        payload: Museum
+        notification: MessageError
+    } 
+    | {
+        type: "UPDATE_MUSEUM_ERROR"
+        notification: MessageError
+    }
+    |{
+        type: "ADD_TOUR_SUCCESS"
+        payload: AddTourPayload,
+        notification: MessageError
+    }
+    |{
+        type: "ADD_TOUR_ERROR",
+        notification: MessageError
+    }
+    |{
+        type: "DELETE_TOUR_SUCCESS"
         museumId: Museum["_id"];
         tourId: GuidedTour["_id"];
+        notification: MessageError
+    }
+    |{
+        type: "DELETE_TOUR_ERROR",
+        notification: MessageError
     }
 
 const initialState: MuseumState = {
-    museums: {}
+    museums: {},
+    finished: true,
+    notification: {message: '', error: false}
 }
 
 const museumReducer = (state = initialState, action: Action): MuseumState => {
     switch(action.type) {
-        case 'GET_ALL_MUSEUMS':
-            return {...state, museums: {...action.payload.reduce((memo, museum: Museum) => ({...memo, [museum._id]: museum}), {})}}
-        case 'ADD_TOUR':
-            return {...state, museums: {...state.museums, [action.payload.museumId]: {
+        case 'GET_ALL_MUSEUMS_SUCCESS':
+            return {...state, notification: action.notification, museums: {...action.payload.reduce((memo, museum: Museum) => ({...memo, [museum._id]: museum}), {})}}
+        case 'GET_ALL_MUSEUMS_ERROR':
+            return {...state, notification: action.notification}
+        case 'ADD_TOUR_SUCCESS':
+            return {...state, notification: action.notification, museums: {...state.museums, [action.payload.museumId]: {
                 ...state.museums[action.payload.museumId], offeredTours: [...state.museums[action.payload.museumId].offeredTours, action.payload.tour]
             }}}
-        case 'UPDATE_MUSEUM':
-            return {...state, museums: {...state.museums, [action.payload._id]: {...action.payload}}}
-        case 'DELETE_MUSEUM':
-            return {...state, museums: Object.values(state.museums).filter(t => t._id !== action.id).reduce((memo, museum) => ({...memo, [museum._id]: museum}), {})}
-        case 'DELETE_TOUR':
-            return {...state, museums: {...state.museums, [action.museumId]: {...state.museums[action.museumId], offeredTours: state.museums[action.museumId].offeredTours.filter(t => t._id !== action.tourId)}}}
+        case 'ADD_TOUR_ERROR':
+            return {...state, notification: action.notification}
+        case 'UPDATE_MUSEUM_SUCCESS':
+            return {...state, notification: action.notification, museums: {...state.museums, [action.payload._id]: {...action.payload}}}
+        case 'UPDATE_MUSEUM_ERROR':
+            return {...state, notification: action.notification}
+        case 'DELETE_MUSEUM_SUCCESS':
+            return {...state, notification: action.notification, museums: Object.values(state.museums).filter(t => t._id !== action.id).reduce((memo, museum) => ({...memo, [museum._id]: museum}), {})}
+        case 'DELETE_MUSEUM_ERROR':
+            return {...state, notification: action.notification}
+        case 'DELETE_TOUR_SUCCESS':
+            return {...state, notification: action.notification, museums: {...state.museums, [action.museumId]: {...state.museums[action.museumId], offeredTours: state.museums[action.museumId].offeredTours.filter(t => t._id !== action.tourId)}}}
+        case 'DELETE_TOUR_ERROR':
+            return {...state, notification: action.notification}
         default: 
             return state
     }
@@ -57,52 +90,96 @@ const museumReducer = (state = initialState, action: Action): MuseumState => {
 
 export const allMuseums = (): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
-        const payload: Museum[] = await museumsService.getAll();
-        dispatch({
-            type:"GET_ALL_MUSEUMS",
-            payload
-        })
+        try {
+            const payload: Museum[] = await museumsService.getAll();
+            const notification: MessageError = {
+                message: "Success",
+                error: false
+            }
+            dispatch({
+                type:"GET_ALL_MUSEUMS_SUCCESS",
+                payload,
+                notification: notification
+            })
+        } catch(e) {
+            dispatch({
+                type:"GET_ALL_MUSEUMS_ERROR",
+                notification: {message: e.message, error: true}
+            })
+        }
     }
 }
 
 export const addTour = (newTour: NewTour, museumId: string): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
-        const payload: AddTourPayload = await toursService.addTour(newTour, museumId);
-        dispatch({
-            type:"ADD_TOUR",
-            payload
-        })
+        try {
+            const payload: AddTourPayload = await toursService.addTour(newTour, museumId);
+            dispatch({
+                type:"ADD_TOUR_SUCCESS",
+                payload,
+                notification: {message: `${newTour.tourName} lisätty!`, error: true}
+            })
+        } catch(e) {
+            dispatch({
+                type: "ADD_TOUR_ERROR",
+                notification: {message: e.message, error: false}
+            })
+        }
     }
 }
 
 export const updateMuseum = (newMuseum: NewMuseum, id: string): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
-        const payload: Museum = await museumsService.updateMuseum(newMuseum, id);
-        dispatch({
-            type:"UPDATE_MUSEUM",
-            payload
-        })
+        try{
+            const payload: Museum = await museumsService.updateMuseum(newMuseum, id);
+            dispatch({
+                type:"UPDATE_MUSEUM_SUCCESS",
+                payload,
+                notification: {message: `${newMuseum.museumName} updated!`, error: false}
+            })
+        } catch(e) {
+            dispatch({
+                type: "UPDATE_MUSEUM_ERROR",
+                notification: {message: e.message, error: true}
+            })
+        }
     }
 }
 
 export const deleteMuseum = (id: string): ThunkAction<void, RootState, unknown, Action> => {
     return async(dispatch: Dispatch<Action>) => {
-        await museumsService.deleteMuseum(id);
-        dispatch({
-            type:"DELETE_MUSEUM",
-            id
-        })
+        try {
+            await museumsService.deleteMuseum(id);
+            dispatch({
+                type:"DELETE_MUSEUM_SUCCESS",
+                id,
+                notification: {message: "Museo poistettu", error: false}
+            })
+        } catch(e) {
+            dispatch({
+                type: "DELETE_MUSEUM_ERROR",
+                notification: {message: e.message, error: false}
+            })
+        }
     }
 }
 
 export const deleteTour = (museumId: string, tourId: string): ThunkAction<void, RootState, unknown, Action> => {
     return async(dispatch: Dispatch<Action>) => {
-        await toursService.deleteTour(museumId, tourId);
-        dispatch({
-            type:"DELETE_TOUR",
-            tourId,
-            museumId
-        })
+        try {
+            await toursService.deleteTour(museumId, tourId);
+            dispatch({
+                type:"DELETE_TOUR_SUCCESS",
+                tourId,
+                museumId,
+                notification: {message: "Tour deleted", error: false}
+            })
+        } catch(e) {
+            dispatch({
+                type: "DELETE_TOUR_ERROR",
+                notification: {message: e.message, error: true}
+            })
+        }
     }
 }
 

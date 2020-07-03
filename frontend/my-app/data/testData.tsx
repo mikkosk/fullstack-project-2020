@@ -3,15 +3,21 @@ import { RootState } from '../src/store'
 export const initialStateEmpty: RootState = {
     login: {type: undefined, username: "", name: "", _id: "", passwordHash: "", token: ""},
     users: {
+        finished: true,
+        notification: {message: "", error: false},
         users: {}
     },
     tours: {
         finished: true,
+        notification: {message: "", error: false},
         tours: {}
     },
     museums: {
+        finished: true,
+        notification: {message: "", error: false},
         museums: {}
-    }
+    },
+    notification: {notification: {message: "", error: false}}
 }
 
 
@@ -25,6 +31,8 @@ export const initialStateEmptyTours: RootState = {
         _id: "User"
     },
     users: {
+        finished: true,
+        notification: {message: "", error: false},
         users: {
             "UserOne":{
                 name: "One",
@@ -45,9 +53,12 @@ export const initialStateEmptyTours: RootState = {
     },
     tours: {
         finished: true,
+        notification: {message: "", error: false},
         tours: {}
     },
     museums: {
+        finished: true,
+        notification: {message: "", error: false},
         museums: {
             "iidee": {
                 _id: "iidee",
@@ -76,7 +87,8 @@ export const initialStateEmptyTours: RootState = {
                 museumInfo: "Museo"   
             }
         }
-    }
+    },
+    notification: {notification: {message: "", error: false}}
 }
 
 export const initialStateEmptyMuseums: RootState = {
@@ -89,6 +101,8 @@ export const initialStateEmptyMuseums: RootState = {
         _id: "User"
     },
     users: {
+        finished: true,
+        notification: {message: "", error: false},
         users: {
             "UserOne":{
                 name: "One",
@@ -109,6 +123,7 @@ export const initialStateEmptyMuseums: RootState = {
     },
     tours: {
         finished: true,
+        notification: {message: "", error: false},
         tours: {"three": {lengthInMinutes: 2, 
             maxNumberOfPeople:2, 
             possibleLanguages: ["Two"],
@@ -118,9 +133,12 @@ export const initialStateEmptyMuseums: RootState = {
             _id: "three"}}
     },
     museums: {
+        finished: true,
+        notification: {message: "", error: false},
         museums: {
         }
-    }
+    },
+    notification: {notification: {message: "", error: false}}
 }
 
 export const initialState: RootState = {
@@ -134,6 +152,8 @@ export const initialState: RootState = {
         museums: []
     },
     users: {
+        finished: true,
+        notification: {message: "", error: false},
         users: {
             "UserOne":{
                 name: "One",
@@ -154,6 +174,7 @@ export const initialState: RootState = {
     },
     tours: {
         finished: true,
+        notification: {message: "", error: false},
         tours: {"three": {lengthInMinutes: 2, 
             maxNumberOfPeople:2, 
             possibleLanguages: ["Two"],
@@ -163,6 +184,8 @@ export const initialState: RootState = {
             _id: "three"}}
     },
     museums: {
+        finished: true,
+        notification: {message: "", error: false},
         museums: {
             "iidee": {
                 _id: "iidee",
@@ -197,6 +220,7 @@ export const initialState: RootState = {
                 museumInfo: "Museo"   
             }
         }
-    }
+    },
+    notification: {notification: {message: "", error: false}}
 }
 

@@ -33,7 +33,8 @@
 | 30.5. | 1.5   | created admin page, started working on a form for adding museums, added links and paths |
 | 31.5. | 3   | created form for adding museums, updated reducers to allow updating user when adding the museum, added more tests for new compnents |
 | 1.7. | 2.5   | figured out what i was doing a month ago, fixed some minor bugs and added access to tour page from tour list |
-Total: 63 hours 
+| 2.7. | 3   | created a bar for keeping track of beign logged in, added tests, spent most of the time fixing all broken tests |
+Total: 66 hours 
 
 
 (3cr)

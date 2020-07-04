@@ -34,7 +34,10 @@
 | 31.5. | 3   | created form for adding museums, updated reducers to allow updating user when adding the museum, added more tests for new compnents |
 | 1.7. | 2.5   | figured out what i was doing a month ago, fixed some minor bugs and added access to tour page from tour list |
 | 2.7. | 3   | created a bar for keeping track of beign logged in, added tests, spent most of the time fixing all broken tests |
-Total: 66 hours 
+| 3.7. | 2   | updated redux to handle success and errors from the backend and to allow displaying error messages |
+| 4.7. | 0.5   | started adding tests for updated redux |
+
+Total: 68.5 hours 
 
 
 (3cr)

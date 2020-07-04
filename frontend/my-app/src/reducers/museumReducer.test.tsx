@@ -1,7 +1,7 @@
 import moxios from "moxios";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import museumReducer, { allMuseums, updateMuseum, deleteMuseum, addTour, deleteTour } from './museumReducer';
-import { Museum, MuseumState, GuidedTour } from '../types';
+import { Museum, MuseumState, GuidedTour, MessageError } from '../types';
 import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"
@@ -23,7 +23,7 @@ describe("Museum actions", () => {
         moxios.uninstall()
     })
 
-    test('calling AllMuseums dispatches GET_ALL_MUSEUMS and returns right objects', async () => {
+    test('calling AllMuseums dispatches GET_ALL_MUSEUMS_SUCCESS and returns right objects', async () => {
         const initialState: RootState = initialStateEmpty
         const store = mockStoreCreator(initialState)
         const response: Museum[] = [
@@ -67,7 +67,7 @@ describe("Museum actions", () => {
         const actions = store.getActions()
 
         expect.assertions(3)
-        expect(actions[0].type).toEqual("GET_ALL_MUSEUMS")
+        expect(actions[0].type).toEqual("GET_ALL_MUSEUMS_SUCCESS")
         expect(actions[0].payload[0]).toMatchObject(response[0])
         expect(actions[0].payload[1]).toEqual(response[1])
 
@@ -75,9 +75,37 @@ describe("Museum actions", () => {
 
     })
 
+    test('error when calling AllMuseums dispatches GET_ALL_MUSEUMS_ERROR and returns right message', async () => {
+        const initialState: RootState = initialStateEmpty
+        const store = mockStoreCreator(initialState)
+        const response: MessageError = {
+            message: "Virhe",
+            error: true
+        }
+        
+
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 400,
+                response: {message: response}
+            })
+        })
+
+        await store.dispatch<any>(allMuseums())
+        const actions = store.getActions()
+
+        expect.assertions(1)
+        console.log(actions)
+        expect(actions[0].type).toEqual("GET_ALL_MUSEUMS_ERROR")
+        console.log(actions[0].notification[0])
+
+
+
+    })
     
 
-    test('addTour dispatches ADD_TOUR and dispatches right tour', async () => {
+    test('addTour dispatches ADD_TOUR_SUCCESS and dispatches right tour', async () => {
         const initialState: RootState = initialStateEmptyTours
         const museum: Museum = initialStateEmptyTours.museums.museums["iidee"]
         const store = mockStoreCreator(initialState)
@@ -130,11 +158,11 @@ describe("Museum actions", () => {
         const actions = store.getActions()
 
         expect.assertions(2)
-        expect(actions[0].type).toEqual("ADD_TOUR")
+        expect(actions[0].type).toEqual("ADD_TOUR_SUCCESS")
         expect(actions[0].payload).toMatchObject(payload)
     })
 
-    test('updateMuseum dispatches UPDATE_MUSEUM and return updated museum', async () => {
+    test('updateMuseum dispatches UPDATE_MUSEUM_SUCCESS and return updated museum', async () => {
         const initialState: RootState = initialStateEmptyTours
         const store = mockStoreCreator(initialState)
         const response: Museum = 
@@ -177,11 +205,11 @@ describe("Museum actions", () => {
         const actions = store.getActions()
 
         expect.assertions(2)
-        expect(actions[0].type).toEqual("UPDATE_MUSEUM")
+        expect(actions[0].type).toEqual("UPDATE_MUSEUM_SUCCESS")
         expect(actions[0].payload).toMatchObject(response)
     })
 
-    test('deleteMuseum dispatches DELETE_MUSEUM and returns 200', async () => {
+    test('deleteMuseum dispatches DELETE_MUSEUM_SUCCESS and returns 200', async () => {
         const initialState: RootState = initialStateEmptyTours
 
         const store = mockStoreCreator(initialState)
@@ -194,10 +222,10 @@ describe("Museum actions", () => {
         const actions = store.getActions()
 
         expect.assertions(1)
-        expect(actions[0].type).toEqual("DELETE_MUSEUM")
+        expect(actions[0].type).toEqual("DELETE_MUSEUM_SUCCESS")
     })
 
-    test('deleteTour dispatches DELETE_TOUR and returns 200', async () => {
+    test('deleteTour dispatches DELETE_TOUR_SUCCESS and returns 200', async () => {
         const store = mockStoreCreator(initialState)
         
         moxios.stubRequest('http://localhost:3001/tour/three/museum/iidee', {
@@ -208,7 +236,7 @@ describe("Museum actions", () => {
         const actions = store.getActions()
 
         expect.assertions(1)
-        expect(actions[0].type).toEqual("DELETE_TOUR")
+        expect(actions[0].type).toEqual("DELETE_TOUR_SUCCESS")
     })
 
 });
@@ -242,53 +270,89 @@ describe('reducers', () => {
     }
 
     const initialState: MuseumState = {
+        finished: true,
+        notification: {
+            message: "",
+            error: false
+        },
         museums: {
         }
     }
 
     const initialStateNotEmpty: MuseumState = { 
+        finished: true,
+        notification: {
+            message: "",
+            error: false
+        },
         museums: {
             "iidee": museum
         }
     }
 
-    test('GET_ALL_MUSEUMS works correctly', () => {
-        const reducer = museumReducer(initialState, {type: "GET_ALL_MUSEUMS", payload: [
+    test('GET_ALL_MUSEUMS_SUCCESS works correctly', () => {
+        const reducer = museumReducer(initialState, {type: "GET_ALL_MUSEUMS_SUCCESS", payload: [
             museum
-        ]})
+        ], notification: {
+            message: "",
+            error: false
+        }
+        })
 
         expect(reducer).toEqual({
             museums: {
                 "iidee": museum
+            },
+            finished: true,
+            notification: {
+                message: "",
+                error: false
             }
         }
         )
     })
 
-    test('UPDATE_MUSEUM works correctly', () => {
+    test('UPDATE_MUSEUM_SUCCESS works correctly', () => {
         const updatedMuseum = {...museum, museumName: "Changed"}
-        const reducer = museumReducer(initialStateNotEmpty, {type: "UPDATE_MUSEUM", payload: 
-            updatedMuseum
+        const reducer = museumReducer(initialStateNotEmpty, {type: "UPDATE_MUSEUM_SUCCESS", payload: 
+            updatedMuseum,
+            notification: {
+                message: "",
+                error: false
+            }
         })
 
         expect(reducer).toEqual({
             museums: {
                 "iidee": updatedMuseum
+            },
+            finished: true,
+            notification: {
+                message: "",
+                error: false
             }
         }
         )
     })
 
-    test('DELETE_MUSEUM works correctly', () => {
-        const reducer = museumReducer(initialStateNotEmpty, {type: "DELETE_MUSEUM", id: "iidee"})
+    test('DELETE_MUSEUM_SUCCESS works correctly', () => {
+        const reducer = museumReducer(initialStateNotEmpty, {type: "DELETE_MUSEUM_SUCCESS", id: "iidee", notification: {
+            message: "",
+            error: false
+        }})
 
         expect(reducer).toEqual({
-            museums: {}
+            museums: {},
+            finished: true,
+            notification: {
+                message: "",
+                error: false
+            }
         })
     })
 
-    test('ADD_TOUR works correctly', () => {
-        const reducer = museumReducer(initialStateNotEmpty, {type: "ADD_TOUR", payload: {
+    test('ADD_TOUR_SUCCESS works correctly', () => {
+        const reducer = museumReducer(initialStateNotEmpty, {type: "ADD_TOUR_SUCCESS", payload: {
             tour: {
                 lengthInMinutes: 2, 
                 maxNumberOfPeople:2, 
@@ -299,6 +363,10 @@ describe('reducers', () => {
                 _id: "three"
             },
             museumId: "iidee" 
+            },
+            notification: {
+                message: "",
+                error: false
             }
         })
 
@@ -316,8 +384,11 @@ describe('reducers', () => {
     })
 
     
-    test('DELETE_TOUR works correctly', () => {
-        const reducer = museumReducer(initialStateNotEmpty, {type: "DELETE_TOUR", museumId: "iidee", tourId: "three"})
+    test('DELETE_TOUR_SUCCESS works correctly', () => {
+        const reducer = museumReducer(initialStateNotEmpty, {type: "DELETE_TOUR_SUCCESS", museumId: "iidee", tourId: "three", notification: {
+            message: "",
+            error: false
+        }})
 
         expect(reducer.museums["iidee"].offeredTours).toEqual([])
     })

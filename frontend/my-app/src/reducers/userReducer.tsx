@@ -113,12 +113,12 @@ export const getUsers = (): ThunkAction<void, RootState, unknown, Action> => {
             dispatch({
                 type:"GET_USERS_SUCCESS",
                 payload,
-                notification: {message: "Success", error: false}
+                notification: {message: "", error: false}
             })
         } catch(e) {
             dispatch({
                 type: "GET_USERS_ERROR",
-                notification: {message: e.message, error: true}
+                notification: {message: e.response.data, error: true}
             })
         }
     }
@@ -131,12 +131,12 @@ export const addUser = (newUser: NewUser): ThunkAction<void, RootState, unknown,
             dispatch({
                 type: "ADD_USER_SUCCESS",
                 payload,
-                notification: {message: `${newUser.name} lisätty"`, error: false}
+                notification: {message: `${newUser.name} lisätty`, error: false}
             })
         } catch(e) {
             dispatch({
                 type: "ADD_USER_ERROR",
-                notification: {message: e.message, error: true}
+                notification: {message: e.response.data, error: true}
             })
         }
         
@@ -156,7 +156,7 @@ export const addMuseum = (newMuseum: NewMuseum, id: UserAnyType["_id"]): ThunkAc
         } catch(e) {
             dispatch({
                 type: "ADD_MUSEUM_ERROR",
-                notification: {message: e.message, error: true}
+                notification: {message: e.response.data, error: true}
             })
         }
     }
@@ -174,7 +174,7 @@ export const userToMuseum = (userId: string, museumId: string): ThunkAction<void
         } catch(e) {
             dispatch({
                 type: "ADD_USER_TO_MUSEUM_ERROR",
-                notification: {message: e.message, error: true}
+                notification: {message: e.response.data, error: true}
             })
         }
     }
@@ -192,7 +192,7 @@ export const updateUser = (newUser: NewUser, id: string): ThunkAction<void, Root
         } catch(e) {
             dispatch({
                 type: "UPDATE_USER_ERROR",
-                notification: {message: e.message, error: true}
+                notification: {message: e.response.data, error: true}
             })
         }
     }
@@ -210,7 +210,7 @@ export const deleteUser = (id: string): ThunkAction<void, RootState, unknown, Ac
         } catch (e) {
             dispatch({
                 type:"DELETE_USER_ERROR",
-                notification: {message: e.message, error: true}
+                notification: {message: e.response.data, error: true}
             })
         }
     }

@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { login } from '../../reducers/loginReducer'
 import { addUser } from '../../reducers/userReducer'
 import { useHistory } from 'react-router-dom'
+import { addNotification } from '../../reducers/notificationReducer'
 
 export const LoginPage: React.FC = () => {
     const dispatch = useDispatch()
@@ -32,7 +33,7 @@ export const LoginPage: React.FC = () => {
                 }
             }
         } catch {
-            console.log("Väärät tunnukset")
+            dispatch(addNotification({message: "Väärät tunnukset", error: true}))
         }
     }
 

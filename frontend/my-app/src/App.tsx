@@ -12,6 +12,7 @@ import loginStorage from './utils/loginStorage';
 import { login } from './reducers/loginReducer';
 import { getUsers } from './reducers/userReducer';
 import LogoutBar from './components/Logout/LogoutBar';
+import NotificationBar from './components/NotificationBar';
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
       <Router>
         <Container textAlign="center">
           <LogoutBar />
+          <NotificationBar />
           <Switch>
             <Route path="/login" render={() => <LoginPage />} />
             <Route path="/museum/:museumid/tour/:tourid" render={() => <TourPage />}/>

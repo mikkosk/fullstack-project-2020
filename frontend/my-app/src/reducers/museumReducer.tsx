@@ -93,7 +93,7 @@ export const allMuseums = (): ThunkAction<void, RootState, unknown, Action> => {
         try {
             const payload: Museum[] = await museumsService.getAll();
             const notification: MessageError = {
-                message: "Success",
+                message: "",
                 error: false
             }
             dispatch({
@@ -104,7 +104,7 @@ export const allMuseums = (): ThunkAction<void, RootState, unknown, Action> => {
         } catch(e) {
             dispatch({
                 type:"GET_ALL_MUSEUMS_ERROR",
-                notification: {message: e.message, error: true}
+                notification: {message: e.response.data, error: true}
             })
         }
     }
@@ -117,12 +117,12 @@ export const addTour = (newTour: NewTour, museumId: string): ThunkAction<void, R
             dispatch({
                 type:"ADD_TOUR_SUCCESS",
                 payload,
-                notification: {message: `${newTour.tourName} lisätty!`, error: true}
+                notification: {message: `${newTour.tourName} lisätty!`, error: false}
             })
         } catch(e) {
             dispatch({
                 type: "ADD_TOUR_ERROR",
-                notification: {message: e.message, error: false}
+                notification: {message: e.response.data, error: true}
             })
         }
     }
@@ -140,7 +140,7 @@ export const updateMuseum = (newMuseum: NewMuseum, id: string): ThunkAction<void
         } catch(e) {
             dispatch({
                 type: "UPDATE_MUSEUM_ERROR",
-                notification: {message: e.message, error: true}
+                notification: {message: e.response.data, error: true}
             })
         }
     }
@@ -158,7 +158,7 @@ export const deleteMuseum = (id: string): ThunkAction<void, RootState, unknown, 
         } catch(e) {
             dispatch({
                 type: "DELETE_MUSEUM_ERROR",
-                notification: {message: e.message, error: false}
+                notification: {message: e.response.data, error: true}
             })
         }
     }
@@ -177,7 +177,7 @@ export const deleteTour = (museumId: string, tourId: string): ThunkAction<void, 
         } catch(e) {
             dispatch({
                 type: "DELETE_TOUR_ERROR",
-                notification: {message: e.message, error: true}
+                notification: {message: e.response.data, error: true}
             })
         }
     }

@@ -22,7 +22,7 @@ const museum: NewMuseum[] = [{
             
         },
         openInfo: "Auki",
-        museumInfo: "Museo"   
+        museumInfo: "Museo", 
     },
     {
         museumName: "testi2",
@@ -46,9 +46,9 @@ const museum: NewMuseum[] = [{
             
         },
         openInfo: "Auki2",
-        museumInfo: "Museo2"
-
+        museumInfo: "Museo2",
     }
+
 ];
 
 export default museum;

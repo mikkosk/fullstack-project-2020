@@ -36,8 +36,10 @@
 | 2.7. | 3   | created a bar for keeping track of beign logged in, added tests, spent most of the time fixing all broken tests |
 | 3.7. | 2   | updated redux to handle success and errors from the backend and to allow displaying error messages |
 | 4.7. | 0.5   | started adding tests for updated redux |
+| 5.7. | 4.5   | fixed rest of tests, added notification and error display |
+| 6.7. | 3   | expanded backend to handle reserved tours, created basic pages for customer users and going through available museums in front|
 
-Total: 68.5 hours 
+Total: 76 hours 
 
 
-(3cr)
+(4cr)

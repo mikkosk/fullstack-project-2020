@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NewTour, NewMuseum, NewUser, UserTypes } from "../types";
+import { NewTour, NewMuseum, NewUser, ReservedTour, PaymentMethods } from "../types";
 
 const isString = (text: any): text is string => {
     return typeof text === 'string' || text instanceof String;
@@ -38,6 +38,10 @@ const isTime = (time: string): boolean => {
 
 const isType = (type: any): boolean => {
     return type === "Customer" || type === "Admin";
+};
+
+const isPaymentMethod = (method: any): boolean => {
+    return method === "Cash" || method == "Card" || method === "Bill" || method === "Other";
 };
 
 const parseGenericTextField = (text: any): string => {
@@ -123,6 +127,13 @@ const parseTime = (time: any): string => {
     return time;
 };
 
+const parseDate = (date: any): string => {
+    if (!date || !isString(date) || !isDate(date)) {
+        throw new Error("Incorrect or missing date");
+    }
+    return date;
+};
+
 const parseType = (type: any): "Customer" | "Admin" => {
     if(!type || !isType(type)) {
         throw new Error('Incorrect or missing user type');
@@ -137,6 +148,13 @@ const parsePassword = (hash: any): string => {
     } catch {
         throw new Error('Faulty password');
     }
+};
+
+const parsePaymentMethod = (method: any): PaymentMethods => {
+    if(!method || !isPaymentMethod(method)) {
+        throw new Error('Incorrect or missing payment method');
+    }
+    return method;
 };
 
 export const toNewTour = (object: any): NewTour => {
@@ -182,7 +200,7 @@ export const toNewMuseum = (object: any): NewMuseum => {
                 fri: parseTime(object.closed.fri),
                 sat: parseTime(object.closed.sat),
                 sun: parseTime(object.closed.sun)
-            },
+            }
         };
 
     if(object.openInfo) {
@@ -212,4 +230,28 @@ export const toNewUser = (object: any): NewUser => {
     };
 
     return newUser;
+};
+
+export const toReservedTour = (object: any): Omit<ReservedTour, '_id'> => {
+    const tour: Omit<ReservedTour, '_id'>= {
+        possibleLanguages: parseLanguages(object.possibleLanguages),
+        lengthInMinutes: parseLength(object.lengthInMinutes),
+        tourName: parseName(object.tourName),
+        maxNumberOfPeople: parseNumberOfPeople(object.maxNumberOfPeople),
+        price: parsePrice(object.price),
+        tourInfo: parseInfo(object.tourInfo),
+        chosenLanguage: parseLanguage(object.chosenLanguage),
+        groupName: parseName(object.groupName),
+        numberOfPeople: parseNumberOfPeople(object.numberOfPeople),
+        groupAge: parseInfo(object.groupAge),
+        paymentMethod: parsePaymentMethod(object.paymentMethod),
+        time: parseTime(object.time),
+        date: parseDate(object.date),
+        email: parseInfo(object.email),
+        groupInfo: parseInfo(object.groupInfo),
+        salary: 0,
+        confirmed: false
+    };
+
+    return tour;
 };

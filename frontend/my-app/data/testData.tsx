@@ -47,7 +47,8 @@ export const initialStateEmptyTours: RootState = {
                 type: "Customer",
                 username: "Two",
                 passwordHash: "Two",
-                _id: "UserTwo"
+                _id: "UserTwo",
+                reservedTours: []
             }
         }
     },
@@ -84,7 +85,8 @@ export const initialStateEmptyTours: RootState = {
                 },
                 offeredTours:[],
                 openInfo: "Auki",
-                museumInfo: "Museo"   
+                museumInfo: "Museo",
+                reservedTours: []   
             }
         }
     },
@@ -117,7 +119,8 @@ export const initialStateEmptyMuseums: RootState = {
                 type: "Customer",
                 username: "Two",
                 passwordHash: "Two",
-                _id: "UserTwo"
+                _id: "UserTwo",
+                reservedTours: []
             }
         }
     },
@@ -168,7 +171,8 @@ export const initialState: RootState = {
                 type: "Customer",
                 username: "Two",
                 passwordHash: "Two",
-                _id: "UserTwo"
+                _id: "UserTwo",
+                reservedTours: []
             }
         }
     },
@@ -217,7 +221,8 @@ export const initialState: RootState = {
                     tourInfo: "Two", 
                     _id: "three"}],
                 openInfo: "Auki",
-                museumInfo: "Museo"   
+                museumInfo: "Museo",
+                reservedTours: []   
             }
         }
     },

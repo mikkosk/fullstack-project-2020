@@ -45,27 +45,27 @@ interface Props {
 }
 
 const initialValues: NewMuseum = {
-            museumName: "",
-            museumInfo: "",
-            openInfo: "",
-            open: {
-                mon: "",
-                tue: "",
-                wed: "",
-                thu: "",
-                fri: "",
-                sat: "",
-                sun: ""
-            },
-            closed: {
-                mon: "",
-                tue: "",
-                wed: "",
-                thu: "",
-                fri: "",
-                sat: "",
-                sun: ""
-            }
+    museumName: "",
+    museumInfo: "",
+    openInfo: "",
+    open: {
+        mon: "",
+        tue: "",
+        wed: "",
+        thu: "",
+        fri: "",
+        sat: "",
+        sun: ""
+    },
+    closed: {
+        mon: "",
+        tue: "",
+        wed: "",
+        thu: "",
+        fri: "",
+        sat: "",
+        sun: ""
+    }
 }
 export const AddMuseumForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
     return (

@@ -13,6 +13,8 @@ import { login } from './reducers/loginReducer';
 import { getUsers } from './reducers/userReducer';
 import LogoutBar from './components/Logout/LogoutBar';
 import NotificationBar from './components/NotificationBar';
+import CustomerUserPage from './components/CustomerUserPage';
+import FindMuseums from './components/FindMuseums';
 
 function App() {
   const dispatch = useDispatch();
@@ -35,10 +37,12 @@ function App() {
           <LogoutBar />
           <NotificationBar />
           <Switch>
-            <Route path="/login" render={() => <LoginPage />} />
+            <Route path="/login" render={() => <LoginPage />}/>
             <Route path="/museum/:museumid/tour/:tourid" render={() => <TourPage />}/>
             <Route path="/museum/:id" render={() => <MuseumAdminPage />}/>
             <Route path="/admin/" render={() => <AdminPage />}/>
+            <Route path="/user/" render={() => <CustomerUserPage />}/>
+            <Route path="/find/museums" render={() => <FindMuseums />}/>
           </Switch>
         </Container>
       </Router>

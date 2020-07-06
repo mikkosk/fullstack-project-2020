@@ -38,7 +38,11 @@ const museumSchema: Schema = new Schema({
     ],
     museumInfo: {
         type: String || undefined,
-    }
+    },
+    reservedTours: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ReservedMon'
+    }]
 });
 
 museumSchema.plugin(uniqueValidator);

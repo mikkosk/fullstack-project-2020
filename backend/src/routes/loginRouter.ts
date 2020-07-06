@@ -35,7 +35,8 @@ router.post('/', async (req, res) => {
         type,
         passwordHash,
         _id,
-        museums: user.type === "Admin" ? user.museums : []
+        museums: user.type === "Admin" ? user.museums : [],
+        reservedTours: user.type === "Customer" ? user.reservedTours : []
     };
 
     res.status(200).send(loggedInUser);

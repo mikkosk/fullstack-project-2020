@@ -13,16 +13,14 @@ export interface ReservedTour extends GuidedTour {
     groupName: string;
     numberOfPeople: number;
     groupAge: string;
-    paymentMethod: 'Cash' | 'Card' | 'Bill' | 'Other';
+    paymentMethod: PaymentMethods;
     time: string;
     date: string;
     email: string;
     groupInfo: string;
-}
-
-export interface ConfirmedTour extends ReservedTour {
-    guide: Guide;
-    salary: number;
+    guide?: Guide;
+    salary?: number;
+    confirmed: boolean
 }
 
 export interface Guide {
@@ -54,9 +52,10 @@ export interface Museum {
     openInfo?: string;
     offeredTours: GuidedTour[];
     museumInfo?: string;
+    reservedTours: ReservedTour[]
 }
 
-export type NewMuseum = Omit<Museum, '_id' | 'offeredTours'>;
+export type NewMuseum = Omit<Museum, '_id' | 'offeredTours' | 'reservedTours'>;
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;
 export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {password: string};
 
@@ -92,6 +91,7 @@ export interface User {
 
 export interface Customer extends User {
     type: "Customer";
+    reservedTours: ReservedTour[]
 }
 
 export interface Admin extends User{
@@ -127,3 +127,5 @@ export interface MessageError {
 export interface NotificationState {
     notification: MessageError
 }
+
+export type PaymentMethods =  'Cash' | 'Card' | 'Bill' | 'Other';

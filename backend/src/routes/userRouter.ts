@@ -1,6 +1,6 @@
 import express from 'express';
 import userService from '../services/userService';
-import { toNewUser } from '../utils/parser';
+import { toNewUser, toReservedTour } from '../utils/parser';
 import { decodedToken, allowedUserType, allowedMuseum } from '../utils/userManagement';
 
 const router = express.Router();
@@ -48,6 +48,23 @@ router.put('/:userid/museum/:museumid', async (req, res) => {
             return;
         }
         const updatedEntry = await userService.addUserToMuseum(req.params.museumid, req.params.userid);
+        res.json(updatedEntry);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
+});
+
+router.put('/:userid/museum/:museumid/reservetour', async (req, res) => {
+    try {
+        const museumId = req.params.museumid;
+        const token = decodedToken(req.headers.authorization);
+        const user = await userService.getUser(token.id);
+        if(!user || !allowedUserType("Customer", user)) {
+            res.status(401).send("Käyttäjän tulee olla kirjautunut sisään ja asiakas");
+            return;
+        }
+        const tour = toReservedTour(req.body);
+        const updatedEntry = await userService.addReservedTour(museumId, user._id, tour);
         res.json(updatedEntry);
     } catch (e) {
         res.status(400).send(e.message);

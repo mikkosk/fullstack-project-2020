@@ -1,6 +1,7 @@
-import { User, NewUser, UserAnyType, Museum } from '../types';
+import { User, NewUser, UserAnyType, Museum, ReservedTour } from '../types';
 import UserMon from '../models/user';
 import MuseumMon from '../models/museum';
+import ReservedMon from '../models/reservedTour';
 import bcrypt from 'bcrypt';
 
 const getUsers = async (): Promise<UserAnyType[]> => {
@@ -25,7 +26,8 @@ const addUser = async (entry: NewUser): Promise<UserAnyType> => {
         name,
         username,
         passwordHash,
-        museums: []
+        museums: [],
+        reservedTours: []
     });
     const savedUser = await newUser.save();
 
@@ -67,11 +69,37 @@ const deleteUser = async (id: string) => {
     await UserMon.findByIdAndDelete(id);
 };
 
+
+const addReservedTour = async(museumId: Museum['_id'], id: User['_id'], tour: Omit<ReservedTour, "_id">): Promise<ReservedTour> => {
+    const newTour = new ReservedMon({
+        ...tour
+    });
+    await newTour.save();
+
+    const museum = await MuseumMon.findById(museumId);
+    if (!museum) {
+        throw new Error("Museota, johon varaus yritettiin tehdä ei löytynyt");
+    }
+    museum.reservedTours = museum.reservedTours.concat(newTour._id);
+
+    const user = await UserMon.findById(id);
+    if(!user || user.type !== "Customer") {
+        throw new Error("Käyttäjää ei löytynyt tai kyseessä ei ole asiakaskäyttäjä");
+    }
+    user.reservedTours = user.reservedTours.concat(newTour._id);
+
+    museum.save();
+    user.save();
+
+    return newTour;
+};
+
 export default {
     getUsers,
     getUser,
     addUser,
     updateUser,
     addUserToMuseum,
-    deleteUser
+    deleteUser,
+    addReservedTour
 };

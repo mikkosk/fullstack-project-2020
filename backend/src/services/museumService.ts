@@ -2,12 +2,12 @@ import { Museum, NewMuseum } from '../types';
 import MuseumMon from '../models/museum';
 
 const getMuseums = async (): Promise<Museum[]> => {
-    const museums = await MuseumMon.find({}).populate('offeredTours');
+    const museums = await MuseumMon.find({}).populate('offeredTours').populate('reservedTours');
     return museums;
 };
 
 const getMuseum = async (id: Museum["_id"]): Promise<Museum> => {
-    const museum = await MuseumMon.findById(id).populate('offeredTours');
+    const museum = await MuseumMon.findById(id).populate('offeredTours').populate('reservedTours');
     if(!museum) {
         throw new Error("Kyseistä museota ei löytynyt");
     }
@@ -17,7 +17,8 @@ const getMuseum = async (id: Museum["_id"]): Promise<Museum> => {
 const addMuseum = async (entry: NewMuseum): Promise<Museum> => {
     const newMuseum = new MuseumMon({
         ...entry,
-        offeredTours: []
+        offeredTours: [],
+        reservedTours: []
     });
     const savedMuseum = await newMuseum.save();
     return savedMuseum;

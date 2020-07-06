@@ -133,8 +133,7 @@ describe('updating', () => {
         const updatedMuseum = (res.body.find((t: any) => t._id === String(museumId)));
         delete updatedMuseum.__v;
         delete updatedMuseum._id;
-        delete updatedMuseum.offeredTours;
-        expect(updatedMuseum).toEqual({...newMuseum});
+        expect(updatedMuseum).toEqual({...newMuseum, offeredTours: [], reservedTours: []});
     });
     
     test('updating museum does not affect size', async() => {
@@ -173,8 +172,7 @@ describe('updating', () => {
         const updatedMuseum = (res.body.find((t: any) => t._id === String(museumId)));
         delete updatedMuseum.__v;
         delete updatedMuseum._id;
-        delete updatedMuseum.offeredTours;
-        expect(updatedMuseum).toEqual({...initialMuseums[1]});
+        expect(updatedMuseum).toEqual({...initialMuseums[1], offeredTours: [], reservedTours: []});
     });
 });
 

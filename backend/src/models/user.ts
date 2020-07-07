@@ -17,6 +17,12 @@ const userSchema: Schema = new Schema({
       ref: 'MuseumMon'
     }
   ],
+  reservedTours: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ReservedMon"
+    }
+  ]
 });
 
 userSchema.plugin(uniqueValidator);

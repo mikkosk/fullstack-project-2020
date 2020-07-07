@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import configureStore from 'redux-mock-store'
-import MuseumAdminPage from './index'
+import MuseumAdminPage from './MuseumAdminPage'
 import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
 import { Provider } from 'react-redux'
@@ -21,7 +21,7 @@ jest.mock('react-router-dom', () => ({
 
 function setup() {
     const store = mockStore(initialStateEmptyTours)
-    const enzymeWrapper = mount(<Provider store={store}><MuseumAdminPage /></Provider>)
+    const enzymeWrapper = mount(<Provider store={store}><MuseumAdminPage museum={initialStateEmptyTours.museums.museums["iidee"]}/></Provider>)
 
     return {
         enzymeWrapper

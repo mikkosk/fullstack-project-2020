@@ -14,6 +14,8 @@ const TourPage: React.FC = () => {
     const dispatch = useDispatch()
     const museum = useSelector((state: RootState) => state.museums.museums[museumid])
     const finished = useSelector((state: RootState) => state.tours.finished)
+    const user = useSelector((state: RootState) => state.users.users[state.login._id]);
+    console.log(user)
 
     useEffect(() => {
         dispatch(allMuseums())
@@ -55,7 +57,10 @@ const TourPage: React.FC = () => {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell name="information">Tiedot</Table.HeaderCell>
-                        <Table.HeaderCell textAlign="right"> <Button name="openModal" onClick={openModal}>Muokkaa</Button> </Table.HeaderCell>
+                        {(user && user.type === "Admin" && Object.values(user.museums).map(m => m._id).includes(museum._id)) &&
+                        <Table.HeaderCell textAlign="right"> <Button name="openModal" onClick={openModal}>Muokkaa</Button> </Table.HeaderCell>}
+                        {(user && user.type === "Customer") &&
+                        <Table.HeaderCell textAlign="right"> <Button name="openModal" onClick={openModal}>Muokkaa</Button> </Table.HeaderCell>}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import MuseumAdminPage from './components/MuseumAdminPage';
+import MuseumPage from './components/MuseumPage/index';
 import { allTours } from './reducers/tourReducer';
 import { useDispatch } from 'react-redux';
 import { Container } from 'semantic-ui-react';
@@ -39,7 +39,7 @@ function App() {
           <Switch>
             <Route path="/login" render={() => <LoginPage />}/>
             <Route path="/museum/:museumid/tour/:tourid" render={() => <TourPage />}/>
-            <Route path="/museum/:id" render={() => <MuseumAdminPage />}/>
+            <Route path="/museum/:id" render={() => <MuseumPage />}/>
             <Route path="/admin/" render={() => <AdminPage />}/>
             <Route path="/user/" render={() => <CustomerUserPage />}/>
             <Route path="/find/museums" render={() => <FindMuseums />}/>

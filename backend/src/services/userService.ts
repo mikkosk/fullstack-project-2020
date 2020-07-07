@@ -5,7 +5,7 @@ import ReservedMon from '../models/reservedTour';
 import bcrypt from 'bcrypt';
 
 const getUsers = async (): Promise<UserAnyType[]> => {
-    const users = await UserMon.find({}).populate('museums');
+    const users = await UserMon.find({}).populate('museums').populate("reservedTours");
     return users;
 };
 

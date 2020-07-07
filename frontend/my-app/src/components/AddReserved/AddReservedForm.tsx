@@ -1,27 +1,31 @@
-import React from "react";
-import { Grid, Button } from "semantic-ui-react";
-import { Field, Formik, Form, ErrorMessage, getIn, FieldArray } from "formik";
-import { NumberField, TextField, ArrayField } from "../../utils/FormFields";
-import { NewTour } from "../../types";
+import React from 'react'
+import { ReservedTour } from '../../types'
+import { Formik } from 'formik'
+
+type NewReserved = Pick<ReservedTour, 
+    "chosenLanguage" | "groupName" | "numberOfPeople" | "groupAge" | "paymentMethod" | "time" | "date" | "email" | "groupInfo">
 
 interface Props {
-    onSubmit: (values: NewTour) => void;
+    onSubmit: (values: NewReserved) => void;
     onCancel: () => void;
-    initialTour?: NewTour
 }
 
-const initialValues: NewTour = {
-    possibleLanguages: [""],
-    lengthInMinutes: 0,
-    tourName: "",
-    maxNumberOfPeople: 0,
-    price: 0,
-    tourInfo: ""
+const initialValues:NewReserved = {
+    chosenLanguage: "",
+    groupName: "",
+    numberOfPeople: 0,
+    groupAge: "",
+    paymentMethod: "Cash",
+    time: "",
+    date: "",
+    email: "",
+    groupInfo: ""
 }
-export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel, initialTour }) => {
+
+const AddReservedForm: React.FC<Props> = ({ onSubmit, onCancel}) => {
     return (
         <Formik
-        initialValues={initialTour || initialValues}
+        initialValues={initialValues}
         onSubmit={(values, { resetForm }) => {
             onSubmit(values)
             resetForm()
@@ -103,5 +107,3 @@ export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel, initialTour }
         </Formik>
     )
 }
-
-export default AddTourForm

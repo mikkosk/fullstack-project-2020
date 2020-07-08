@@ -39,8 +39,9 @@
 | 5.7. | 4.5   | fixed rest of tests, added notification and error display |
 | 6.7. | 3   | expanded backend to handle reserved tours, created basic pages for customer users and going through available museums in front |
 | 7.7. | 3   | created customer view on museum page and tour page, started to create a form for making reservations  |
+| 8.7. | 3   | continued with the form and functions needed to show only open times  |
 
-Total: 79 hours 
+Total: 82 hours 
 
 
 (4cr)

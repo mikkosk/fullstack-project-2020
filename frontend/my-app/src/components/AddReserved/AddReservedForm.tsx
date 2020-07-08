@@ -1,6 +1,8 @@
 import React from 'react'
-import { ReservedTour } from '../../types'
-import { Formik } from 'formik'
+import { ReservedTour, Museum, GuidedTour, OptionField } from '../../types'
+import { Formik, Field, Form } from 'formik'
+import { TextField, SelectField, SelectArrayField, NumberField, DateField } from '../../utils/FormFields'
+import { Button } from 'semantic-ui-react'
 
 type NewReserved = Pick<ReservedTour, 
     "chosenLanguage" | "groupName" | "numberOfPeople" | "groupAge" | "paymentMethod" | "time" | "date" | "email" | "groupInfo">
@@ -8,6 +10,8 @@ type NewReserved = Pick<ReservedTour,
 interface Props {
     onSubmit: (values: NewReserved) => void;
     onCancel: () => void;
+    tour: GuidedTour;
+    museum: Museum;
 }
 
 const initialValues:NewReserved = {
@@ -16,94 +20,131 @@ const initialValues:NewReserved = {
     numberOfPeople: 0,
     groupAge: "",
     paymentMethod: "Cash",
-    time: "",
+    time: "10:00",
     date: "",
     email: "",
     groupInfo: ""
 }
 
-const AddReservedForm: React.FC<Props> = ({ onSubmit, onCancel}) => {
+const paymentOptions: OptionField[] = [
+    {label: "Käteinen", value: "Cash"},
+    {label: "Lasku", value: "Bill"},
+    {label: "Maksukortti", value: "Card"},
+    {label: "Jokin muu, tarkenna lisätiedoissa", value: "Other"}
+]
+
+const AddReservedForm: React.FC<Props> = ({ onSubmit, onCancel, tour, museum}) => {
     return (
         <Formik
-        initialValues={initialValues}
+        initialValues={{...initialValues, chosenLanguage: Object.values(tour.possibleLanguages)[0]}}
         onSubmit={(values, { resetForm }) => {
             onSubmit(values)
             resetForm()
         }}
         validate={ values => {
+            console.log(values)
             const requiredError = "Kenttä vaaditaan";
             const errors: { [field: string]: string | object} = {};
-            if(values.possibleLanguages.length === 0) {
-                errors.possibleLanguages = requiredError
+            if(!values.chosenLanguage) {
+                errors.chosenLanguage = requiredError
             }
-            if(!values.lengthInMinutes) {
-                errors.lengthInMinutes = requiredError
+            if(!values.groupName) {
+                errors.groupName = requiredError
             }
-            if(!values.tourName) {
-                errors.tourName = requiredError
+            if(!values.numberOfPeople) {
+                errors.numberOfPeople = requiredError
             }
-            if(!values.maxNumberOfPeople) {
-                errors.maxNumberOfPeople = requiredError
+            if(values.numberOfPeople > tour.maxNumberOfPeople) {
+                errors.numberOfPeople = `Liian monta osallistujaa. Max. ${tour.maxNumberOfPeople}`
             }
-            if(!values.price) {
-                errors.price = requiredError
+            if(!values.groupAge) {
+                errors.groupAge = requiredError
+            }
+            if(!values.paymentMethod) {
+                errors.paymentMethod = requiredError
             } 
+            if(!values.time) {
+                errors.time = requiredError
+            }
+            if(!values.date) {
+                errors.date = requiredError
+            }
+            if(!values.email) {
+                errors.email = requiredError
+            }
             return errors;
         }
         }
         >
         {({ isValid, dirty, setFieldValue, setFieldTouched, values, errors, touched}) => {
+            console.log(errors)
+            console.log(isValid)
+            console.log(dirty)
             return (
                 <Form className="form ui">
                     <Field
-                        label="Opastuksen nimi"
-                        placeholder="Opastuksen nimi"
-                        name="tourName"
+                        label="Ryhmän nimi"
+                        placeholder="Ryhmän nimi"
+                        name="groupName"
                         component={TextField}
                     />
-                    <Field
-                        label="Opastuksen kielet"
-                        name="possibleLanguages"
-                        component={ArrayField}
-                        values={values.possibleLanguages}
+                    <SelectArrayField
+                        label="Valittu kieli"
+                        name="chosenLanguage"
+                        options={tour.possibleLanguages}
                     />
                     <Field
-                        label="Opastuksen kesto"
-                        placeholder="Opastuksen kesto"
-                        name="lengthInMinutes"
+                        label="Osallistujien määrä"
+                        placeholder="Osallistujien määrä"
+                        name="numberOfPeople"
                         component={NumberField}
-                        min={0}
-                        max={1000}
+                        min={1}
+                        max={tour.maxNumberOfPeople}
                     />
                     <Field
-                        label="Opastuksen hinta"
-                        placeholder="Opastuksen hinta"
-                        name="price"
-                        component={NumberField}
-                        min={0}
-                        max={1000}
-                    />
-                    <Field
-                        label="Opastuksen maksimikoko"
-                        placeholder="Opastuksen maksimikoko"
-                        name="maxNumberOfPeople"
-                        component={NumberField}
-                        min={0}
-                        max={1000}
-                    />
-                    <Field
-                        label="Opastuksen lisätiedot"
-                        placeholder="Opastuksen lisätiedot"
-                        name="tourInfo"
+                        label="Osallistujien ikäryhmä"
+                        placeholder="Osallistujien ikäryhmä"
+                        name="groupAge"
                         component={TextField}
                     />
-                    <Button type="submit" name="submit" disabled={!dirty || !isValid}>
+                    <SelectField
+                        label="Maksutapa"
+                        name="paymentOptions"
+                        options={paymentOptions}
+                    />
+                    <DateField
+                        name="date"
+                    />
+                    <Field
+                        label="Lisätiedot"
+                        placeholder="Lisätiedot"
+                        name="groupInfo"
+                        component={TextField}
+                    />
+
+                    <Field
+                        label="Sähköposti"
+                        placeholder="Sähköposti"
+                        name="email"
+                        component={TextField}
+                    />
+
+                    <Field
+                        label="Time"
+                        placeholder="Time"
+                        name="time"
+                        component={TextField}
+                    />
+
+                    <Button type="submit" name="submit" disabled={!isValid}>
                         Lisää!
                     </Button>
-                    {initialTour && <Button onClick={onCancel} name="cancelForm" color="red">Peruuta</Button>}
+                    <Button onClick={onCancel} name="cancelForm" color="red">Peruuta</Button>
                 </Form>
             )
         }}
         </Formik>
     )
 }
+
+export default AddReservedForm

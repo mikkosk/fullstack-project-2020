@@ -15,6 +15,18 @@ import LogoutBar from './components/Logout/LogoutBar';
 import NotificationBar from './components/NotificationBar';
 import CustomerUserPage from './components/CustomerUserPage';
 import FindMuseums from './components/FindMuseums';
+import AddReservedForm from './components/AddReserved/AddReservedForm';
+import { GuidedTour } from './types';
+
+const tour: GuidedTour = 
+  {lengthInMinutes: 2, 
+    maxNumberOfPeople:2, 
+    possibleLanguages: ["Two"],
+    price: 1, 
+    tourName: "Two", 
+    tourInfo: "Two", 
+    _id: "three"}
+
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +55,7 @@ function App() {
             <Route path="/admin/" render={() => <AdminPage />}/>
             <Route path="/user/" render={() => <CustomerUserPage />}/>
             <Route path="/find/museums" render={() => <FindMuseums />}/>
+            <Route path="/test" render={() => <AddReservedForm onSubmit={() => console.log} onCancel={() => console.log} tour={tour}/>}/>
           </Switch>
         </Container>
       </Router>

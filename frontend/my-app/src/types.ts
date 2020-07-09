@@ -15,7 +15,7 @@ export interface ReservedTour extends GuidedTour {
     groupAge: string;
     paymentMethod: PaymentMethods;
     time: string;
-    date: string;
+    date: Date;
     email: string;
     groupInfo: string;
     guide?: Guide;
@@ -129,3 +129,6 @@ export interface NotificationState {
 }
 
 export type PaymentMethods =  'Cash' | 'Card' | 'Bill' | 'Other';
+
+export type NewReserved = Pick<ReservedTour, 
+    "chosenLanguage" | "groupName" | "numberOfPeople" | "groupAge" | "paymentMethod" | "time" | "date" | "email" | "groupInfo">

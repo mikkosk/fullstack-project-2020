@@ -70,7 +70,7 @@ const deleteUser = async (id: string) => {
 };
 
 
-const addReservedTour = async(museumId: Museum['_id'], id: User['_id'], tour: Omit<ReservedTour, "_id">): Promise<ReservedTour> => {
+const addReservedTour = async(museumId: Museum['_id'], id: User['_id'], tour: Omit<ReservedTour, "_id">): Promise<User> => {
     const newTour = new ReservedMon({
         ...tour
     });
@@ -91,7 +91,7 @@ const addReservedTour = async(museumId: Museum['_id'], id: User['_id'], tour: Om
     museum.save();
     user.save();
 
-    return newTour;
+    return user;
 };
 
 export default {

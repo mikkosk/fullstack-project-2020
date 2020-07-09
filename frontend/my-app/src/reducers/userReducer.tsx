@@ -1,4 +1,4 @@
-import { UserAnyType, UserState, NewUser, NewMuseum, Museum, Admin, MessageError } from "../types"
+import { UserAnyType, UserState, NewUser, NewMuseum, Museum, Admin, MessageError, ReservedTour } from "../types"
 import { Dispatch } from "react"
 import { ThunkAction } from "redux-thunk"
 import { RootState } from "../store"
@@ -60,6 +60,15 @@ export type Action=
     | {
         type: "ADD_MUSEUM_ERROR",
         notification: MessageError
+    } 
+    | {
+        type: "ADD_RESERVATION_SUCCESS",
+        payload: UserAnyType
+        notification: MessageError
+    }
+    | {
+        type: "ADD_RESERVATION_ERROR",
+        notification: MessageError
     }
 
 const initialState: UserState = {
@@ -100,6 +109,10 @@ const userReducer = (state = initialState, action: Action): UserState => {
             return {...state, notification: action.notification, users: Object.values(state.users).filter(u => u._id !== action.id).reduce((memo, user) => ({...memo, [user._id]: user}), {})}
         case 'DELETE_USER_ERROR':
             return {...state, notification: action.notification}
+        case 'ADD_RESERVATION_SUCCESS':
+            return {...state, notification: action.notification, users: {...state.users, [action.payload._id]: {...action.payload}}}
+        case 'ADD_RESERVATION_ERROR':
+            return  {...state, notification: action.notification}
         default:
             return state
     }
@@ -216,4 +229,21 @@ export const deleteUser = (id: string): ThunkAction<void, RootState, unknown, Ac
     }
 }
 
+export const addReservation = (userId: string, museumId: string, reservation: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'>) => {
+    return async (dispatch: Dispatch<Action>) => {
+        try {
+            const payload: UserAnyType = await userService.addReservation(userId, museumId, reservation)
+            dispatch({
+                type: "ADD_RESERVATION_SUCCESS",
+                payload,
+                notification: {message: "Varaus lisätty", error: false}
+            })
+        } catch(e) {
+            dispatch({
+                type:"ADD_RESERVATION_ERROR",
+                notification: {message: e.response.data, error: true}
+            })
+        }
+    }
+}
 export default userReducer

@@ -40,8 +40,9 @@
 | 6.7. | 3   | expanded backend to handle reserved tours, created basic pages for customer users and going through available museums in front |
 | 7.7. | 3   | created customer view on museum page and tour page, started to create a form for making reservations  |
 | 8.7. | 3   | continued with the form and functions needed to show only open times  |
+| 9.7. | 2   | reservation form almost done, added a new modal to show the form, started updating reducer and services to submit the form to backend  |
 
-Total: 82 hours 
+Total: 84 hours 
 
 
 (4cr)

@@ -16,10 +16,10 @@ import NotificationBar from './components/NotificationBar';
 import CustomerUserPage from './components/CustomerUserPage';
 import FindMuseums from './components/FindMuseums';
 import AddReservedForm from './components/AddReserved/AddReservedForm';
-import { GuidedTour } from './types';
+import { GuidedTour, Museum } from './types';
 
 const tour: GuidedTour = 
-  {lengthInMinutes: 2, 
+  {lengthInMinutes: 100, 
     maxNumberOfPeople:2, 
     possibleLanguages: ["Two"],
     price: 1, 
@@ -27,6 +27,39 @@ const tour: GuidedTour =
     tourInfo: "Two", 
     _id: "three"}
 
+  const museum: Museum = {
+    _id: "iidee",
+    museumName: "testi",
+    open: {
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "lol",
+        sun: "Suljettu"
+    },
+    closed: {
+        mon: "18:00",
+        tue: "18:00",
+        wed: "18:00",
+        thu: "18:00",
+        fri: "18:00",
+        sat: "lol",
+        sun: "Suljettu"
+        
+    },
+    offeredTours:[{lengthInMinutes: 100, 
+        maxNumberOfPeople:2, 
+        possibleLanguages: ["Two"],
+        price: 1, 
+        tourName: "Two", 
+        tourInfo: "Two", 
+        _id: "three"}],
+    openInfo: "Auki",
+    museumInfo: "Museo",
+    reservedTours: []   
+}
 
 function App() {
   const dispatch = useDispatch();
@@ -55,7 +88,7 @@ function App() {
             <Route path="/admin/" render={() => <AdminPage />}/>
             <Route path="/user/" render={() => <CustomerUserPage />}/>
             <Route path="/find/museums" render={() => <FindMuseums />}/>
-            <Route path="/test" render={() => <AddReservedForm onSubmit={() => console.log} onCancel={() => console.log} tour={tour}/>}/>
+            <Route path="/test" render={() => <AddReservedForm onSubmit={() => console.log} onCancel={() => console.log} museum={museum} tour={tour}/>}/>
           </Switch>
         </Container>
       </Router>

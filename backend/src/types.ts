@@ -16,7 +16,7 @@ export interface ReservedTour extends GuidedTour {
     groupAge: string;
     paymentMethod: PaymentMethods;
     time: string;
-    date: string;
+    date: Date;
     email: string;
     groupInfo: string;
     //guide: Guide;

@@ -127,8 +127,8 @@ const parseTime = (time: any): string => {
     return time;
 };
 
-const parseDate = (date: any): string => {
-    if (!date || !isString(date) || !isDate(date)) {
+const parseDate = (date: any): Date => {
+    if (!date ||  !isDate(date)) {
         throw new Error("Incorrect or missing date");
     }
     return date;

@@ -1,13 +1,13 @@
 import { Museum } from "../types"
 
 export const museumHoursArray = (open: boolean, museum: Museum) => {
-    const openingHours = [museum.open.mon, museum.open.tue, museum.open.wed, museum.open.thu, museum.open.fri, museum.open.sat, museum.open.sun]
-    const closingHours = [museum.closed.mon, museum.closed.tue, museum.closed.wed, museum.closed.thu, museum.closed.fri, museum.closed.sat, museum.closed.sun]
+    const openingHours = [museum.open.sun, museum.open.mon, museum.open.tue, museum.open.wed, museum.open.thu, museum.open.fri, museum.open.sat]
+    const closingHours = [museum.closed.sun, museum.closed.mon, museum.closed.tue, museum.closed.wed, museum.closed.thu, museum.closed.fri, museum.closed.sat]
     if(open) return openingHours
     else return closingHours
 }
 
-export const dateToSring = (date: Date) => {
+export const dateToString = (date: Date) => {
     const day = date.getDate()
     const month = date.getMonth()
     const year = date.getFullYear()
@@ -41,7 +41,7 @@ export const addTime = (time: string, number: number) => {
         hours = 23
         minutes = 59
     }
-    
+
     if(hours < 10) {
         hoursString = `0${hours}`
     }
@@ -65,3 +65,25 @@ export const compareTime = (time: string, compare: string) => {
     if(minutes > cMinutes) return 1
     return -1 
 }
+
+export const isTime = (time: string): boolean => {
+    if(time === "closed") {
+        return true;
+    }
+    if(time.length !== 5) {
+        return false;
+    }
+    if(time.substr(2,1) !== ":") {
+        return false;
+    }
+    let hours = time.substr(0,2);
+    let minutes = time.substr(3,2);
+
+    if(hours.substr(0,1) === "0") {
+        hours = hours.substr(1,1);
+    }
+    if(minutes.substr(0,1) === "0") {
+        minutes = minutes.substr(1,1);
+    }
+    return Boolean(Number(minutes) > -1 && Number(minutes) < 60 && Number(hours) > -1 && Number(hours) < 24);
+};

@@ -16,7 +16,7 @@ const reservedSchema: Schema = new Schema({
     groupAge: String,
     paymentMethod: String,
     time: String,
-    date: String,
+    date: Date,
     email: String,
     groupInfo: String,
     salary: {type: Number, required: false},

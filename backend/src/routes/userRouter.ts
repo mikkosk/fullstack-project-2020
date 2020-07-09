@@ -54,7 +54,7 @@ router.put('/:userid/museum/:museumid', async (req, res) => {
     }
 });
 
-router.put('/:userid/museum/:museumid/reservetour', async (req, res) => {
+router.post('/:userid/museum/:museumid/reservedtour', async (req, res) => {
     try {
         const museumId = req.params.museumid;
         const token = decodedToken(req.headers.authorization);

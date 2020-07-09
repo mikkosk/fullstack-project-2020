@@ -1,9 +1,9 @@
 import React from 'react'
 import { ErrorMessage, Field, FieldProps, FormikProps, FieldArray, useFormikContext, useField } from 'formik'
-import { Dropdown, DropdownProps, Form, Button } from 'semantic-ui-react'
+import { Dropdown, DropdownProps, Form, Button, Grid, GridColumn, Header } from 'semantic-ui-react'
 import { OptionField, Museum, ReservedTour, GuidedTour } from '../types';
 import DatePicker from 'react-datepicker'
-import { museumHoursArray, compareTime, addTime } from './DateTimeFunctions';
+import { museumHoursArray, compareTime, addTime, dateToString, isTime } from './DateTimeFunctions';
 
 interface NumberProps extends FieldProps {
     label: string,
@@ -123,6 +123,7 @@ export const DateField: React.FC<{name: string}> = ({name}) => {
                 selected={(field.value && new Date(field.value)) || null}
                 onChange={(value: Date) => {
                     setFieldValue(field.name, value)
+                    setFieldValue("time", "")
                 }}
                 inline
             />
@@ -135,21 +136,46 @@ export const TimeField: React.FC<{museum: Museum, name: string, date: Date, tour
         const weekday = date.getDay()
         const openingHours = museumHoursArray(true, museum)
         const closingHours = museumHoursArray(false, museum)
-        const start = openingHours[weekday - 1]
-        const end = closingHours[weekday - 1]
-        const reservedTours = museum.reservedTours.filter((r: ReservedTour) => r.date === date.toString())
-        const posibble =[]
+        const start = openingHours[weekday]
+        const end = closingHours[weekday]
+        const reservedTours = museum.reservedTours.filter((r: ReservedTour) => r.date === date)
+        let possible: string[] =[]
         let time = start
-        while(compareTime(time, addTime(end, (-tour.lengthInMinutes))) < 1) {
-            
+        
+        if (start === "Suljettu" || end === "Suljettu" ||  (dateToString(new Date()) === dateToString(date)) || new Date() > date
+            || !isTime(start) || !isTime(end)
+        ) {
+            return []
         }
+
+        while(compareTime(time, addTime(end, (-tour.lengthInMinutes))) < 1) {
+            const currentTime = time
+            const overlapping = reservedTours.find((r: ReservedTour) => r.time === currentTime)
+            if(!overlapping) {
+                possible = possible.concat(time)
+                time = addTime(time, 15)
+            }
+            else {
+                time = addTime(time, overlapping.lengthInMinutes)
+            }
+        }
+        return possible
     }
     const { setFieldValue } = useFormikContext()
     const [field] = useField(name)
+    const times = possibleTimes()
     return (
         <div>
-            <Grid columns={5}>
-
+            <Header color="red" centered>Valittu aika: {field.value}</Header>
+            <Grid centered columns={5}>
+                {times.length !== 0 && times.map((t:string) => 
+                    <GridColumn key={t}>
+                        <b onClick={() => setFieldValue(field.name, t)}>{t}</b>
+                    </GridColumn>
+                )}
+                {times.length === 0 && 
+                <Header>Ei vapaita aikoja</Header>
+                }
             </Grid>
         </div>
     )

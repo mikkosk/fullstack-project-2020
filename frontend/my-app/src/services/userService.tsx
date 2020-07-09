@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { UserAnyType, NewUser } from '../types'
+import { UserAnyType, NewUser, ReservedTour } from '../types'
 import authenticationHelper from '../utils/authenticationHelper'
 
 const baseUrl = 'http://localhost:3001/user'
@@ -33,6 +33,11 @@ const deleteUser = async (id: string) => {
     await axios.delete(`${baseUrl}/${id}`, authenticationHelper.getAuthenticationHeaders());
 }
 
+const addReservation = async(userId: string, museumId: string, newReservation: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'>) => {
+    const res = await axios.post(`${baseUrl}/${userId}/museum/${museumId}/reservedtour`, newReservation)
+    return res.data
+}
+
 
 export default {
     getAll,
@@ -40,5 +45,6 @@ export default {
     addUser,
     deleteUser,
     updateUser,
-    addUserToMuseum
+    addUserToMuseum,
+    addReservation
 }

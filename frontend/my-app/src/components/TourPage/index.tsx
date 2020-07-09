@@ -4,9 +4,11 @@ import { RootState } from '../../store'
 import { useParams } from 'react-router-dom'
 import { Table, Header, Button } from 'semantic-ui-react'
 import { updateTour } from '../../reducers/tourReducer'
-import { NewTour } from '../../types'
+import { NewTour, NewReserved, ReservedTour } from '../../types'
 import UpdateTourModal from './updateTourModal'
 import { allMuseums } from '../../reducers/museumReducer'
+import ReserveTourModal from './reserveTourModal'
+import { addReservation } from '../../reducers/userReducer'
 
 const TourPage: React.FC = () => {
     const { tourid, museumid }= useParams<{ tourid: string, museumid: string }>();
@@ -21,24 +23,34 @@ const TourPage: React.FC = () => {
         dispatch(allMuseums())
     },[finished, dispatch])
     
-    const [ modalOpen, setModalOpen ] = useState<boolean>(false);
+    const [ updateModalOpen, setUpdateModalOpen ] = useState<boolean>(false);
+    const [ reserveModalOpen, setReserveModalOpen ] = useState<boolean>(false);
 
-    const openModal = (): void => {
-        setModalOpen(true)
+    const openModal = (admin: boolean): void => {
+        admin ? setUpdateModalOpen(true) : setReserveModalOpen(true)
     }
 
-    const closeModal = (): void => {
-        setModalOpen(false)
+    const closeModal = (admin: boolean): void => {
+        admin ? setUpdateModalOpen(false) : setReserveModalOpen(false)
     }
 
     const updateCurrentTour = async (values: NewTour) => {
         dispatch(updateTour(values, museumid, tourid))
     }
 
+    const reserveTour = async (values: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'>) => {
+        dispatch(addReservation(user._id, museum._id, values))
+    }
 
-    const handleSubmit = async (values: NewTour) => {
+
+    const handleUpdateSubmit = async (values: NewTour) => {
         await updateCurrentTour(values)
-        closeModal();
+        closeModal(true);
+    }
+
+    const handleReserveSubmit = async (values:  Omit<ReservedTour, '_id' | 'salary' | 'confirmed'>) => {
+        await reserveTour(values)
+        closeModal(false);
     }
 
     if(!museum || !museum.offeredTours) {
@@ -58,9 +70,9 @@ const TourPage: React.FC = () => {
                     <Table.Row>
                         <Table.HeaderCell name="information">Tiedot</Table.HeaderCell>
                         {(user && user.type === "Admin" && Object.values(user.museums).map(m => m._id).includes(museum._id)) &&
-                        <Table.HeaderCell textAlign="right"> <Button name="openModal" onClick={openModal}>Muokkaa</Button> </Table.HeaderCell>}
+                        <Table.HeaderCell textAlign="right"> <Button name="openModal" onClick={() => openModal(true)}>Muokkaa</Button> </Table.HeaderCell>}
                         {(user && user.type === "Customer") &&
-                        <Table.HeaderCell textAlign="right"> <Button name="openModal" onClick={openModal}>Muokkaa</Button> </Table.HeaderCell>}
+                        <Table.HeaderCell textAlign="right"> <Button name="openModal" onClick={() => openModal(false)}>Varaa</Button> </Table.HeaderCell>}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -91,10 +103,18 @@ const TourPage: React.FC = () => {
                 </Table.Body>
             </Table>
             <UpdateTourModal
-                modalOpen={modalOpen}
-                onSubmit={handleSubmit}
-                onClose={closeModal}
+                modalOpen={updateModalOpen}
+                onSubmit={handleUpdateSubmit}
+                onClose={() => closeModal(true)}
                 initialTour={tour}
+            />
+            <ReserveTourModal
+                //Muuta arvot oikean mallisiksi
+                modalOpen={reserveModalOpen}
+                onSubmit={handleReserveSubmit}
+                onClose={() => closeModal(false)}
+                tour={tour}
+                museum={museum}
             />
         </div>
     )

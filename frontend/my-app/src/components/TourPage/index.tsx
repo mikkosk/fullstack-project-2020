@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../store'
 import { useParams } from 'react-router-dom'
-import { Table, Header, Button } from 'semantic-ui-react'
+import { Table, Header, Button, Confirm } from 'semantic-ui-react'
 import { updateTour } from '../../reducers/tourReducer'
 import { NewTour, NewReserved, ReservedTour } from '../../types'
 import UpdateTourModal from './updateTourModal'
@@ -109,7 +109,6 @@ const TourPage: React.FC = () => {
                 initialTour={tour}
             />
             <ReserveTourModal
-                //Muuta arvot oikean mallisiksi
                 modalOpen={reserveModalOpen}
                 onSubmit={handleReserveSubmit}
                 onClose={() => closeModal(false)}

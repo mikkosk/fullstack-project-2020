@@ -41,6 +41,7 @@
 | 7.7. | 3   | created customer view on museum page and tour page, started to create a form for making reservations  |
 | 8.7. | 3   | continued with the form and functions needed to show only open times  |
 | 9.7. | 2   | reservation form almost done, added a new modal to show the form, started updating reducer and services to submit the form to backend  |
+| 11.7. | 2   | finished the form and added a confirmation modal on submit. fixed minor problems in customer page |
 
 Total: 84 hours 
 

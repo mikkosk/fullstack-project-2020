@@ -166,7 +166,7 @@ export const TimeField: React.FC<{museum: Museum, name: string, date: Date, tour
     const times = possibleTimes()
     return (
         <div>
-            <Header color="red" centered>Valittu aika: {field.value}</Header>
+            <Header>Valittu aika: {field.value}</Header>
             <Grid centered columns={5}>
                 {times.length !== 0 && times.map((t:string) => 
                     <GridColumn key={t}>

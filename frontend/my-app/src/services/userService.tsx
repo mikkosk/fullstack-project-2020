@@ -34,7 +34,7 @@ const deleteUser = async (id: string) => {
 }
 
 const addReservation = async(userId: string, museumId: string, newReservation: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'>) => {
-    const res = await axios.post(`${baseUrl}/${userId}/museum/${museumId}/reservedtour`, newReservation)
+    const res = await axios.post(`${baseUrl}/${userId}/museum/${museumId}/reservedtour`, newReservation, authenticationHelper.getAuthenticationHeaders())
     return res.data
 }
 

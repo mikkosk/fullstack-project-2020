@@ -2,8 +2,9 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../store';
 import { useHistory } from 'react-router-dom';
-import { Header, Grid, GridRow } from 'semantic-ui-react';
+import { Header, Grid, GridRow, GridColumn } from 'semantic-ui-react';
 import { ReservedTour } from '../../types';
+import { dateToString } from '../../utils/DateTimeFunctions';
 
 const CustomerUserPage: React.FC = () => {
     const user = useSelector((state: RootState) => state.users.users[state.login._id]);
@@ -19,14 +20,20 @@ const CustomerUserPage: React.FC = () => {
         <div>
             <Header>{user.username}</Header>
             <Grid columns={1}>
-                <GridRow>
-                    <Header>Varatut opastukset</Header>
+                <GridRow centered>
+                    <Header textAlign='center'>Varatut opastukset</Header>
                 </GridRow>
                 {user.reservedTours.map((r: ReservedTour) => 
-                    <GridRow>
-                        <h4>{r.tourName}</h4>
-                        <p>{r.time}</p>
-                        <p>{r.date}</p>
+                    <GridRow key={r._id} columns="3">
+                        <GridColumn>
+                            <h4>{r.tourName} </h4>
+                        </GridColumn>
+                        <GridColumn>
+                            <p>{r.time} </p>
+                        </GridColumn>
+                        <GridColumn>
+                            <p>{dateToString(r.date)}</p>
+                        </GridColumn>
                     </GridRow>
                 )}
             </Grid>

@@ -7,7 +7,8 @@ export const museumHoursArray = (open: boolean, museum: Museum) => {
     else return closingHours
 }
 
-export const dateToString = (date: Date) => {
+export const dateToString = (dateOrg: Date) => {
+    const date = new Date(dateOrg)
     const day = date.getDate()
     const month = date.getMonth()
     const year = date.getFullYear()

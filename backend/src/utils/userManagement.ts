@@ -9,6 +9,7 @@ export interface Token {
 export const decodedToken = (token: string | undefined): Token => {
     const secret = process.env.SECRET;
     if(!secret || !token || token.substr(0,7) !== 'bearer ') {
+        console.log(token);
         throw new Error("Virheelliset käyttäjätiedot");
     }
     const decodedToken  = jwt.verify(token.substr(7), secret) as Token;

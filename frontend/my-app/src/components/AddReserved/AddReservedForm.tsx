@@ -1,27 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ReservedTour, Museum, GuidedTour, OptionField, NewReserved } from '../../types'
 import { Formik, Field, Form } from 'formik'
 import { TextField, SelectField, SelectArrayField, NumberField, DateField, TimeField } from '../../utils/FormFields'
-import { Button, Grid, GridColumn } from 'semantic-ui-react'
+import { Button, Grid, GridColumn, Confirm, Modal, Header, GridRow, Container } from 'semantic-ui-react'
 import { dateToString } from '../../utils/DateTimeFunctions'
 
 interface Props {
-    onSubmit: (values: NewReserved) => void;
+    onSubmit: (values: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'>) => void;
     onCancel: () => void;
     tour: GuidedTour;
     museum: Museum;
-}
-
-const initialValues:NewReserved = {
-    chosenLanguage: "",
-    groupName: "",
-    numberOfPeople: 0,
-    groupAge: "",
-    paymentMethod: "Cash",
-    time: "",
-    date: new Date(),
-    email: "",
-    groupInfo: ""
 }
 
 const paymentOptions: OptionField[] = [
@@ -32,11 +20,29 @@ const paymentOptions: OptionField[] = [
 ]
 
 const AddReservedForm: React.FC<Props> = ({ onSubmit, onCancel, tour, museum}) => {
+
+    const [ready, setReady] = useState<boolean>(false);
+
+    const initialValues:Omit<ReservedTour, '_id' | 'salary' | 'confirmed'> = {
+        ...tour,
+        chosenLanguage: "",
+        groupName: "",
+        numberOfPeople: 0,
+        groupAge: "",
+        paymentMethod: "Cash",
+        time: "",
+        date: new Date(),
+        email: "",
+        groupInfo: ""
+    }
+
     return (
         <Formik
         initialValues={{...initialValues, chosenLanguage: Object.values(tour.possibleLanguages)[0]}}
         onSubmit={(values, { resetForm }) => {
+            console.log(values)
             onSubmit(values)
+            setReady(false)
             resetForm()
         }}
         validate={ values => {
@@ -74,7 +80,7 @@ const AddReservedForm: React.FC<Props> = ({ onSubmit, onCancel, tour, museum}) =
         }
         }
         >
-        {({ isValid, dirty, setFieldValue, setFieldTouched, values, errors, touched}) => {
+        {({ isValid, dirty, setFieldValue, setFieldTouched, values, errors, touched, handleSubmit}) => {
             console.log(errors)
             return (
                 <Form className="form ui">
@@ -138,10 +144,21 @@ const AddReservedForm: React.FC<Props> = ({ onSubmit, onCancel, tour, museum}) =
                         </GridColumn>
                     </Grid>
 
-                    <Button type="submit" name="submit" disabled={!isValid}>
-                        Lisää!
+                    <Modal textallign="center" open={ready}>
+                        <Header>Varmistus</Header>
+                        <Modal.Content>
+                            Hyväksy varaus antamillasi tiedoilla?
+                        </Modal.Content>
+                        <Modal.Actions>
+                            <Button color="green"type='submit' onClick={() => handleSubmit()}>Varaa!</Button>
+                            <Button color="red" type="button" onClick={() => setReady(false)}>Peruuta</Button>
+                        </Modal.Actions>
+                    </Modal>
+                    <Button type="button" onClick={() => setReady(true)} name="ready" disabled={!isValid || !dirty}>
+                        Varaa!
                     </Button>
-                    <Button onClick={onCancel} name="cancelForm" color="red">Peruuta</Button>
+                    <Button type="button" onClick={onCancel} name="cancelForm" color="red">Peruuta</Button>
+                    
                 </Form>
             )
         }}

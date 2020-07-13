@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from '../../store';
 import { useHistory } from 'react-router-dom';
 import { Header, Grid, GridRow, GridColumn } from 'semantic-ui-react';
@@ -8,12 +8,15 @@ import { dateToString } from '../../utils/DateTimeFunctions';
 
 const CustomerUserPage: React.FC = () => {
     const user = useSelector((state: RootState) => state.users.users[state.login._id]);
-    const dispatch = useDispatch();
     const history = useHistory();
 
     console.log(user)
     if(!user || user.type !== "Customer") {
         return <div>Mitään ei löytynyt</div>
+    }
+    
+    const toReservation = (id: ReservedTour['_id']) => {
+        history.push(`/reservation/${id}`)
     }
 
     return (
@@ -24,7 +27,7 @@ const CustomerUserPage: React.FC = () => {
                     <Header textAlign='center'>Varatut opastukset</Header>
                 </GridRow>
                 {user.reservedTours.map((r: ReservedTour) => 
-                    <GridRow key={r._id} columns="3">
+                    <GridRow key={r._id} onClick={() => toReservation(r._id)}columns="3">
                         <GridColumn>
                             <h4>{r.tourName} </h4>
                         </GridColumn>

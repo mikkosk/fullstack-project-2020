@@ -25,7 +25,7 @@ const addMuseum = async (entry: NewMuseum): Promise<Museum> => {
 };
 
 const updateMuseum = async (entry: NewMuseum, id: Museum['_id']): Promise<Museum> => {
-    const updatedMuseum = await MuseumMon.findByIdAndUpdate(id, entry, {new: true}).populate('offeredTours');
+    const updatedMuseum = await MuseumMon.findByIdAndUpdate(id, entry, {new: true}).populate('offeredTours').populate('reservedTours');
     if(!updatedMuseum) {
         throw new Error('Kyseistä museota ei löytynyt');
     }

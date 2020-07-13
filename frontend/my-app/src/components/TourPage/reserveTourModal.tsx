@@ -1,7 +1,6 @@
 import React from 'react'
 import { Modal } from 'semantic-ui-react'
-import AddTourForm from '../AddTour/AddTourForm'
-import { NewTour, NewReserved, GuidedTour, Museum, ReservedTour } from '../../types'
+import { GuidedTour, Museum, ReservedTour } from '../../types'
 import AddReservedForm from '../AddReserved/AddReservedForm'
 
 interface Props {

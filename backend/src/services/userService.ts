@@ -5,7 +5,7 @@ import ReservedMon from '../models/reservedTour';
 import bcrypt from 'bcrypt';
 
 const getUsers = async (): Promise<UserAnyType[]> => {
-    const users = await UserMon.find({}).populate('museums').populate("reservedTours");
+    const users = await UserMon.find({}).populate({path: 'museums', populate: {path: 'reservedTours'}}).populate("reservedTours");
     return users;
 };
 
@@ -91,7 +91,11 @@ const addReservedTour = async(museumId: Museum['_id'], id: User['_id'], tour: Om
     museum.save();
     user.save();
 
-    return user;
+    const result = await UserMon.findById(id).populate("reservedTours");
+    if(!result) {
+        throw new Error("Käyttäjää ei löytynyt");
+    }
+    return result;
 };
 
 export default {

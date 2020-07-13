@@ -15,8 +15,7 @@ import LogoutBar from './components/Logout/LogoutBar';
 import NotificationBar from './components/NotificationBar';
 import CustomerUserPage from './components/CustomerUserPage';
 import FindMuseums from './components/FindMuseums';
-import AddReservedForm from './components/AddReserved/AddReservedForm';
-import { GuidedTour, Museum } from './types';
+import ReservationPage from './components/ReservationPage';
 
 
 function App() {
@@ -46,6 +45,7 @@ function App() {
             <Route path="/admin/" render={() => <AdminPage />}/>
             <Route path="/user/" render={() => <CustomerUserPage />}/>
             <Route path="/find/museums" render={() => <FindMuseums />}/>
+            <Route path="/reservation/:id" render={() => <ReservationPage/>}/>
           </Switch>
         </Container>
       </Router>

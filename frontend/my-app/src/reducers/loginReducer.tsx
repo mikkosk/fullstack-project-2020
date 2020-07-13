@@ -1,5 +1,4 @@
-import { LoginState, UserAnyType, LoggedInUser, Museum } from "../types"
-import loginService from "../services/loginService"
+import { LoginState, LoggedInUser, Museum } from "../types"
 import { RootState } from "../store"
 import { ThunkAction } from "redux-thunk"
 import { Dispatch } from "react"

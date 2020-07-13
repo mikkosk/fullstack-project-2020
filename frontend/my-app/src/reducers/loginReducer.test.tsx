@@ -1,7 +1,6 @@
 import moxios from "moxios";
 import thunk, { ThunkDispatch } from "redux-thunk";
-import tourReducer, { allTours, updateTour } from './tourReducer';
-import { GuidedTour, TourState, LoggedInUser, LoginState } from '../types';
+import { LoggedInUser, LoginState } from '../types';
 import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"

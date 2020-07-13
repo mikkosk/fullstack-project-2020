@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { ReservedTour, Museum, GuidedTour, OptionField, NewReserved } from '../../types'
+import { ReservedTour, Museum, GuidedTour, OptionField } from '../../types'
 import { Formik, Field, Form } from 'formik'
 import { TextField, SelectField, SelectArrayField, NumberField, DateField, TimeField } from '../../utils/FormFields'
-import { Button, Grid, GridColumn, Confirm, Modal, Header, GridRow, Container } from 'semantic-ui-react'
-import { dateToString } from '../../utils/DateTimeFunctions'
+import { Button, Grid, GridColumn, Modal, Header } from 'semantic-ui-react'
 
 interface Props {
     onSubmit: (values: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'>) => void;
@@ -40,13 +39,11 @@ const AddReservedForm: React.FC<Props> = ({ onSubmit, onCancel, tour, museum}) =
         <Formik
         initialValues={{...initialValues, chosenLanguage: Object.values(tour.possibleLanguages)[0]}}
         onSubmit={(values, { resetForm }) => {
-            console.log(values)
             onSubmit(values)
             setReady(false)
             resetForm()
         }}
         validate={ values => {
-            console.log(values)
             const requiredError = "Kenttä vaaditaan";
             const errors: { [field: string]: string | object} = {};
             if(!values.chosenLanguage) {
@@ -81,7 +78,6 @@ const AddReservedForm: React.FC<Props> = ({ onSubmit, onCancel, tour, museum}) =
         }
         >
         {({ isValid, dirty, setFieldValue, setFieldTouched, values, errors, touched, handleSubmit}) => {
-            console.log(errors)
             return (
                 <Form className="form ui">
                     <Field

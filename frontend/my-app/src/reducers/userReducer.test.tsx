@@ -18,10 +18,12 @@ const errorNotification: MessageError = {
     message: "Virhe",
     error: true
 }
-const successNotification: MessageError = {
+
+/* const successNotification: MessageError = {
     message: "Success",
     error: false
 }
+*/
 
 const errorResp = {
     status:400,
@@ -55,7 +57,8 @@ describe("User actions", () => {
                 type: "Customer",
                 username: "Two",
                 passwordHash: "Two",
-                _id: "UserTwo"
+                _id: "UserTwo",
+                reservedTours: []
             }
         ]
 
@@ -109,7 +112,8 @@ describe("User actions", () => {
                 type: "Customer",
                 username: "Three",
                 passwordHash: "Three",
-                _id: "UserThree"
+                _id: "UserThree",
+                reservedTours:[]
             }
 
         moxios.wait(() => {
@@ -167,7 +171,8 @@ describe("User actions", () => {
                 type: "Customer",
                 username: "Three",
                 passwordHash: "Three",
-                _id: "UserOne"
+                _id: "UserOne",
+                reservedTours:[]
         }
 
         moxios.wait(() => {
@@ -250,7 +255,8 @@ describe("User actions", () => {
                         tourInfo: "Two", 
                         _id: "three"}],
                     openInfo: "Auki",
-                    museumInfo: "Museo"   
+                    museumInfo: "Museo",
+                    reservedTours:[]   
                 }]
         }
 
@@ -351,7 +357,8 @@ describe("User actions", () => {
                 },
                 offeredTours:[],
                 openInfo: "Auki",
-                museumInfo: "Museo"   
+                museumInfo: "Museo",
+                reservedTours:[]   
             }
 
         moxios.wait(() => {
@@ -398,7 +405,8 @@ describe("User actions", () => {
                 },
                 offeredTours:[],
                 openInfo: "Auki",
-                museumInfo: "Museo"   
+                museumInfo: "Museo",
+                reservedTours:[]   
             }
 
         moxios.wait(() => {
@@ -439,7 +447,8 @@ describe('reducers', () => {
             {username: "UserOne",
             name: "UserOne",
             passwordHash: "UserOne",
-            type: "Customer", 
+            type: "Customer" as const, 
+            reservedTours: [],
             _id: "UserOne"}
         ], notification: {message: "", error: false}})
 
@@ -472,7 +481,8 @@ describe('reducers', () => {
             {username: "UserOne",
             name: "UserOne",
             passwordHash: "UserOne",
-            type: "Customer", 
+            type: "Customer" as const, 
+            reservedTours: [],
             _id: "UserOne"},
             notification: {message: "", error: false}
         })
@@ -508,7 +518,8 @@ describe('reducers', () => {
             {username: "UserTwo",
             name: "UserOne",
             passwordHash: "UserOne",
-            type: "Customer", 
+            type: "Customer" as const, 
+            reservedTours: [],
             _id: "UserOne"}, 
             notification: {message: "", error: false}
         })
@@ -570,7 +581,8 @@ describe('reducers', () => {
                 },
                 offeredTours:[],
                 openInfo: "Auki",
-                museumInfo: "Museo"   
+                museumInfo: "Museo",
+                reservedTours: [] 
             }]}, notification: 
             {message: "", error: false}
         })
@@ -670,7 +682,8 @@ describe('reducers', () => {
                     },
                     offeredTours:[],
                     openInfo: "Auki",
-                    museumInfo: "Museo"  
+                    museumInfo: "Museo",
+                    reservedTours: []  
         }
 
         const reducer = userReducer(initialStateNotEmpty, {type: "ADD_MUSEUM_SUCCESS", payload: 

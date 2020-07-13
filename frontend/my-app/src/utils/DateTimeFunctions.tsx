@@ -10,7 +10,7 @@ export const museumHoursArray = (open: boolean, museum: Museum) => {
 export const dateToString = (dateOrg: Date) => {
     const date = new Date(dateOrg)
     const day = date.getDate()
-    const month = date.getMonth()
+    const month = date.getMonth() + 1
     const year = date.getFullYear()
 
     return `${day}.${month}.${year}`

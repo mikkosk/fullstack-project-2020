@@ -1,6 +1,6 @@
 import React from 'react'
-import { ErrorMessage, Field, FieldProps, FormikProps, FieldArray, useFormikContext, useField } from 'formik'
-import { Dropdown, DropdownProps, Form, Button, Grid, GridColumn, Header } from 'semantic-ui-react'
+import { ErrorMessage, Field, FieldProps, FieldArray, useFormikContext, useField } from 'formik'
+import { Form, Button, Grid, GridColumn, Header } from 'semantic-ui-react'
 import { OptionField, Museum, ReservedTour, GuidedTour } from '../types';
 import DatePicker from 'react-datepicker'
 import { museumHoursArray, compareTime, addTime, dateToString, isTime } from './DateTimeFunctions';
@@ -138,7 +138,7 @@ export const TimeField: React.FC<{museum: Museum, name: string, date: Date, tour
         const closingHours = museumHoursArray(false, museum)
         const start = openingHours[weekday]
         const end = closingHours[weekday]
-        const reservedTours = museum.reservedTours.filter((r: ReservedTour) => r.date === date)
+        const reservedTours = museum.reservedTours.filter((r: ReservedTour) => dateToString(new Date(r.date)) === dateToString(new Date(date)))
         let possible: string[] =[]
         let time = start
         
@@ -156,7 +156,10 @@ export const TimeField: React.FC<{museum: Museum, name: string, date: Date, tour
                 time = addTime(time, 15)
             }
             else {
-                time = addTime(time, overlapping.lengthInMinutes)
+                time = addTime(time, overlapping.lengthInMinutes - (overlapping.lengthInMinutes % 15))
+                if(overlapping.lengthInMinutes % 15 !== 0) {
+                    time = addTime(time, 15)
+                }
             }
         }
         return possible

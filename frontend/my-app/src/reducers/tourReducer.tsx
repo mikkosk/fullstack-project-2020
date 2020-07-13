@@ -1,6 +1,6 @@
 import toursService from "../services/toursService"
 import { GuidedTour, TourState, NewTour, MessageError } from "../types"
-import { Dispatch, memo } from "react"
+import { Dispatch } from "react"
 import { ThunkAction } from "redux-thunk"
 import { RootState } from "../store"
 

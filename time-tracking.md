@@ -42,8 +42,10 @@
 | 8.7. | 3   | continued with the form and functions needed to show only open times  |
 | 9.7. | 2   | reservation form almost done, added a new modal to show the form, started updating reducer and services to submit the form to backend  |
 | 11.7. | 2   | finished the form and added a confirmation modal on submit. fixed minor problems in customer page |
+| 12.7. | 3   | fixed (hopefully) last bugs in the reservaion form, created page for reservations and list of reservations to museums and users, cleaned unused code |
 
-Total: 84 hours 
+
+Total: 87 hours 
 
 
 (4cr)

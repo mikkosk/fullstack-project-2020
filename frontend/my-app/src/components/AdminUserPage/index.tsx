@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, useHistory, Link } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { Grid, Header, Button } from 'semantic-ui-react';
-import { AddMuseumForm } from './AddMuseumForm';
 import AddMuseumModal from './AddMuseumModal';
 import { NewMuseum } from '../../types';
 import { addMuseum } from '../../reducers/userReducer';
-import { allMuseums } from '../../reducers/museumReducer';
 
 export const AdminPage: React.FC = () => {
     const user = useSelector((state: RootState) => state.users.users[state.login._id]);
     const dispatch = useDispatch();
-    const history = useHistory();
     const [ modalOpen, setModalOpen ] = useState<boolean>(false);
 
     console.log(user)

@@ -26,8 +26,9 @@ const MuseumCustomerPage: React.FC<{museum: Museum}> = ({museum}) => {
     const history = useHistory()
 
     const numberOfTours = Object.values(museum.offeredTours).length
-    const toTour = (id: Museum['_id']) => {
-        history.push("/login")
+    
+    const toTour = (museumId: Museum['_id'], tourId: GuidedTour['_id']) => {
+        history.push(`/museum/${museumId}/tour/${tourId}`)
     }
 
 
@@ -113,7 +114,7 @@ const MuseumCustomerPage: React.FC<{museum: Museum}> = ({museum}) => {
                                            
                                     </Card.Content>
                                     {tour._id !== "0" &&  
-                                    <Card.Content extra onClick={() => toTour(tour._id)}>
+                                    <Card.Content extra onClick={() => toTour(museum._id, tour._id)}>
                                         <b>Lisätiedot ja varaukset</b>
                                     </Card.Content>}
                                 </Card>

@@ -106,6 +106,7 @@ describe('updating', () => {
         delete updatedUser._id;
         delete updatedUser.passwordHash;
         delete updatedUser.museums;
+        delete updatedUser.reservedTours;
         const initial = {...newUser};
         delete initial.password;
         expect(updatedUser).toEqual(initial);
@@ -131,6 +132,7 @@ describe('updating', () => {
         delete updatedUser._id;
         delete updatedUser.passwordHash;
         delete updatedUser.museums;
+        delete updatedUser.reservedTours;
         const initial = {...initialUsers[0]};
         delete initial.password;
         expect(updatedUser).toEqual(initial);

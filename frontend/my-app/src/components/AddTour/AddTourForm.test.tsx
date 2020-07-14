@@ -11,17 +11,15 @@ import { wait } from '@testing-library/react'
 
 Enzyme.configure({adapter: new Adapter() })
 
-const middlewares = [thunk]
-const mockStore = configureStore(middlewares)
 const onSubmit = jest.fn()
 const onCancel = jest.fn()
 function setup(initialValues: GuidedTour | undefined) {
     const enzymeWrapper = mount(<AddTourForm onSubmit={onSubmit} onCancel={onCancel} initialTour={initialValues}/>)
-
     return {
         enzymeWrapper
     }
 }
+
 const guidedTour: GuidedTour = {
     lengthInMinutes: 2, 
     maxNumberOfPeople:2, 
@@ -35,14 +33,12 @@ const guidedTour: GuidedTour = {
 describe('AddTourForm', () => {
     test('Right inputs are displayed', () => {
         const { enzymeWrapper } = setup(undefined)
-        const name = enzymeWrapper.find('input[name="tourName"]')
-        const languages = enzymeWrapper.find('input[name="possibleLanguages"]')
-        const price = enzymeWrapper.find('input[name="price"]')
-        const length = enzymeWrapper.find('input[name="lengthInMinutes"]')
-        const people = enzymeWrapper.find('input[name="maxNumberOfPeople"]')
-        const info = enzymeWrapper.find('input[name="tourInfo"]')
-        
-        expect({name, languages, price, length, people, info}).toBeDefined()
+        expect(enzymeWrapper.find('input[name="tourName"]').exists()).toBe(true)
+        expect(enzymeWrapper.find('input[name="possibleLanguages.0"]').exists()).toBe(true)
+        expect(enzymeWrapper.find('input[name="price"]').exists()).toBe(true)
+        expect(enzymeWrapper.find('input[name="lengthInMinutes"]').exists()).toBe(true)
+        expect(enzymeWrapper.find('input[name="maxNumberOfPeople"]').exists()).toBe(true)
+        expect(enzymeWrapper.find('input[name="tourInfo"]').exists()).toBe(true)
     })
 
     test('Both buttons are displayed if initial value is given', () => {

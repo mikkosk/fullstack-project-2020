@@ -173,7 +173,7 @@ export const TimeField: React.FC<{museum: Museum, name: string, date: Date, tour
             <Grid centered columns={5}>
                 {times.length !== 0 && times.map((t:string) => 
                     <GridColumn key={t}>
-                        <b onClick={() => setFieldValue(field.name, t)}>{t}</b>
+                        <b className={t} onClick={() => setFieldValue(field.name, t)}>{t}</b>
                     </GridColumn>
                 )}
                 {times.length === 0 && 

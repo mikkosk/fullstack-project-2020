@@ -75,7 +75,9 @@ export interface Admin extends User{
 
 export type UserAnyType = Customer | Admin;
 
-export type UniversalUser = Omit<Customer & Admin, "type"> & {type: UserTypes};
+type BothUsers = Omit<Customer, "type"> & Omit<Admin, "type">;
+
+export type UniversalUser = BothUsers & {type: UserTypes};
 
 export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {password: string};
 export type NewMuseum = Omit<Museum, '_id' | 'offeredTours' | 'reservedTours'>;

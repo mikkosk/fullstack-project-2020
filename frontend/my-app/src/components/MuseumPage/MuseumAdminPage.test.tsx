@@ -16,7 +16,11 @@ jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
     useParams: () => ({
       id: "iidee"
-  })}));
+    }),
+    useHistory: () => ({
+        push: jest.fn()
+    })
+}));
   
 
 function setup() {

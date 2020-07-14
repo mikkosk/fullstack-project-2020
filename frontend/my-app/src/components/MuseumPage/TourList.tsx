@@ -15,7 +15,7 @@ const TourList = () => {
     if(!tours) {
         return null
     }
-    console.log(tours)
+    
     return (
         <div>
             <List divided>

@@ -10,7 +10,9 @@ import { useParams } from 'react-router-dom'
 import TourPage from './index'
 import { act } from 'react-dom/test-utils'
 import { wait, waitForElement } from '@testing-library/react'
-import { initialState } from '../../../data/testData'
+import { initialState, initialStateCustomer, initialStateAdmin } from '../../../data/testData'
+import { debug } from 'console'
+import { UserTypes } from '../../types'
 
 Enzyme.configure({adapter: new Adapter() })
 
@@ -25,8 +27,14 @@ jest.mock('react-router-dom', () => ({
   
 
 
-function setup() {
-    const store = mockStore(initialState)
+function setup(type?: UserTypes) {
+    let store = mockStore(initialState)
+    if(type === "Admin") {
+        store = mockStore(initialStateAdmin)
+    }
+    else if(type === "Customer") {
+        store = mockStore(initialStateCustomer)
+    }
     const enzymeWrapper = mount(<Provider store={store}><TourPage /></Provider>)
 
     return {
@@ -59,28 +67,56 @@ describe ('Tour Page', () => {
         expect(infoRow[1].props.children).toBe("Two")
     })
 
-    test("Initially modal is closed", () => {
-        const { enzymeWrapper } = setup()
-        expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(false)
+    describe("ADMIN", () => {
+        test("Initially modal is closed", () => {
+            const { enzymeWrapper } = setup("Admin")
+            expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(false)
+        })
+
+        test("clicking button opens modal", () => {
+            const { enzymeWrapper } = setup("Admin")
+            enzymeWrapper.find('Button').simulate('click')
+            expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(true)
+        })
+        test("clicking cancel closes modal", () => {
+            const { enzymeWrapper } = setup("Admin")
+            enzymeWrapper.find('Button[name="openModal"]').simulate('click')
+            expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(true)
+            enzymeWrapper.find('Button[name="cancelForm"]').simulate('click')
+            expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(false)
+        })
+        test("clicking submit closes modal", async () => {
+            const { enzymeWrapper } = setup("Admin")
+            enzymeWrapper.find('Button[name="openModal"]').simulate('click')
+            expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(true)
+            await waitForElement(() => enzymeWrapper.find('Button[name="submit"]').simulate('submit'))
+            enzymeWrapper.update()
+            expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(false)
+        })
     })
-    test("clicking button opens modal", () => {
-        const { enzymeWrapper } = setup()
-        enzymeWrapper.find('Button').simulate('click')
-        expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(true)
+
+    describe("CUSTOMER", () => {
+        test("Initially modal is closed", () => {
+            const { enzymeWrapper } = setup("Customer")
+            expect(enzymeWrapper.find('ReserveTourModal').get(0).props.modalOpen).toBe(false)
+        })
+
+        test("clicking button opens modal", () => {
+            const { enzymeWrapper } = setup("Customer")
+            enzymeWrapper.find('Button').simulate('click')
+            expect(enzymeWrapper.find('ReserveTourModal').get(0).props.modalOpen).toBe(true)
+        })
+        test("clicking cancel closes modal", () => {
+            const { enzymeWrapper } = setup("Customer")
+            enzymeWrapper.find('Button[name="openModal"]').simulate('click')
+            expect(enzymeWrapper.find('ReserveTourModal').get(0).props.modalOpen).toBe(true)
+            enzymeWrapper.find('Button[name="cancelForm"]').simulate('click')
+            expect(enzymeWrapper.find('ReserveTourModal').get(0).props.modalOpen).toBe(false)
+        })
     })
-    test("clicking cancel closes modal", () => {
-        const { enzymeWrapper } = setup()
-        enzymeWrapper.find('Button[name="openModal"]').simulate('click')
-        expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(true)
-        enzymeWrapper.find('Button[name="cancelForm"]').simulate('click')
-        expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(false)
-    })
-    test("clicking submit closes modal", async () => {
-        const { enzymeWrapper } = setup()
-        enzymeWrapper.find('Button[name="openModal"]').simulate('click')
-        expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(true)
-        await waitForElement(() => enzymeWrapper.find('Button[name="submit"]').simulate('submit'))
-        enzymeWrapper.update()
-        expect(enzymeWrapper.find('UpdateTourModal').get(0).props.modalOpen).toBe(false)
+
+    describe("LOGGED OUT", () => {
+        const {enzymeWrapper} = setup()
+        expect(enzymeWrapper.find('Button').exists()).toBeFalsy()
     })
 })

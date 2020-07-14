@@ -164,7 +164,39 @@ export const initialState: RootState = {
                 username: "One",
                 passwordHash: "One",
                 _id: "UserOne",
-                museums: []
+                museums: [{
+                    _id: "iidee",
+                    museumName: "testi",
+                    open: {
+                        mon: "10:00",
+                        tue: "10:00",
+                        wed: "10:00",
+                        thu: "10:00",
+                        fri: "10:00",
+                        sat: "10:00",
+                        sun: "10:00"
+                    },
+                    closed: {
+                        mon: "12:00",
+                        tue: "12:00",
+                        wed: "12:00",
+                        thu: "12:00",
+                        fri: "12:00",
+                        sat: "12:00",
+                        sun: "12:00"
+                        
+                    },
+                    offeredTours:[{lengthInMinutes: 2, 
+                        maxNumberOfPeople:2, 
+                        possibleLanguages: ["Two"],
+                        price: 1, 
+                        tourName: "Two", 
+                        tourInfo: "Two", 
+                        _id: "three"}],
+                    openInfo: "Auki",
+                    museumInfo: "Museo",
+                    reservedTours: []   
+                }]
             }, 
             "UserTwo": {
                 name: "Two",
@@ -204,13 +236,13 @@ export const initialState: RootState = {
                     sun: "10:00"
                 },
                 closed: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
+                    mon: "12:00",
+                    tue: "12:00",
+                    wed: "12:00",
+                    thu: "12:00",
+                    fri: "12:00",
+                    sat: "12:00",
+                    sun: "12:00"
                     
                 },
                 offeredTours:[{lengthInMinutes: 2, 
@@ -227,5 +259,31 @@ export const initialState: RootState = {
         }
     },
     notification: {notification: {message: "", error: false}}
+}
+
+export const initialStateCustomer: RootState = {
+    ...initialState,
+    login: {
+        name: "Two",
+        type: "Customer",
+        username: "Two",
+        passwordHash: "Two",
+        _id: "UserTwo",
+        museums: [],
+        token: "token"
+    }
+}
+
+export const initialStateAdmin: RootState = {
+    ...initialState,
+    login: {
+        name: "One",
+        type: "Admin",
+        username: "One",
+        passwordHash: "One",
+        _id: "UserOne",
+        museums: [],
+        token: "token"
+    }
 }
 

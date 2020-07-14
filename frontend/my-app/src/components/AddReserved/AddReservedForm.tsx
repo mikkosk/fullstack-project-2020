@@ -140,7 +140,7 @@ const AddReservedForm: React.FC<Props> = ({ onSubmit, onCancel, tour, museum}) =
                         </GridColumn>
                     </Grid>
 
-                    <Modal textallign="center" open={ready}>
+                    <Modal textallign="center" open={ready} name="confirm">
                         <Header>Varmistus</Header>
                         <Modal.Content>
                             Hyväksy varaus antamillasi tiedoilla?

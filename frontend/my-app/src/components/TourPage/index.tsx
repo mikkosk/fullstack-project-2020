@@ -17,7 +17,6 @@ const TourPage: React.FC = () => {
     const museum = useSelector((state: RootState) => state.museums.museums[museumid])
     const finished = useSelector((state: RootState) => state.tours.finished)
     const user = useSelector((state: RootState) => state.users.users[state.login._id]);
-    console.log(user)
 
     useEffect(() => {
         dispatch(allMuseums())

@@ -60,6 +60,9 @@ const addUserToMuseum = async (museum: Museum["_id"], id: User['_id']): Promise<
     if(!user) {
         throw new Error('Kyseistä käyttäjää ei löytynyt');
     }
+    if(user.type === "Customer") {
+        throw new Error('Käyttäjää ei voi liittää museoon');
+    }
     user.museums = user.museums.concat(existingMuseum?._id);
     await user.save();
     return user;

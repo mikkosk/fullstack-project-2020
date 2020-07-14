@@ -31,11 +31,10 @@ export const addTime = (time: string, number: number) => {
         hours = hours + 1
         minutes = 0 + minutes - 60
     }
-    let hoursString = hours.toString()
-    let minutesString = minutes.toString()
 
     if(hours < 0) {
         hours = 0
+        minutes = 0
     }
 
     if(hours > 23) {
@@ -43,6 +42,9 @@ export const addTime = (time: string, number: number) => {
         minutes = 59
     }
 
+    let hoursString = hours.toString()
+    let minutesString = minutes.toString()
+    
     if(hours < 10) {
         hoursString = `0${hours}`
     }

@@ -3,11 +3,10 @@ import '@testing-library/jest-dom/extend-expect'
 import AddReservedForm from './AddReservedForm'
 import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
-import thunk from 'redux-thunk'
 import { GuidedTour, Museum } from '../../types'
 import { act } from 'react-dom/test-utils'
-import { wait } from '@testing-library/react'
 import { initialState } from '../../../data/testData'
+
 
 Enzyme.configure({adapter: new Adapter() })
 
@@ -29,7 +28,8 @@ function setup() {
     }
 }
 
-describe('AddTourForm', () => {
+describe('AddReservedForm', () => {
+    
     test('Right inputs are displayed', () => {
         const { enzymeWrapper } = setup()
         expect(enzymeWrapper.find('input[name="groupName"]').exists()).toBe(true)
@@ -68,45 +68,101 @@ describe('AddTourForm', () => {
     test('Clicking button opens modal if fields are correct', async () => {
         const { enzymeWrapper } = setup()
 
-        
+        await act(async () => {
+            enzymeWrapper.find('input[name="groupName"]').simulate('change', {persist: () => {}, target: {name: 'groupName', value: "values"}})
+            enzymeWrapper.find('select[name="chosenLanguage"]').simulate('change', {persist: () => {}, target: {name: 'chosenLanguage', value: "Two"}})
+            enzymeWrapper.find('input[name="numberOfPeople"]').simulate('change', {persist: () => {}, target: {name: 'numberOfPeople', value: 1}})
+            enzymeWrapper.find('input[name="groupAge"]').simulate('change', {persist: () => {}, target: {name: 'groupAge', value: "values"}})
+            enzymeWrapper.find('select[name="paymentOptions"]').simulate('change', {persist: () => {}, target: {name: 'paymentOptions', value: "Cash"}})
+            enzymeWrapper.find('input[name="groupInfo"]').simulate('change', {persist: () => {}, target: {name: 'groupInfo', value: "values"}})
+            enzymeWrapper.find('input[name="email"]').simulate('change', {persist: () => {}, target: {name: 'email', value: "values"}})
+        })
+
         await act(async () => {
             enzymeWrapper.find('div[className="react-datepicker__day react-datepicker__day--029"]').simulate('click')
         });
         enzymeWrapper.update()
-        console.log(enzymeWrapper.debug())
         
         await act(async () => {
             enzymeWrapper.find('b[className="11:00"]').simulate('click')
         });
         enzymeWrapper.update()
-        console.log(enzymeWrapper.debug())
-        expect(onSubmit).toBeCalledTimes(1)
+
+        const button = enzymeWrapper.find('Button[name="ready"]').get(0)
+        expect(button.props.disabled).toBe(false)
         await act(async () => {
-            enzymeWrapper.find('Button[name="submit"]').simulate('submit', { preventDefault: () => {} })
+            enzymeWrapper.find('Button[name="ready"]').simulate('click', { preventDefault: () => {} })
         });
+        enzymeWrapper.update()
+        const modal = enzymeWrapper.find('Modal[name="confirm"]').get(0)
+        expect(modal.props.open).toBe(true)
     })
 
-    /*
-    test('Clicking button does not trigger onSubmit if fields are incorrect', async () => {
-        onSubmit.mockClear()
-        const enzymeWrapper = mount(<AddTourForm onSubmit={onSubmit} onCancel={onCancel} initialTour={undefined}/>)
-        await act(async () => {
-            enzymeWrapper.find('button[name="submit"]').simulate('submit', { preventDefault: () => {} })
-        });
+    
+    test('Clicking button does not open if fields are incorrect or missing', async () => {
+        const { enzymeWrapper } = setup()
 
-        expect(onSubmit).toBeCalledTimes(0)
+        await act(async () => {
+            enzymeWrapper.find('div[className="react-datepicker__day react-datepicker__day--029"]').simulate('click')
+        });
+        enzymeWrapper.update()
+        
+        await act(async () => {
+            enzymeWrapper.find('b[className="11:00"]').simulate('click')
+        });
+        enzymeWrapper.update()
+
+        const button = enzymeWrapper.find('Button[name="ready"]').get(0)
+        expect(button.props.disabled).toBe(true)
+        await act(async () => {
+            enzymeWrapper.find('Button[name="ready"]').simulate('click', { preventDefault: () => {} })
+        });
+        enzymeWrapper.update()
+        const modal = enzymeWrapper.find('Modal[name="confirm"]').get(0)
+        expect(modal.props.open).toBe(false)
     })
 
+    test('Clicking confirm submits', async () => {
+        const { enzymeWrapper } = setup()
+
+        await act(async () => {
+            enzymeWrapper.find('input[name="groupName"]').simulate('change', {persist: () => {}, target: {name: 'groupName', value: "values"}})
+            enzymeWrapper.find('select[name="chosenLanguage"]').simulate('change', {persist: () => {}, target: {name: 'chosenLanguage', value: "Two"}})
+            enzymeWrapper.find('input[name="numberOfPeople"]').simulate('change', {persist: () => {}, target: {name: 'numberOfPeople', value: 1}})
+            enzymeWrapper.find('input[name="groupAge"]').simulate('change', {persist: () => {}, target: {name: 'groupAge', value: "values"}})
+            enzymeWrapper.find('select[name="paymentOptions"]').simulate('change', {persist: () => {}, target: {name: 'paymentOptions', value: "Cash"}})
+            enzymeWrapper.find('input[name="groupInfo"]').simulate('change', {persist: () => {}, target: {name: 'groupInfo', value: "values"}})
+            enzymeWrapper.find('input[name="email"]').simulate('change', {persist: () => {}, target: {name: 'email', value: "values"}})
+        })
+
+        await act(async () => {
+            enzymeWrapper.find('div[className="react-datepicker__day react-datepicker__day--029"]').simulate('click')
+        });
+        enzymeWrapper.update()
+        
+        await act(async () => {
+            enzymeWrapper.find('b[className="11:00"]').simulate('click')
+        });
+        enzymeWrapper.update()
+
+        const button = enzymeWrapper.find('Button[name="ready"]').get(0)
+        expect(button.props.disabled).toBe(false)
+        await act(async () => {
+            enzymeWrapper.find('Button[name="ready"]').simulate('click', { preventDefault: () => {} })
+        });
+        enzymeWrapper.update()
+        const modal = enzymeWrapper.find('Modal[name="confirm"]').get(0)
+        expect(modal.props.open).toBe(true)
+
+        await act(async () => {
+            enzymeWrapper.find('Button[name="submit"]').simulate('submit', {preventDefault: () => {}})
+        });
+        expect(onSubmit).toBeCalledTimes(1);
+
+    })
+    
     test('Clickin cancel button triggers onCancel even if fields are not correct', async () => {
-        const enzymeWrapper = mount(<AddTourForm onSubmit={onSubmit} onCancel={onCancel} initialTour={guidedTour}/>)
-        await act(async () => {
-            enzymeWrapper.find('input[name="tourName"]').simulate('change', {persist: () => {}, target: {name: 'tourName', value: 'ok'}})
-            enzymeWrapper.find('input[name="possibleLanguages.0"]').simulate('change', {persist: () => {}, target: {name: 'possibleLanguages.0', value: "ok"}})
-            enzymeWrapper.find('input[name="price"]').simulate('change', {persist: () => {}, target: {name: 'price', value: -999}})
-            enzymeWrapper.find('input[name="lengthInMinutes"]').simulate('change', {target: {name: 'lengthInMinutes', value: 1}})
-            enzymeWrapper.find('input[name="maxNumberOfPeople"]').simulate('change', {target: {name: 'maxNumberOfPeople', value: 1}})
-            enzymeWrapper.find('input[name="tourInfo"]').simulate('change', {target: {name: 'tourInfo', value: ''}})
-        });
+        const {enzymeWrapper} = setup()
         await act(async () => {
             enzymeWrapper.find('Button[name="cancelForm"]').simulate('click')
         });
@@ -114,38 +170,85 @@ describe('AddTourForm', () => {
         expect(onCancel).toBeCalledTimes(1);
     })
 
-    test('error is shown when field is not filled', async () => {
-        const enzymeWrapper = mount(<AddTourForm onSubmit={onSubmit} onCancel={onCancel} initialTour={undefined}/>)
+    test('Clicking cancel on confirmation modal closes the modal', async() => {
+        const { enzymeWrapper } = setup()
+
         await act(async () => {
-            enzymeWrapper.find('input[name="tourName"]').simulate('change', {persist: () => {}, target: {name: 'tourName', value: "NImi"}})
-            enzymeWrapper.find('input[name="tourName"]').simulate('blur')
+            enzymeWrapper.find('input[name="groupName"]').simulate('change', {persist: () => {}, target: {name: 'groupName', value: "values"}})
+            enzymeWrapper.find('select[name="chosenLanguage"]').simulate('change', {persist: () => {}, target: {name: 'chosenLanguage', value: "Two"}})
+            enzymeWrapper.find('input[name="numberOfPeople"]').simulate('change', {persist: () => {}, target: {name: 'numberOfPeople', value: 1}})
+            enzymeWrapper.find('input[name="groupAge"]').simulate('change', {persist: () => {}, target: {name: 'groupAge', value: "values"}})
+            enzymeWrapper.find('select[name="paymentOptions"]').simulate('change', {persist: () => {}, target: {name: 'paymentOptions', value: "Cash"}})
+            enzymeWrapper.find('input[name="groupInfo"]').simulate('change', {persist: () => {}, target: {name: 'groupInfo', value: "values"}})
+            enzymeWrapper.find('input[name="email"]').simulate('change', {persist: () => {}, target: {name: 'email', value: "values"}})
+        })
+
+        await act(async () => {
+            enzymeWrapper.find('div[className="react-datepicker__day react-datepicker__day--029"]').simulate('click')
         });
-        await wait()
         enzymeWrapper.update()
-        expect(enzymeWrapper.text()).toContain("Kenttä vaaditaan")
-    })
-    describe('After form has been submitted', () => {
-        const enzymeWrapper = mount(<AddTourForm onSubmit={onSubmit} onCancel={onCancel} initialTour={undefined}/>)
+        
+        await act(async () => {
+            enzymeWrapper.find('b[className="11:00"]').simulate('click')
+        });
+        enzymeWrapper.update()
 
-        beforeEach(async () => {
-            await act(async () => {
-                enzymeWrapper.find('input[name="tourName"]').simulate('change', {persist: () => {}, target: {name: 'tourName', value: 'ok'}})
-                enzymeWrapper.find('input[name="possibleLanguages.0"]').simulate('change', {persist: () => {}, target: {name: 'possibleLanguages.0', value: "ok"}})
-                enzymeWrapper.find('input[name="price"]').simulate('change', {persist: () => {}, target: {name: 'price', value: 1}})
-                enzymeWrapper.find('input[name="lengthInMinutes"]').simulate('change', {target: {name: 'lengthInMinutes', value: 1}})
-                enzymeWrapper.find('input[name="maxNumberOfPeople"]').simulate('change', {target: {name: 'maxNumberOfPeople', value: 1}})
-                enzymeWrapper.find('input[name="tourInfo"]').simulate('change', {target: {name: 'tourInfo', value: ''}})
-            });
-            await act(async () => {
-                enzymeWrapper.find('form').simulate('submit', {preventDefault: () => {}})
-            });
+        const button = enzymeWrapper.find('Button[name="ready"]').get(0)
+        expect(button.props.disabled).toBe(false)
+        await act(async () => {
+            enzymeWrapper.find('Button[name="ready"]').simulate('click', { preventDefault: () => {} })
+        });
+        enzymeWrapper.update()
+        const modal = enzymeWrapper.find('Modal[name="confirm"]').get(0)
+        expect(modal.props.open).toBe(true)
+
+        await act(async () => {
+            enzymeWrapper.find('Button[name="closeConfirmation"]').simulate('click')
+        });
+        enzymeWrapper.update()
+        const modal2 = enzymeWrapper.find('Modal[name="confirm"]').get(0)
+        expect(modal2.props.open).toBe(false)
+
+    })
+
+    test('After form has been submitted the form is resetted', async () => {
+        const { enzymeWrapper } = setup()
+
+        await act(async () => {
+            enzymeWrapper.find('input[name="groupName"]').simulate('change', {persist: () => {}, target: {name: 'groupName', value: "values"}})
+            enzymeWrapper.find('select[name="chosenLanguage"]').simulate('change', {persist: () => {}, target: {name: 'chosenLanguage', value: "Two"}})
+            enzymeWrapper.find('input[name="numberOfPeople"]').simulate('change', {persist: () => {}, target: {name: 'numberOfPeople', value: 1}})
+            enzymeWrapper.find('input[name="groupAge"]').simulate('change', {persist: () => {}, target: {name: 'groupAge', value: "values"}})
+            enzymeWrapper.find('select[name="paymentOptions"]').simulate('change', {persist: () => {}, target: {name: 'paymentOptions', value: "Cash"}})
+            enzymeWrapper.find('input[name="groupInfo"]').simulate('change', {persist: () => {}, target: {name: 'groupInfo', value: "values"}})
+            enzymeWrapper.find('input[name="email"]').simulate('change', {persist: () => {}, target: {name: 'email', value: "values"}})
         })
 
-        test('form is resetted', async () => {
-            enzymeWrapper.update()
-            const name = enzymeWrapper.find('input[name="tourName"]')
-            expect(name.get(0).props.value).toBe("")
-        })
+        await act(async () => {
+            enzymeWrapper.find('div[className="react-datepicker__day react-datepicker__day--029"]').simulate('click')
+        });
+        enzymeWrapper.update()
+        
+        await act(async () => {
+            enzymeWrapper.find('b[className="11:00"]').simulate('click')
+        });
+        enzymeWrapper.update()
+
+        const button = enzymeWrapper.find('Button[name="ready"]').get(0)
+        expect(button.props.disabled).toBe(false)
+        await act(async () => {
+            enzymeWrapper.find('Button[name="ready"]').simulate('click', { preventDefault: () => {} })
+        });
+        enzymeWrapper.update()
+        const modal = enzymeWrapper.find('Modal[name="confirm"]').get(0)
+        expect(modal.props.open).toBe(true)
+
+        await act(async () => {
+            enzymeWrapper.find('Button[name="submit"]').simulate('submit', {preventDefault: () => {}})
+        });
+
+        enzymeWrapper.update()
+        const name = enzymeWrapper.find('input[name="groupName"]')
+        expect(name.get(0).props.value).toBe("")
     })
-    */
 })

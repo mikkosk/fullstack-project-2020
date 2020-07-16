@@ -36,6 +36,6 @@ describe('TourList', () => {
 
     test('store with objects return right amount of list items', () => {
         const { enzymeWrapper } = setup(storeWithMultipleTours)
-        expect(enzymeWrapper.find('Link')).toHaveLength(1)
+        expect(enzymeWrapper.find('b')).toHaveLength(1)
     })
 })

@@ -36,15 +36,7 @@ describe('MuseumAdminPage', () => {
 
     test('renders all fields of the form', () => {
         const { enzymeWrapper } = setup()
-        const name = enzymeWrapper.find('input[name="tourName"]')
-        const languages = enzymeWrapper.find('input[name="possibleLanguages"]')
-        const price = enzymeWrapper.find('input[name="price"]')
-        const length = enzymeWrapper.find('input[name="lengthInMinutes"]')
-        const people = enzymeWrapper.find('input[name="maxNumberOfPeople"]')
-        const info = enzymeWrapper.find('input[name="tourInfo"]')
-
-        
-        expect({name, languages, price, length, people, info}).toBeDefined()
+        expect(enzymeWrapper.find('AddTourForm').exists()).toBe(true);
     })
 
     test('renders the tour list', () => {

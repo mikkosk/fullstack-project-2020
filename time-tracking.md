@@ -45,9 +45,10 @@
 | 12.7. | 3   | fixed (hopefully) last bugs in the reservaion form, created page for reservations and list of reservations to museums and users, cleaned unused code |
 | 13.7. | 3   | fixed a type problem in  backend, wrote some tests |
 | 14.7. | 2   | wrote more tests |
+| 15.7. | 3   | finished tests for now |
 
 
-Total: 90 hours 
+Total: 95 hours 
 
 
 (5cr)

@@ -1,7 +1,7 @@
 import moxios from "moxios";
 import thunk, { ThunkDispatch } from "redux-thunk";
-import { getUsers, addUser, updateUser, userToMuseum, deleteUser, addMuseum } from './userReducer'
-import { UserAnyType, NewUser, UserState, Museum, MessageError } from '../types';
+import { getUsers, addUser, updateUser, userToMuseum, deleteUser, addMuseum, addReservation } from './userReducer'
+import { UserAnyType, NewUser, UserState, Museum, MessageError, Customer, ReservedTour } from '../types';
 import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"
@@ -421,6 +421,94 @@ describe("User actions", () => {
         expect(actions[0].type).toEqual("ADD_MUSEUM_ERROR")
         expect(actions[0].notification).toMatchObject(errorNotification)
     })
+
+    const newReservation: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'> = {
+        lengthInMinutes:3,
+        tourName:"Testi",
+        maxNumberOfPeople:2,
+        possibleLanguages: ["Kieli"],
+        price:2,
+        tourInfo:"Ei infoa saatavilla",
+        chosenLanguage:"Kieli",
+        groupName:"ryhmä",
+        numberOfPeople:1,
+        groupAge:"ikä",
+        paymentMethod:"Cash",
+        time:"04:00",
+        date: new Date(),
+        email:"Sähköposti",
+        groupInfo:"Info",
+    }
+    const reservationFull: ReservedTour = {
+        _id:"testi",
+        lengthInMinutes:3,
+        tourName:"Testi",
+        maxNumberOfPeople:2,
+        possibleLanguages: ["Kieli"],
+        price:2,
+        tourInfo:"Ei infoa saatavilla",
+        chosenLanguage:"Kieli",
+        groupName:"ryhmä",
+        numberOfPeople:1,
+        groupAge:"ikä",
+        paymentMethod:"Cash",
+        time:"04:00",
+        date: new Date(),
+        email:"Sähköposti",
+        groupInfo:"Info",
+        salary: 0,
+        confirmed: false
+    }
+
+    test('addReservation dispatches ADD_REESERVATION_SUCCESS and returns user with updated reservation', async () => {
+        const store = mockStoreCreator(initialState)
+        let initialUser: Customer | undefined;
+        if(initialState.users.users["UserTwo"].type === "Customer") {
+            initialUser = initialState.users.users["UserTwo"]
+        }
+        if(!initialUser) {
+            return
+        }
+
+        const user: Customer = 
+            {
+                ...initialUser,
+                reservedTours: [
+                    ...initialUser.reservedTours,
+                    reservationFull
+                ]
+            }
+
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                response: user
+            })
+        })
+        
+        await store.dispatch<any>(addReservation(initialState.login._id, Object.values(initialState.museums.museums)[0]._id, newReservation))
+        const actions = store.getActions()
+
+        expect.assertions(2)
+        expect(actions[0].type).toEqual("ADD_RESERVATION_SUCCESS")
+        expect(actions[0].payload).toMatchObject(user)
+    })
+
+    test('error when calling addReservation dispatches ADD_RESERVATION_ERROR', async () => {
+        const store = mockStoreCreator(initialState)
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith(errorResp)
+        })
+        
+        await store.dispatch<any>(addReservation(initialState.login._id, Object.values(initialState.museums.museums)[0]._id, newReservation))
+        const actions = store.getActions()
+
+        expect.assertions(2)
+        expect(actions[0].type).toEqual("ADD_RESERVATION_ERROR")
+        expect(actions[0].notification).toMatchObject(errorNotification)
+    })
 });
 
 
@@ -438,7 +526,15 @@ describe('reducers', () => {
             passwordHash: "UserOne",
             type: "Admin", 
             _id: "UserOne",
-            museums: []}
+            museums: []},
+            "UserTwo":
+            {username: "UserTwo",
+            name: "UserTwo",
+            passwordHash: "UserTwo",
+            type: "Customer", 
+            _id: "UserTwo",
+            reservedTours: []}
+            
         }, notification: {message: "", error: false}, finished: true
     }
 
@@ -459,6 +555,7 @@ describe('reducers', () => {
                 name: "UserOne",
                 passwordHash: "UserOne",
                 type: "Customer", 
+                reservedTours: [],
                 _id: "UserOne"}
             }, notification: {message: "", error: false}, finished: true
         }
@@ -494,6 +591,7 @@ describe('reducers', () => {
                 name: "UserOne",
                 passwordHash: "UserOne",
                 type: "Customer", 
+                reservedTours: [],
                 _id: "UserOne"}
             }, 
             notification: {message: "", error: false}, 
@@ -526,10 +624,12 @@ describe('reducers', () => {
 
         expect(reducer).toEqual({
             users: {
+                ...initialStateNotEmpty.users,
                 "UserOne":
                 {username: "UserTwo",
                 name: "UserOne",
                 passwordHash: "UserOne",
+                reservedTours: [],
                 type: "Customer", 
                 _id: "UserOne"}
             }, 
@@ -589,6 +689,7 @@ describe('reducers', () => {
 
         expect(reducer).toEqual({
             users: {
+                ...initialStateNotEmpty.users,
                 "UserOne":
                 {username: "UserOne",
                 name: "UserOne",
@@ -619,7 +720,8 @@ describe('reducers', () => {
                     },
                     offeredTours:[],
                     openInfo: "Auki",
-                    museumInfo: "Museo"   
+                    museumInfo: "Museo",
+                    reservedTours: []    
                 }]}
             }, notification: {message: "", error: false}, finished: true
         }
@@ -641,7 +743,7 @@ describe('reducers', () => {
         const reducer = userReducer(initialStateNotEmpty, {type: "DELETE_USER_SUCCESS", id: "UserOne", notification: {message: "", error: false}});
 
         expect(reducer).toEqual({
-            users: {
+            users: {"UserTwo": initialStateNotEmpty.users["UserTwo"], 
             }, notification: {message: "", error: false}, finished: true
         }
         )
@@ -694,6 +796,7 @@ describe('reducers', () => {
 
         expect(reducer).toEqual({
             users: {
+                ...initialStateNotEmpty.users, 
                 "UserOne":
                 {username: "UserOne",
                 name: "UserOne",
@@ -702,7 +805,7 @@ describe('reducers', () => {
                 _id: "UserOne",
                 museums: [museum]}
             }, notification: {message: "", error: false}, finished: true
-        }
+            }
         )
     })
 
@@ -717,5 +820,54 @@ describe('reducers', () => {
         )
     })
 
+    test('ADD_RESERVATION_SUCCESS works correctly', () => {
+        const userWithReservation = {
+           ...initialStateNotEmpty.users["UserTwo"],
+           reservedTours: [
+                {_id:"testi",
+                possibleLanguages:["Kieli"],
+                lengthInMinutes:3,
+                tourName:"Testi",
+                maxNumberOfPeople:2,
+                price:2,
+                tourInfo:"Ei infoa saatavilla",
+                chosenLanguage:"Kieli",
+                groupName:"ryhmä",
+                numberOfPeople:1,
+                groupAge:"ikä",
+                paymentMethod:"Cash" as const,
+                time:"03:00",
+                date: new Date(),
+                email:"Sähköposti",
+                groupInfo:"Info",
+                salary:0,
+                confirmed:false}
+            ]
+        }
+        const reducer = userReducer(initialStateNotEmpty, {type: "ADD_RESERVATION_SUCCESS", payload: 
+            userWithReservation,
+            notification: {message: "", error: false}
+        })
+
+        expect(reducer).toEqual({
+            users: {
+                ...initialStateNotEmpty.users, 
+                "UserTwo":
+                {...userWithReservation}
+            }, notification: {message: "", error: false}, finished: true
+            }
+        )
+    })
+
+    test('ADD_RESERVATION_ERROR works correctly', () => {
+        const reducer = userReducer(initialState, {type: "ADD_RESERVATION_ERROR", notification: errorNotification
+        })
+
+        expect(reducer).toEqual({
+            ...initialState,
+            notification: errorNotification
+        }
+        )
+    })
 
 })

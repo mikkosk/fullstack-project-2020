@@ -195,7 +195,26 @@ export const initialState: RootState = {
                         _id: "three"}],
                     openInfo: "Auki",
                     museumInfo: "Museo",
-                    reservedTours: []   
+                    reservedTours: [
+                        {_id:"testi",
+                        possibleLanguages:["Kieli"],
+                        lengthInMinutes:3,
+                        tourName:"Testi",
+                        maxNumberOfPeople:2,
+                        price:2,
+                        tourInfo:"Ei infoa saatavilla",
+                        chosenLanguage:"Kieli",
+                        groupName:"ryhmä",
+                        numberOfPeople:1,
+                        groupAge:"ikä",
+                        paymentMethod:"Cash",
+                        time:"03:00",
+                        date: new Date(),
+                        email:"Sähköposti",
+                        groupInfo:"Info",
+                        salary:0,
+                        confirmed:false}
+                    ]     
                 }]
             }, 
             "UserTwo": {
@@ -204,7 +223,26 @@ export const initialState: RootState = {
                 username: "Two",
                 passwordHash: "Two",
                 _id: "UserTwo",
-                reservedTours: []
+                reservedTours: [
+                    {_id:"testi",
+                    possibleLanguages:["Kieli"],
+                    lengthInMinutes:3,
+                    tourName:"Testi",
+                    maxNumberOfPeople:2,
+                    price:2,
+                    tourInfo:"Ei infoa saatavilla",
+                    chosenLanguage:"Kieli",
+                    groupName:"ryhmä",
+                    numberOfPeople:1,
+                    groupAge:"ikä",
+                    paymentMethod:"Cash",
+                    time:"03:00",
+                    date: new Date(),
+                    email:"Sähköposti",
+                    groupInfo:"Info",
+                    salary:0,
+                    confirmed:false}
+                ]  
             }
         }
     },
@@ -254,7 +292,26 @@ export const initialState: RootState = {
                     _id: "three"}],
                 openInfo: "Auki",
                 museumInfo: "Museo",
-                reservedTours: []   
+                reservedTours: [
+                    {_id:"testi",
+                    possibleLanguages:["Kieli"],
+                    lengthInMinutes:3,
+                    tourName:"Testi",
+                    maxNumberOfPeople:2,
+                    price:2,
+                    tourInfo:"Ei infoa saatavilla",
+                    chosenLanguage:"Kieli",
+                    groupName:"ryhmä",
+                    numberOfPeople:1,
+                    groupAge:"ikä",
+                    paymentMethod:"Cash",
+                    time:"03:00",
+                    date: new Date(),
+                    email:"Sähköposti",
+                    groupInfo:"Info",
+                    salary:0,
+                    confirmed:false}
+                ]   
             }
         }
     },
@@ -286,4 +343,5 @@ export const initialStateAdmin: RootState = {
         token: "token"
     }
 }
+
 

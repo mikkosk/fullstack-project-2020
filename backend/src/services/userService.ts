@@ -10,7 +10,7 @@ const getUsers = async (): Promise<UserAnyType[]> => {
 };
 
 const getUser = async (id: UserAnyType["_id"]): Promise<UserAnyType> => {
-    const user = await UserMon.findById(id);
+    const user = await UserMon.findById(id).populate({path: 'museums', populate: {path: 'reservedTours'}}).populate("reservedTours");
     if(!user) {
         throw new Error('Kyseistä käyttäjää ei löytynyt');
     }
@@ -18,7 +18,7 @@ const getUser = async (id: UserAnyType["_id"]): Promise<UserAnyType> => {
 };
 
 const addUser = async (entry: NewUser): Promise<UserAnyType> => {
-    const { type, name, username, password } = entry;
+    const { type, name, username, password, languages } = entry;
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
     const newUser = new UserMon({
@@ -27,7 +27,8 @@ const addUser = async (entry: NewUser): Promise<UserAnyType> => {
         username,
         passwordHash,
         museums: [],
-        reservedTours: []
+        reservedTours: [],
+        languages
     });
     const savedUser = await newUser.save();
 
@@ -35,7 +36,7 @@ const addUser = async (entry: NewUser): Promise<UserAnyType> => {
 };
 
 const updateUser = async (entry: NewUser, id: User['_id']): Promise<UserAnyType> => {
-    const { name, username, password, type } = entry;
+    const { name, username, password, type, languages } = entry;
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
     const newUser = {
@@ -43,6 +44,7 @@ const updateUser = async (entry: NewUser, id: User['_id']): Promise<UserAnyType>
         type,
         username,
         passwordHash,
+        languages
     };
     const updatedUser = await UserMon.findByIdAndUpdate(id, newUser, {new: true}).populate('museums');
     if(!updatedUser) {

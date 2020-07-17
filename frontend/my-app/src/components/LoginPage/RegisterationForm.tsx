@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formik, Form, Field } from 'formik'
-import { TextField, SelectField } from '../../utils/FormFields'
+import { TextField, SelectField, ArrayField } from '../../utils/FormFields'
 import { Button } from 'semantic-ui-react'
 import { NewUser, OptionField } from '../../types'
 
@@ -13,10 +13,12 @@ const initialValues: NewUser = {
     username: "",
     password: "",
     type: "Customer",
+    languages: [""]
 }
 const options: OptionField[] = [
     {label: "Asiakas", value: "Customer"},
     {label: "Ylläpitäjä", value: "Admin"},
+    {label: "Opas", value: "Guide"},
 ]
 
 export const RegisterationForm: React.FC<Props> = ({ onSubmit }) => {
@@ -38,13 +40,13 @@ export const RegisterationForm: React.FC<Props> = ({ onSubmit }) => {
             if(values.name.length === 0) {
                 errors.name = "Kenttä vaaditaan"
             }
-            if(values.type !== "Admin" && values.type !== "Customer") {
+            if(values.type !== "Admin" && values.type !== "Customer" && values.type !== "Guide") {
                 errors.type = "Käyttäjän täytyy kuulua johonkin ennalta valittuun ryhmään"
             }
             return errors;
         }}
         >
-        {({ isValid, dirty }) => {
+        {({ values, isValid, dirty }) => {
             return(
             <Form className="form ui">
                 <Field
@@ -70,6 +72,16 @@ export const RegisterationForm: React.FC<Props> = ({ onSubmit }) => {
                     name="type"
                     options={options}
                 />
+
+                {values.type === "Guide" && 
+                    <Field
+                        label="Kielitaito"
+                        name="languages"
+                        component={ArrayField}
+                        values={values.languages}
+                        fieldName="languages"
+                    />
+                }
                 <Button type="submit" name="submit" disabled={!dirty || !isValid}>
                         Lisää käyttäjä
                 </Button>

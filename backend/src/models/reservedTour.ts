@@ -19,6 +19,10 @@ const reservedSchema: Schema = new Schema({
     date: Date,
     email: String,
     groupInfo: String,
+    guide: {
+        id: String,
+        name: String,
+    },
     salary: {type: Number, required: false},
     confirmed: Boolean
 });

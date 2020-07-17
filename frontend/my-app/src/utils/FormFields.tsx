@@ -84,20 +84,24 @@ export const SelectTwoField: React.FC<SelectArrayProps & {optionsTwo: string}[]>
 )
 
 interface ArrayProps extends FieldProps {
+    fieldName: string;
     label: string;
     values: string[]
 }
-export const ArrayField: React.FC<ArrayProps> = ({field, label, values}) => (
+export const ArrayField: React.FC<ArrayProps> = ({fieldName, field, label, values}) => {
+    const name = fieldName
+    console.log(name)
+    return (
     <Form.Field>
         <label>{label}</label>
         <FieldArray
-                        name="possibleLanguages"
+                        name={name}
                         render={arrayHelpers => (
                             <div>
                                 {values && values.length > 0 ? (
                                     values.map((language, index) => (
                                         <div key={index}>
-                                            <Field name={`possibleLanguages.${index}`} />
+                                            <Field name={`${name}.${index}`} />
                                             <Button type="button" onClick={() => arrayHelpers.remove(index)}>-</Button>
                                             <Button type="button" onClick={() => arrayHelpers.insert(index, '')}>+</Button>
                                         </div>
@@ -112,7 +116,8 @@ export const ArrayField: React.FC<ArrayProps> = ({field, label, values}) => (
             <ErrorMessage name={field.name} />
         </div>
     </Form.Field>
-)
+    )
+}
 
 export const DateField: React.FC<{name: string}> = ({name}) => {
     const { setFieldValue } = useFormikContext()
@@ -142,7 +147,7 @@ export const TimeField: React.FC<{museum: Museum, name: string, date: Date, tour
         let possible: string[] =[]
         let time = start
         
-        if (start === "Suljettu" || end === "Suljettu" ||  (dateToString(new Date()) === dateToString(date)) || new Date() > date
+        if (start === "closed" || end === "closed" ||  (dateToString(new Date()) === dateToString(date)) || new Date() > date
             || !isTime(start) || !isTime(end)
         ) {
             return []

@@ -6,6 +6,50 @@ import { Header, GridColumn, Grid } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
 import { dateToString } from '../../utils/DateTimeFunctions';
 
+export const EssentialInformation: React.FC<{tour: ReservedTour}> = ({tour}) => {
+    return (
+        <div>
+            <GridColumn>Kierros: </GridColumn>
+            <GridColumn>{tour.tourName}</GridColumn>
+            <GridColumn>Päivä: </GridColumn>
+            <GridColumn>{dateToString(tour.date)}</GridColumn>
+            <GridColumn>Aika: </GridColumn>
+            <GridColumn>{tour.time}</GridColumn>
+        </div>
+    )
+}
+
+export const RestInformation: React.FC<{tour: ReservedTour}> = ({tour}) => {
+    return(
+        <div>
+            <GridColumn>Ryhmä: </GridColumn>
+            <GridColumn>{tour.groupName}</GridColumn>
+            <GridColumn>Kieli: </GridColumn>
+            <GridColumn>{tour.chosenLanguage}</GridColumn>
+            <GridColumn>Varaajan sähköposti: </GridColumn>
+            <GridColumn>{tour.email}</GridColumn>
+            <GridColumn>Hinta: </GridColumn>
+            <GridColumn>{tour.price}</GridColumn>
+            <GridColumn>Maksutapa: </GridColumn>
+            <GridColumn>{tour.paymentMethod}</GridColumn>
+            <GridColumn>Kesto: </GridColumn>
+            <GridColumn>{tour.lengthInMinutes}min</GridColumn>
+            <GridColumn>Osallistujia: </GridColumn>
+            <GridColumn>{tour.numberOfPeople}</GridColumn>
+            <GridColumn>Ikäryhmä: </GridColumn>
+            <GridColumn>{tour.groupAge}</GridColumn>
+            <GridColumn>Lisätietoja ryhmästä: </GridColumn>
+            <GridColumn>{tour.groupInfo}</GridColumn>
+            <GridColumn>Lisätietoja opastuksesta: </GridColumn>
+            <GridColumn>{tour.tourInfo}</GridColumn>
+            <GridColumn>Opas: </GridColumn>
+            <GridColumn>{tour.guide.name}</GridColumn>
+            <GridColumn>Vahvistettu: </GridColumn>
+            <GridColumn>{tour.confirmed}</GridColumn>
+        </div>
+    )
+}
+
 const ReservationPage: React.FC = () => {
     const user = useSelector((state: RootState) => state.users.users[state.login._id]);
     const { id } = useParams<{ id: string }>()
@@ -38,36 +82,8 @@ const ReservationPage: React.FC = () => {
         <div>
             <Header>Varattu kierros</Header>
             <Grid columns="2">
-                <GridColumn>Kierros: </GridColumn>
-                <GridColumn>{tour.tourName}</GridColumn>
-                <GridColumn>Päivä: </GridColumn>
-                <GridColumn>{dateToString(tour.date)}</GridColumn>
-                <GridColumn>Aika: </GridColumn>
-                <GridColumn>{tour.time}</GridColumn>
-                <GridColumn>Ryhmä: </GridColumn>
-                <GridColumn>{tour.groupName}</GridColumn>
-                <GridColumn>Kieli: </GridColumn>
-                <GridColumn>{tour.chosenLanguage}</GridColumn>
-                <GridColumn>Varaajan sähköposti: </GridColumn>
-                <GridColumn>{tour.email}</GridColumn>
-                <GridColumn>Hinta: </GridColumn>
-                <GridColumn>{tour.price}</GridColumn>
-                <GridColumn>Maksutapa: </GridColumn>
-                <GridColumn>{tour.paymentMethod}</GridColumn>
-                <GridColumn>Kesto: </GridColumn>
-                <GridColumn>{tour.lengthInMinutes}min</GridColumn>
-                <GridColumn>Osallistujia: </GridColumn>
-                <GridColumn>{tour.numberOfPeople}</GridColumn>
-                <GridColumn>Ikäryhmä: </GridColumn>
-                <GridColumn>{tour.groupAge}</GridColumn>
-                <GridColumn>Lisätietoja ryhmästä: </GridColumn>
-                <GridColumn>{tour.groupInfo}</GridColumn>
-                <GridColumn>Lisätietoja opastuksesta: </GridColumn>
-                <GridColumn>{tour.tourInfo}</GridColumn>
-                <GridColumn>Opas: </GridColumn>
-                <GridColumn>{tour.guide}</GridColumn>
-                <GridColumn>Vahvistettu: </GridColumn>
-                <GridColumn>{tour.confirmed}</GridColumn>
+                <EssentialInformation tour={tour}/>
+                <RestInformation tour={tour}/>
             </Grid>
         </div>
     )

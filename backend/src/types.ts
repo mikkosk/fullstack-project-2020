@@ -19,14 +19,12 @@ export interface ReservedTour extends GuidedTour {
     date: Date;
     email: string;
     groupInfo: string;
-    //guide: Guide;
+    guide: {
+        id: Guide['_id'];
+        name: Guide['name'];
+    };
     salary?: number;
     confirmed: boolean;
-}
-
-export interface Guide {
-    guideName: string;
-    languages: string[];
 }
 
 export interface Museum {
@@ -73,19 +71,27 @@ export interface Admin extends User{
     museums: Museum[];
 }
 
-export type UserAnyType = Customer | Admin;
+export interface Guide extends User{
+    type: "Guide";
+    museums: Museum[];
+    reservedTours: ReservedTour[];
+    languages: string[];
+}
 
-type BothUsers = Omit<Customer, "type"> & Omit<Admin, "type">;
+export type UserAnyType = Customer | Admin | Guide;
+
+type BothUsers = Omit<Customer, "type"> & Omit<Admin, "type"> & Omit<Guide, "type">;
 
 export type UniversalUser = BothUsers & {type: UserTypes};
 
-export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {password: string};
+export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash' | 'reservedTours'> & {password: string; languages: string[]};
 export type NewMuseum = Omit<Museum, '_id' | 'offeredTours' | 'reservedTours'>;
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;
 
 export type UserTypes =
     'Customer' |
-    'Admin'
+    'Admin' |
+    'Guide'
 ;
 
 export type PaymentMethods =  'Cash' | 'Card' | 'Bill' | 'Other';

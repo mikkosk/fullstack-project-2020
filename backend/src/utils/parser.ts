@@ -37,7 +37,7 @@ const isTime = (time: string): boolean => {
 };
 
 const isType = (type: any): boolean => {
-    return type === "Customer" || type === "Admin";
+    return type === "Customer" || type === "Admin" || type === "Guide";
 };
 
 const isPaymentMethod = (method: any): boolean => {
@@ -134,7 +134,7 @@ const parseDate = (date: any): Date => {
     return date;
 };
 
-const parseType = (type: any): "Customer" | "Admin" => {
+const parseType = (type: any): "Customer" | "Admin" | "Guide" => {
     if(!type || !isType(type)) {
         throw new Error('Incorrect or missing user type');
     } 
@@ -226,9 +226,13 @@ export const toNewUser = (object: any): NewUser => {
         type: parseType(object.type),
         name: parseName(object.name),
         username: parseName(object.username),
-        password: parsePassword(object.password)
+        password: parsePassword(object.password),
+        languages: []
     };
-
+    
+    if(newUser.type === "Guide" && object.languages) {
+        newUser.languages =  parseLanguages(object.languages);
+    }
     return newUser;
 };
 
@@ -249,6 +253,10 @@ export const toReservedTour = (object: any): Omit<ReservedTour, '_id'> => {
         date: parseDate(object.date),
         email: parseInfo(object.email),
         groupInfo: parseInfo(object.groupInfo),
+        guide: {
+            id: "",
+            name: ""
+        },
         salary: 0,
         confirmed: false
     };

@@ -60,6 +60,7 @@ export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel, initialTour }
                     <Field
                         label="Opastuksen kielet"
                         name="possibleLanguages"
+                        fieldName="possibleLanguages"
                         component={ArrayField}
                         values={values.possibleLanguages}
                     />

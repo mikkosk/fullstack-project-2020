@@ -55,7 +55,6 @@ router.put('/:userid/museum/:museumid', async (req, res) => {
 });
 
 router.post('/:userid/museum/:museumid/reservedtour', async (req, res) => {
-    console.log("Tuli perille");
     try {
         const museumId = req.params.museumid;
         const token = decodedToken(req.headers.authorization);

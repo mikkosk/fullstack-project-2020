@@ -104,6 +104,7 @@ describe("User actions", () => {
             type: "Customer",
             username: "Three",
             password: "Three",
+            languages: []
         }
 
         const payload: UserAnyType = 
@@ -140,6 +141,7 @@ describe("User actions", () => {
             type: "Customer",
             username: "Three",
             password: "Three",
+            languages: []
         }
 
         moxios.wait(() => {
@@ -164,6 +166,7 @@ describe("User actions", () => {
                 type: "Customer",
                 username: "Three",
                 password: "Three",
+                languages: []
             }
 
         const payload: UserAnyType = {
@@ -200,6 +203,7 @@ describe("User actions", () => {
                 type: "Customer",
                 username: "Three",
                 password: "Three",
+                languages: []
             }
 
         moxios.wait(() => {
@@ -436,6 +440,10 @@ describe("User actions", () => {
         paymentMethod:"Cash",
         time:"04:00",
         date: new Date(),
+        guide: {
+            id: "",
+            name: ""
+        },
         email:"Sähköposti",
         groupInfo:"Info",
     }
@@ -456,6 +464,10 @@ describe("User actions", () => {
         date: new Date(),
         email:"Sähköposti",
         groupInfo:"Info",
+        guide: {
+            id: "",
+            name: ""
+        },
         salary: 0,
         confirmed: false
     }
@@ -839,6 +851,10 @@ describe('reducers', () => {
                 time:"03:00",
                 date: new Date(),
                 email:"Sähköposti",
+                guide: {
+                    id: "",
+                    name: ""
+                },
                 groupInfo:"Info",
                 salary:0,
                 confirmed:false}

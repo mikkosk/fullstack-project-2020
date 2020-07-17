@@ -22,7 +22,8 @@ const userSchema: Schema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "ReservedMon"
     }
-  ]
+  ],
+  languages: [String]
 });
 
 userSchema.plugin(uniqueValidator);

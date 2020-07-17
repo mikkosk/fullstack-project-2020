@@ -212,6 +212,10 @@ export const initialState: RootState = {
                         date: new Date(),
                         email:"Sähköposti",
                         groupInfo:"Info",
+                        guide: {
+                            id: "",
+                            name: ""
+                        },
                         salary:0,
                         confirmed:false}
                     ]     
@@ -240,6 +244,10 @@ export const initialState: RootState = {
                     date: new Date(),
                     email:"Sähköposti",
                     groupInfo:"Info",
+                    guide: {
+                        id: "",
+                        name: ""
+                    },
                     salary:0,
                     confirmed:false}
                 ]  
@@ -309,6 +317,10 @@ export const initialState: RootState = {
                     date: new Date(),
                     email:"Sähköposti",
                     groupInfo:"Info",
+                    guide: {
+                        id: "",
+                        name: ""
+                    },
                     salary:0,
                     confirmed:false}
                 ]   

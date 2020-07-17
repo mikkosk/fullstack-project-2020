@@ -18,7 +18,10 @@ export interface ReservedTour extends GuidedTour {
     date: Date;
     email: string;
     groupInfo: string;
-    guide?: Guide;
+    guide: {
+        id: Guide['_id'];
+        name: Guide['name'];
+    };
     salary?: number;
     confirmed: boolean
 }
@@ -57,7 +60,7 @@ export interface Museum {
 
 export type NewMuseum = Omit<Museum, '_id' | 'offeredTours' | 'reservedTours'>;
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;
-export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {password: string};
+export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {password: string; languages: string[]};
 
 export interface TourState {
     tours: { [_id: string]: GuidedTour},
@@ -98,12 +101,19 @@ export interface Admin extends User{
     type: "Admin";
     museums: Museum[];
 }
+export interface Guide extends User{
+    type: "Guide";
+    museums: Museum[];
+    reservedTours: ReservedTour[];
+    languages: string[];
+}
 
-export type UserAnyType = Customer | Admin;
+export type UserAnyType = Customer | Admin | Guide;
 
 export type UserTypes =
     'Customer' |
-    'Admin'
+    'Admin' |
+    'Guide'
 ;
 
 export interface LoginState extends User {

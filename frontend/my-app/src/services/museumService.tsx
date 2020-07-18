@@ -23,9 +23,15 @@ const deleteMuseum = async (id: string) => {
     await axios.delete(`${baseUrl}/${id}`, authenticationHelper.getAuthenticationHeaders());
 }
 
+const sendRequest = async (userId: string, museumId: string) => {
+    const res = await axios.put(`${baseUrl}/${museumId}/request`, {id: userId})
+    console.log(res.data)
+    return res.data
+}
 export default {
     getAll,
     addMuseum,
     deleteMuseum,
-    updateMuseum
+    updateMuseum,
+    sendRequest
 }

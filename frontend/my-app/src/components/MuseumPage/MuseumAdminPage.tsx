@@ -8,6 +8,7 @@ import { NewTour, Museum, ReservedTour } from '../../types'
 import { useHistory } from 'react-router-dom'
 import { dateToString } from '../../utils/DateTimeFunctions'
 
+//JATKA LISÄÄMÄLLÄ PYYNTÖJEN VAHVISTUS
 const MuseumAdminPage: React.FC<{museum: Museum}> = ({ museum }) => {
     const dispatch = useDispatch()
     const history = useHistory()

@@ -35,6 +35,7 @@ router.post('/', async (req, res) => {
         type,
         passwordHash,
         _id,
+        languages: user.type === "Guide" ? user.languages: [],
         museums: user.type === "Admin" ? user.museums : [],
         reservedTours: user.type === "Customer" ? user.reservedTours : []
     };

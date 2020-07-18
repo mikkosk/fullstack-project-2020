@@ -52,6 +52,7 @@ export interface Museum {
     offeredTours: GuidedTour[];
     museumInfo?: string;
     reservedTours: ReservedTour[];
+    userRequests: Professionals[];
 }
 
 export interface User {
@@ -78,6 +79,7 @@ export interface Guide extends User{
     languages: string[];
 }
 
+export type Professionals = Omit<Guide, "type"> | Omit<Admin, "type"> & {type: "Guide" | "Admin"};
 export type UserAnyType = Customer | Admin | Guide;
 
 type BothUsers = Omit<Customer, "type"> & Omit<Admin, "type"> & Omit<Guide, "type">;
@@ -85,7 +87,7 @@ type BothUsers = Omit<Customer, "type"> & Omit<Admin, "type"> & Omit<Guide, "typ
 export type UniversalUser = BothUsers & {type: UserTypes};
 
 export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash' | 'reservedTours'> & {password: string; languages: string[]};
-export type NewMuseum = Omit<Museum, '_id' | 'offeredTours' | 'reservedTours'>;
+export type NewMuseum = Omit<Museum, '_id' | 'offeredTours' | 'reservedTours' | 'userRequests'>;
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;
 
 export type UserTypes =

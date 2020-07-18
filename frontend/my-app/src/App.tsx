@@ -16,6 +16,7 @@ import NotificationBar from './components/NotificationBar';
 import CustomerUserPage from './components/CustomerUserPage';
 import FindMuseums from './components/FindMuseums';
 import ReservationPage from './components/ReservationPage';
+import GuideUserPage from './components/GuideUserPage';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
             <Route path="/museum/:id" render={() => <MuseumPage />}/>
             <Route path="/admin/" render={() => <AdminPage />}/>
             <Route path="/user/" render={() => <CustomerUserPage />}/>
+            <Route path="/guide/" render={() => <GuideUserPage />}/>
             <Route path="/find/museums" render={() => <FindMuseums />}/>
             <Route path="/reservation/:id" render={() => <ReservationPage/>}/>
           </Switch>

@@ -52,6 +52,15 @@ export type Action=
         type: "DELETE_TOUR_ERROR",
         notification: MessageError
     }
+    |{
+        type: "USER_REQUEST_SUCCESS",
+        payload: Museum,
+        notification: MessageError,
+    }
+    |{
+        type: "USER_REQUEST_ERROR",
+        notification: MessageError,
+    }
 
 const initialState: MuseumState = {
     museums: {},
@@ -82,6 +91,10 @@ const museumReducer = (state = initialState, action: Action): MuseumState => {
         case 'DELETE_TOUR_SUCCESS':
             return {...state, notification: action.notification, museums: {...state.museums, [action.museumId]: {...state.museums[action.museumId], offeredTours: state.museums[action.museumId].offeredTours.filter(t => t._id !== action.tourId)}}}
         case 'DELETE_TOUR_ERROR':
+            return {...state, notification: action.notification}
+        case 'USER_REQUEST_SUCCESS':
+            return {...state, notification: action.notification, museums: {...state.museums, [action.payload._id]: {...action.payload}}}
+        case 'USER_REQUEST_ERROR':
             return {...state, notification: action.notification}
         default: 
             return state
@@ -177,6 +190,25 @@ export const deleteTour = (museumId: string, tourId: string): ThunkAction<void, 
         } catch(e) {
             dispatch({
                 type: "DELETE_TOUR_ERROR",
+                notification: {message: e.response.data, error: true}
+            })
+        }
+    }
+}
+
+export const sendRequest = (userId: string, museumId: string): ThunkAction<void, RootState, unknown, Action> => {
+    console.log("action")
+    return async(dispatch: Dispatch<Action>) => {
+        try{
+            const payload = await museumsService.sendRequest(userId, museumId);
+            dispatch({
+                type: "USER_REQUEST_SUCCESS",
+                payload,
+                notification: {message: "Pyyntö lähetetty", error: false}
+            })
+        } catch(e) {
+            dispatch({
+                type: "USER_REQUEST_ERROR",
                 notification: {message: e.response.data, error: true}
             })
         }

@@ -72,6 +72,7 @@ const TourPage: React.FC = () => {
                         <Table.HeaderCell textAlign="right"> <Button name="openModal" onClick={() => openModal(true)}>Muokkaa</Button> </Table.HeaderCell>}
                         {(user && user.type === "Customer") &&
                         <Table.HeaderCell textAlign="right"> <Button name="openModal" onClick={() => openModal(false)}>Varaa</Button> </Table.HeaderCell>}
+                        {((user && user.type === "Guide") || !user) && <Table.HeaderCell name="empty"></Table.HeaderCell>}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

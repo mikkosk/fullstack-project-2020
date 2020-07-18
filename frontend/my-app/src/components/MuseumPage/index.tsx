@@ -25,7 +25,7 @@ const MuseumPage = () => {
     if(user && user.type === "Admin" && user.museums.find((m: Museum) => m._id === museum._id)) {
         return <MuseumAdminPage museum={museum} />
     } else {
-        return <MuseumCustomerPage museum={museum} />
+        return <MuseumCustomerPage museum={museum} user={user}/>
     }
 }
 

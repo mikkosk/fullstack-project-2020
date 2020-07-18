@@ -229,7 +229,7 @@ export const toNewUser = (object: any): NewUser => {
         password: parsePassword(object.password),
         languages: []
     };
-    
+
     if(newUser.type === "Guide" && object.languages) {
         newUser.languages =  parseLanguages(object.languages);
     }

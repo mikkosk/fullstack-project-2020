@@ -86,7 +86,8 @@ export const initialStateEmptyTours: RootState = {
                 offeredTours:[],
                 openInfo: "Auki",
                 museumInfo: "Museo",
-                reservedTours: []   
+                reservedTours: [],
+                userRequests: []   
             }
         }
     },
@@ -195,6 +196,7 @@ export const initialState: RootState = {
                         _id: "three"}],
                     openInfo: "Auki",
                     museumInfo: "Museo",
+                    userRequests: [],
                     reservedTours: [
                         {_id:"testi",
                         possibleLanguages:["Kieli"],
@@ -291,15 +293,18 @@ export const initialState: RootState = {
                     sun: "12:00"
                     
                 },
-                offeredTours:[{lengthInMinutes: 2, 
+                offeredTours:[
+                    {lengthInMinutes: 2, 
                     maxNumberOfPeople:2, 
                     possibleLanguages: ["Two"],
                     price: 1, 
                     tourName: "Two", 
                     tourInfo: "Two", 
-                    _id: "three"}],
+                    _id: "three"}
+                ],
                 openInfo: "Auki",
                 museumInfo: "Museo",
+                userRequests: [],
                 reservedTours: [
                     {_id:"testi",
                     possibleLanguages:["Kieli"],

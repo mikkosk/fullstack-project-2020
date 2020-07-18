@@ -46,9 +46,10 @@
 | 13.7. | 3   | fixed a type problem in  backend, wrote some tests |
 | 14.7. | 2   | wrote more tests |
 | 15.7. | 3   | finished tests for now |
+| 17.7. | 3   | changed backend to allow new user type, fixed user creation in front and started creating user page for guides |
+| 18.7. | 3   | finished guide page, changed backend to allow sending and saving request to join a museum, added a request button to front end |
 
-
-Total: 95 hours 
+Total: 98 hours 
 
 
 (5cr)

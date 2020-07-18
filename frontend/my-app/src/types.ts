@@ -55,10 +55,11 @@ export interface Museum {
     openInfo?: string;
     offeredTours: GuidedTour[];
     museumInfo?: string;
-    reservedTours: ReservedTour[]
+    reservedTours: ReservedTour[];
+    userRequests: Professionals[];
 }
 
-export type NewMuseum = Omit<Museum, '_id' | 'offeredTours' | 'reservedTours'>;
+export type NewMuseum = Omit<Museum, '_id' | 'offeredTours' | 'reservedTours' | 'userRequests'>;
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;
 export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {password: string; languages: string[]};
 
@@ -109,6 +110,7 @@ export interface Guide extends User{
 }
 
 export type UserAnyType = Customer | Admin | Guide;
+export type Professionals = Guide | Admin;
 
 export type UserTypes =
     'Customer' |

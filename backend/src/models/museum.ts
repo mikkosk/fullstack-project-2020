@@ -42,6 +42,10 @@ const museumSchema: Schema = new Schema({
     reservedTours: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ReservedMon'
+    }],
+    userRequests: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserMon'
     }]
 });
 

@@ -59,4 +59,16 @@ router.delete('/:id', async (req, res) => {
     res.status(204).end();
 });
 
+router.put('/:id/request', async (req, res) => {
+    console.log("backend");
+    const museumId = req.params.id;
+    const userId = String(req.body.id);
+    console.log(String(req.body.id));
+    try {
+        const museum = await museumService.sendRequestMuseum(userId, museumId);
+        res.json(museum);
+    } catch(e) {
+        res.status(400).send(e.message);
+    }
+});
 export default router;

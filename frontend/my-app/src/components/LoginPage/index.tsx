@@ -35,6 +35,9 @@ export const LoginPage: React.FC = () => {
             else if(loggedInUser.type ==="Customer") {
                 history.push(`/user`)
             }
+            else if(loggedInUser.type === "Guide") {
+                history.push(`/guide`)
+            }
         } catch {
             dispatch(addNotification({message: "Väärät tunnukset", error: true}))
         }

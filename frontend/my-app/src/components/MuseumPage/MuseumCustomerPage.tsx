@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Museum, GuidedTour } from '../../types'
-import { Grid, GridColumn, GridRow, Header, Icon, Card, CardHeader } from 'semantic-ui-react'
+import { Museum, GuidedTour, UserAnyType, Professionals } from '../../types'
+import { Grid, GridColumn, GridRow, Header, Icon, Card, CardHeader, Button } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
+import museumReducer, { sendRequest } from '../../reducers/museumReducer'
+import { useDispatch } from 'react-redux'
 
-const MuseumCustomerPage: React.FC<{museum: Museum}> = ({museum}) => {
+const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({museum, user}) => {
     const openHours = [
         {day: "Maanantai", open: museum.open.mon, closed: museum.closed.mon},
         {day: "Tiistai", open: museum.open.tue, closed: museum.closed.tue},
@@ -24,12 +26,15 @@ const MuseumCustomerPage: React.FC<{museum: Museum}> = ({museum}) => {
         tourInfo: "Museo ei tarjoa tällä hetkellä opastuksia"
     }
     const history = useHistory()
+    const dispatch = useDispatch()
 
     const numberOfTours = Object.values(museum.offeredTours).length
     
     const toTour = (museumId: Museum['_id'], tourId: GuidedTour['_id']) => {
         history.push(`/museum/${museumId}/tour/${tourId}`)
     }
+
+    const alreadySent  = Boolean(museum.userRequests.find((u: Professionals) => u._id === (user?user._id:false)));
 
 
 
@@ -50,6 +55,17 @@ const MuseumCustomerPage: React.FC<{museum: Museum}> = ({museum}) => {
                 setTourNumb(tourNumb - 1)
             }
         }
+    }
+
+    const handleRequest = async () => {
+        await sendAdminRequest();
+        console.log("page")
+    }
+    const sendAdminRequest = async () => {
+        console.log("send")
+        console.log(user._id)
+        console.log(museum._id)
+        dispatch(sendRequest(user._id, museum._id))
     }
 
     const [tour, setTour]  = useState(placeholderTour)
@@ -126,6 +142,13 @@ const MuseumCustomerPage: React.FC<{museum: Museum}> = ({museum}) => {
                     </Grid>
                 </GridColumn>
             </Grid>
+            {user && user.type !== "Customer" && 
+                <div>
+                    <p>Oletko tämän museon henkilökuntaa? Lähetä pyyntö!</p>
+                    <Button onClick={handleRequest} disabled={alreadySent}>Lähetä!</Button>
+                    {alreadySent && <p>Olet jo lähettänyt pyynnön</p>}
+                </div>
+            }
         </div>
     )
 }

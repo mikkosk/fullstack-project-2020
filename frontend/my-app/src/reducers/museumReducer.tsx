@@ -61,6 +61,15 @@ export type Action=
         type: "USER_REQUEST_ERROR",
         notification: MessageError,
     }
+    |{
+        type: "REMOVE_REQUEST_SUCCESS",
+        payload: Museum,
+        notification: MessageError,
+    }
+    |{
+        type: "REMOVE_REQUEST_ERROR",
+        notification: MessageError,
+    }
 
 const initialState: MuseumState = {
     museums: {},
@@ -95,6 +104,10 @@ const museumReducer = (state = initialState, action: Action): MuseumState => {
         case 'USER_REQUEST_SUCCESS':
             return {...state, notification: action.notification, museums: {...state.museums, [action.payload._id]: {...action.payload}}}
         case 'USER_REQUEST_ERROR':
+            return {...state, notification: action.notification}
+        case 'REMOVE_REQUEST_SUCCESS':
+            return {...state, notification: action.notification, museums: {...state.museums, [action.payload._id]: {...action.payload}}}
+        case 'REMOVE_REQUEST_ERROR':
             return {...state, notification: action.notification}
         default: 
             return state
@@ -215,4 +228,22 @@ export const sendRequest = (userId: string, museumId: string): ThunkAction<void,
     }
 }
 
+export const removeRequest = (userId: string, museumId: string): ThunkAction<void, RootState, unknown, Action> => {
+    console.log("action")
+    return async(dispatch: Dispatch<Action>) => {
+        try{
+            const payload = await museumsService.removeRequest(userId, museumId);
+            dispatch({
+                type: "REMOVE_REQUEST_SUCCESS",
+                payload,
+                notification: {message: "Pyyntö poistettu", error: false}
+            })
+        } catch(e) {
+            dispatch({
+                type: "REMOVE_REQUEST_ERROR",
+                notification: {message: e.response.data, error: true}
+            })
+        }
+    }
+}
 export default museumReducer

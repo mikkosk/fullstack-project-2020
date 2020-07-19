@@ -78,8 +78,10 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
     }, [museum.offeredTours, numberOfTours])
     
     useEffect(() => {
-        setTour(Object.values(museum.offeredTours)[tourNumb])
-    }, [tourNumb, museum.offeredTours])
+        if(numberOfTours !== 0) {
+            setTour(Object.values(museum.offeredTours)[tourNumb])
+        }
+    }, [tourNumb, museum.offeredTours, numberOfTours])
 
     return (
         <div>

@@ -71,4 +71,21 @@ router.put('/:id/request', async (req, res) => {
         res.status(400).send(e.message);
     }
 });
+
+router.put('/:id/request/remove', async (req, res) => {
+    const museumId = req.params.id;
+    const userId = String(req.body.id);
+    const token = decodedToken(req.headers.authorization);
+    const user = await userService.getUser(token.id);
+    if(!user || !allowedUserType("Admin", user) || !allowedMuseum(museumId, user)) {
+        res.status(401).send("Ei oikeuksia poistaa pyyntöä");
+        return;
+    }
+    try {
+        const museum = await museumService.removeRequest(userId, museumId);
+        res.json(museum);
+    } catch(e) {
+        res.status(400).send(e.message);
+    }
+});
 export default router;

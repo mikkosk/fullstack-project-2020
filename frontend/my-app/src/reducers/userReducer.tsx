@@ -70,6 +70,15 @@ export type Action=
         type: "ADD_RESERVATION_ERROR",
         notification: MessageError
     }
+    |{
+        type: "CONFIRM_TOUR_SUCCESS",
+        payload: UserAnyType,
+        notification: MessageError
+    }
+    |{
+        type: "CONFIRM_TOUR_ERROR",
+        notification: MessageError
+    }
 
 const initialState: UserState = {
     users: {},
@@ -113,6 +122,10 @@ const userReducer = (state = initialState, action: Action): UserState => {
             return {...state, notification: action.notification, users: {...state.users, [action.payload._id]: {...action.payload}}}
         case 'ADD_RESERVATION_ERROR':
             return  {...state, notification: action.notification}
+        case 'CONFIRM_TOUR_SUCCESS':
+            return {...state, notification: action.notification, users: {...state.users, [action.payload._id]: {...action.payload}}}
+        case 'CONFIRM_TOUR_ERROR':
+            return {...state, notification: action.notification}
         default:
             return state
     }
@@ -241,6 +254,24 @@ export const addReservation = (userId: string, museumId: string, reservation: Om
         } catch(e) {
             dispatch({
                 type:"ADD_RESERVATION_ERROR",
+                notification: {message: e.response.data, error: true}
+            })
+        }
+    }
+}
+
+export const confirmTour = (tourId: string, userId: string): ThunkAction<void, RootState, unknown, Action> => {
+    return async(dispatch: Dispatch<Action>) => {
+        try{
+            const payload = await userService.confirmTour(tourId, userId);
+            dispatch({
+                type: "CONFIRM_TOUR_SUCCESS",
+                payload,
+                notification: {message: "Pyyntö poistettu", error: false}
+            })
+        } catch(e) {
+            dispatch({
+                type: "CONFIRM_TOUR_ERROR",
                 notification: {message: e.response.data, error: true}
             })
         }

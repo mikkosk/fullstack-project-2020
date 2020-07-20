@@ -33,6 +33,7 @@ const removeRequest = async(userId: string, museumId: string) => {
     const res = await axios.put(`${baseUrl}/${museumId}/request/remove`, {id: userId}, authenticationHelper.getAuthenticationHeaders())
     return res.data
 }   
+
 export default {
     getAll,
     addMuseum,

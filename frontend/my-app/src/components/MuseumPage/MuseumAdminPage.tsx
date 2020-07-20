@@ -69,7 +69,7 @@ const MuseumAdminPage: React.FC<{museum: Museum}> = ({ museum }) => {
                         <GridColumn><b>{r.time} {dateToString(new Date(r.date))}</b></GridColumn>
                         <GridColumn><b> {r.tourName}</b></GridColumn>
                         <GridColumn><p>{r.groupName}</p></GridColumn>
-                        <GridColumn><i>{r.guide}</i></GridColumn>
+                        <GridColumn><i>{r.guide.name}</i></GridColumn>
                     </GridRow>
                     : null
                 )}

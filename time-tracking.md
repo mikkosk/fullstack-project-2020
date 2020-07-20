@@ -49,7 +49,8 @@
 | 17.7. | 3   | changed backend to allow new user type, fixed user creation in front and started creating user page for guides |
 | 18.7. | 3   | finished guide page, changed backend to allow sending and saving request to join a museum, added a request button to front end |
 | 19.7. | 2   | continued with adding users to museums |
-Total: 105 hours 
+| 20.7. | 3   | added possibility to guides to accept tours |
+Total: 108 hours 
 
 
-(5cr)
+(6cr)

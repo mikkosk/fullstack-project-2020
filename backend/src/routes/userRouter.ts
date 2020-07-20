@@ -40,8 +40,9 @@ router.put('/:id', async (req, res) => {
 
 router.put('/:userid/museum/:museumid', async (req, res) => {
     try {
+        const auth = req.headers.authorization;
         const museumId = req.params.museumid;
-        const token = decodedToken(req.headers.authorization);
+        const token = decodedToken(auth);
         const user = await userService.getUser(token.id);
         if(!user || !allowedUserType("Admin", user) || !allowedMuseum(museumId, user)) {
             res.status(401).send("Ei oikeuksia lisätä käyttäjää museoon");
@@ -80,6 +81,23 @@ router.delete('/:id', async (req, res) => {
     await userService.deleteUser(req.params.id);
 
     res.status(204).end();
+});
+
+router.put('/:userid/tour/:tourid', async (req, res) => {
+    try {
+        const userId = req.params.userid;
+        const tourId = req.params.tourid;
+        const token = decodedToken(req.headers.authorization);
+        const user = await userService.getUser(token.id);
+        if(!user || !allowedUserType("Guide", user)) {
+            res.status(401).send("Käyttäjän tulee olla opas");
+            return;
+        }
+        const updatedUser = await userService.confirmTour(tourId, userId);
+        res.json(updatedUser);
+    } catch(e) {
+        res.status(400).send(e.message);
+    }
 });
 
 export default router;

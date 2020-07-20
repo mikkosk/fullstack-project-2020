@@ -9,11 +9,11 @@ import { dateToString } from '../../utils/DateTimeFunctions';
 export const EssentialInformation: React.FC<{tour: ReservedTour}> = ({tour}) => {
     return (
         <div>
-            <GridColumn>Kierros: </GridColumn>
+            <GridColumn><b>Kierros: </b></GridColumn>
             <GridColumn>{tour.tourName}</GridColumn>
-            <GridColumn>Päivä: </GridColumn>
+            <GridColumn><b>Päivä: </b></GridColumn>
             <GridColumn>{dateToString(tour.date)}</GridColumn>
-            <GridColumn>Aika: </GridColumn>
+            <GridColumn><b>Aika: </b></GridColumn>
             <GridColumn>{tour.time}</GridColumn>
         </div>
     )
@@ -22,30 +22,30 @@ export const EssentialInformation: React.FC<{tour: ReservedTour}> = ({tour}) => 
 export const RestInformation: React.FC<{tour: ReservedTour}> = ({tour}) => {
     return(
         <div>
-            <GridColumn>Ryhmä: </GridColumn>
+            <GridColumn><b>Ryhmä: </b></GridColumn>
             <GridColumn>{tour.groupName}</GridColumn>
-            <GridColumn>Kieli: </GridColumn>
+            <GridColumn><b>Kieli: </b></GridColumn>
             <GridColumn>{tour.chosenLanguage}</GridColumn>
-            <GridColumn>Varaajan sähköposti: </GridColumn>
+            <GridColumn><b>Varaajan sähköposti: </b></GridColumn>
             <GridColumn>{tour.email}</GridColumn>
-            <GridColumn>Hinta: </GridColumn>
+            <GridColumn><b>Hinta: </b></GridColumn>
             <GridColumn>{tour.price}</GridColumn>
-            <GridColumn>Maksutapa: </GridColumn>
+            <GridColumn><b>Maksutapa: </b></GridColumn>
             <GridColumn>{tour.paymentMethod}</GridColumn>
-            <GridColumn>Kesto: </GridColumn>
+            <GridColumn><b>Kesto: </b></GridColumn>
             <GridColumn>{tour.lengthInMinutes}min</GridColumn>
-            <GridColumn>Osallistujia: </GridColumn>
+            <GridColumn><b>Osallistujia: </b></GridColumn>
             <GridColumn>{tour.numberOfPeople}</GridColumn>
-            <GridColumn>Ikäryhmä: </GridColumn>
+            <GridColumn><b>Ikäryhmä: </b></GridColumn>
             <GridColumn>{tour.groupAge}</GridColumn>
-            <GridColumn>Lisätietoja ryhmästä: </GridColumn>
+            <GridColumn><b>Lisätietoja ryhmästä: </b></GridColumn>
             <GridColumn>{tour.groupInfo}</GridColumn>
-            <GridColumn>Lisätietoja opastuksesta: </GridColumn>
+            <GridColumn><b>Lisätietoja opastuksesta: </b></GridColumn>
             <GridColumn>{tour.tourInfo}</GridColumn>
-            <GridColumn>Opas: </GridColumn>
+            <GridColumn><b>Opas: </b></GridColumn>
             <GridColumn>{tour.guide.name}</GridColumn>
-            <GridColumn>Vahvistettu: </GridColumn>
-            <GridColumn>{tour.confirmed}</GridColumn>
+            <GridColumn><b>Vahvistettu: </b></GridColumn>
+            <GridColumn>{tour.confirmed?"Kyllä":"Ei"}</GridColumn>
         </div>
     )
 }

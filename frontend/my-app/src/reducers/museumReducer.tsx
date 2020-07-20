@@ -70,6 +70,7 @@ export type Action=
         type: "REMOVE_REQUEST_ERROR",
         notification: MessageError,
     }
+    
 
 const initialState: MuseumState = {
     museums: {},
@@ -229,7 +230,6 @@ export const sendRequest = (userId: string, museumId: string): ThunkAction<void,
 }
 
 export const removeRequest = (userId: string, museumId: string): ThunkAction<void, RootState, unknown, Action> => {
-    console.log("action")
     return async(dispatch: Dispatch<Action>) => {
         try{
             const payload = await museumsService.removeRequest(userId, museumId);
@@ -246,4 +246,6 @@ export const removeRequest = (userId: string, museumId: string): ThunkAction<voi
         }
     }
 }
+
+
 export default museumReducer

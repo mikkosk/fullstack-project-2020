@@ -23,6 +23,7 @@ const deleteTour = async (museumId: string, tourId: string) => {
     await axios.delete(`${baseUrl}/${tourId}/museum/${museumId}`, authenticationHelper.getAuthenticationHeaders());
 }
 
+
 export default {
     getAll,
     addTour,

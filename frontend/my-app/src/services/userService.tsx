@@ -25,7 +25,7 @@ const updateUser = async (newUser: NewUser, id: string): Promise<UserAnyType> =>
 }
 
 const addUserToMuseum = async (userId: string, museumId: string): Promise<UserAnyType> => {
-    const res = await axios.put(`${baseUrl}/${userId}/museum/${museumId}`, authenticationHelper.getAuthenticationHeaders());
+    const res = await axios.put(`${baseUrl}/${userId}/museum/${museumId}`,null, authenticationHelper.getAuthenticationHeaders());
     return res.data
 }
 
@@ -38,6 +38,10 @@ const addReservation = async(userId: string, museumId: string, newReservation: O
     return res.data
 }
 
+const confirmTour = async (tourId: string, userId: string) => {
+    const res = await axios.put(`${baseUrl}/${userId}/tour/${tourId}`, null, authenticationHelper.getAuthenticationHeaders())
+    return res.data
+}
 
 export default {
     getAll,
@@ -46,5 +50,6 @@ export default {
     deleteUser,
     updateUser,
     addUserToMuseum,
-    addReservation
+    addReservation,
+    confirmTour
 }

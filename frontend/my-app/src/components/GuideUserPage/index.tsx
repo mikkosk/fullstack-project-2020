@@ -1,27 +1,58 @@
-import React, { useState } from 'react'
-import { Header, Grid, GridRow, Accordion, Button, GridColumn } from 'semantic-ui-react'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { Header, Grid, GridRow, Accordion, Button, GridColumn, Reveal, Popup } from 'semantic-ui-react'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../store'
 import { useParams } from 'react-router-dom'
 import { ReservedTour, Museum } from '../../types'
 import { EssentialInformation, RestInformation } from '../ReservationPage'
+import { confirmTour } from '../../reducers/userReducer'
+
+const TourPreview: React.FC<{r: ReservedTour}> = ({r}) => (
+    <div>
+        <GridRow>
+            <Popup
+                trigger={
+                    <div>
+                        <EssentialInformation tour={r} /> 
+                    </div>
+                }
+            >
+                <Popup.Header>Kaikki tiedot</Popup.Header>
+                <Popup.Content>
+                    <RestInformation tour={r} />
+                </Popup.Content>
+            </Popup>
+        </GridRow>
+    </div>
+)
 
 const GuideUserPage: React.FC<{}> = () => {
+    const dispatch = useDispatch()
     const user = useSelector((state: RootState) => state.users.users[state.login._id])
 
     const [toursToShow, setToursToShow] = useState<ReservedTour[]>([]);
+
+    useEffect(() => {
+        if(user && user.type === "Guide") {
+            user.museums.forEach((m:Museum) => m.reservedTours.forEach((r: ReservedTour) => {
+                if(!r.confirmed) {
+                    setToursToShow(t => t.concat(r))
+                }
+            }))
+        }
+    }, [user])
+
     if(!user || user.type !== "Guide") {
         return null;
     }
 
     const userTours = user.reservedTours.map((r: ReservedTour) => r)
-    //Tee yksittäinen array
-
-    user.museums.forEach((m:Museum) => m.reservedTours.forEach((r: ReservedTour) => {
-        if(!r.confirmed) {
-            setToursToShow(toursToShow.concat(r))
-        }
-    }))
+    
+    const takeTour = (tourId: string) => {
+        dispatch(confirmTour(tourId, user._id))
+    }
+    
+    
 
     return (
         <div>
@@ -38,16 +69,9 @@ const GuideUserPage: React.FC<{}> = () => {
                             </GridRow>
                             {userTours.length > 0 && userTours.map((r: ReservedTour) => {
                             return(
-                                <GridRow columns={1}>
-                                    <Accordion>
-                                        <Accordion.Title>
-                                            <EssentialInformation tour={r} />
-                                        </Accordion.Title>
-                                        <Accordion.Content>
-                                            <RestInformation tour={r} />
-                                        </Accordion.Content>
-                                    </Accordion>
-                                </GridRow>
+                                <div key={r._id}>
+                                    <TourPreview r={r} />
+                                </div>
                             )  
                             })}
 
@@ -61,17 +85,12 @@ const GuideUserPage: React.FC<{}> = () => {
                             </GridRow>
                             {toursToShow.length > 0 && toursToShow.map((r: ReservedTour) => {
                                 return(
-                                    <GridRow columns={1}>
-                                    <Accordion>
-                                        <Accordion.Title>
-                                            <EssentialInformation tour={r} />
-                                        </Accordion.Title>
-                                        <Accordion.Content>
-                                            <RestInformation tour={r} />
-                                        </Accordion.Content>
-                                    </Accordion>
-                                    <Button>Varaa</Button>
-                                </GridRow>
+                                    <div key={r._id}>
+                                        <TourPreview r={r} />
+                                        <GridRow>
+                                            <Button onClick={() => takeTour(r._id)}>Varaa</Button>
+                                        </GridRow>
+                                    </div>
                                 )
                             })}
                             {toursToShow.length === 0 && <h3>Ei vapaita opastuksia</h3>}

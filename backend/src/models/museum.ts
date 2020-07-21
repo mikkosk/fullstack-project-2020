@@ -45,8 +45,7 @@ const museumSchema: Schema = new Schema({
     }],
     userRequests: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserMon',
-        unique: true
+        ref: 'UserMon'
     }]
 });
 

@@ -35,6 +35,7 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
     }
 
     const alreadySent  = Boolean(museum.userRequests.find((u: Professionals) => u._id === (user?user._id:false)));
+    console.log(alreadySent)
 
 
 
@@ -144,7 +145,7 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
                     </Grid>
                 </GridColumn>
             </Grid>
-            {user && user.type !== "Customer" && 
+            {user && user.type !== "Customer" && !user.museums.find((m: Museum) => m._id === museum._id) && 
                 <div>
                     <p>Oletko tämän museon henkilökuntaa? Lähetä pyyntö!</p>
                     <Button onClick={handleRequest} disabled={alreadySent}>Lähetä!</Button>

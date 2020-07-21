@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { dateToString } from '../../utils/DateTimeFunctions'
 import { userToMuseum } from '../../reducers/userReducer'
 
-//JATKA LISÄÄMÄLLÄ PYYNTÖJEN VAHVISTUS
+
 const MuseumAdminPage: React.FC<{museum: Museum}> = ({ museum }) => {
     const dispatch = useDispatch()
     const history = useHistory()
@@ -30,6 +30,15 @@ const MuseumAdminPage: React.FC<{museum: Museum}> = ({ museum }) => {
     const deleteRequest = (userId: UserAnyType['_id']) => {
         dispatch(removeRequest(userId, museum._id))
     }
+
+    const TourShow: React.FC<{r: ReservedTour}> = ({r}) => (
+        <GridRow key={r._id} columns={4} onClick={() => toReservation(r._id)}>
+            <GridColumn><b>{r.time} {dateToString(new Date(r.date))}</b></GridColumn>
+            <GridColumn><b> {r.tourName}</b></GridColumn>
+            <GridColumn><p>{r.groupName}</p></GridColumn>
+            <GridColumn><i>{r.guide.name}</i></GridColumn>
+        </GridRow>
+    )
 
     if(!museum) {
         return <Header as="h2">Museota ei löytynyt</Header>
@@ -52,24 +61,29 @@ const MuseumAdminPage: React.FC<{museum: Museum}> = ({ museum }) => {
                 <GridRow columns="1">
                     <Header>Vahvistamattomat opastukset</Header>
                 </GridRow>
-                {museum.reservedTours.map((r: ReservedTour) => r.confirmed ? null :
-                    <GridRow key={r._id} columns={3} onClick={() => toReservation(r._id)}>
-                        <GridColumn><b>{r.time} {dateToString(new Date(r.date))}</b></GridColumn>
-                        <GridColumn><b> {r.tourName}</b></GridColumn>
-                        <GridColumn><p>{r.groupName}</p></GridColumn>
-                    </GridRow>
+                {museum.reservedTours.map((r: ReservedTour) => (!r.confirmed && (new Date(r.date) >= new Date())) ?
+                    <TourShow r={r} key={r._id} />
+                    : null
                 )}
             </Grid>
             <Grid>
                 <GridRow columns="1">
                     <Header>Vahvistetut opastukset</Header>
                 </GridRow>
-                {museum.reservedTours.map((r: ReservedTour) => r.confirmed ? 
+                {museum.reservedTours.map((r: ReservedTour) => (r.confirmed && (new Date(r.date) >= new Date())) ? 
                     <GridRow key={r._id} columns={4} onClick={() => toReservation(r._id)}>
-                        <GridColumn><b>{r.time} {dateToString(new Date(r.date))}</b></GridColumn>
-                        <GridColumn><b> {r.tourName}</b></GridColumn>
-                        <GridColumn><p>{r.groupName}</p></GridColumn>
-                        <GridColumn><i>{r.guide.name}</i></GridColumn>
+                        <TourShow r={r} key={r._id} />
+                    </GridRow>
+                    : null
+                )}
+            </Grid>
+            <Grid>
+                <GridRow columns="1">
+                    <Header>Menneet opastukset</Header>
+                </GridRow>
+                {museum.reservedTours.map((r: ReservedTour) => (new Date(r.date) < new Date()) ? 
+                    <GridRow key={r._id} columns={4} onClick={() => toReservation(r._id)}>
+                        <TourShow r={r} key={r._id} />
                     </GridRow>
                     : null
                 )}

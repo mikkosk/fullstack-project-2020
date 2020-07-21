@@ -12,7 +12,9 @@ import jwt from 'jsonwebtoken';
 
 const api = supertest(app);
 //let tourId: string;
-let userId: string;
+let customerId: string;
+let adminId: string;
+let guideId: string;
 let museumId: string;
 const newUser = {
     name: "Name",
@@ -21,7 +23,9 @@ const newUser = {
     password: "Password"
 };
 let savedMuseum: Museum & Document;
-let headers: {Authorization: string};
+let customerHeaders: {Authorization: string};
+let adminHeaders: {Authorization: string};
+let guideHeaders: {Authorization: string};
 
 beforeEach(async () => {
     await UserMon.deleteMany({});
@@ -31,27 +35,60 @@ beforeEach(async () => {
     await savedMuseum.save();
     museumId = savedMuseum._id;
 
-    let user = new UserMon({...initialUsers[1], passwordHash: "HashTwo"});
+    let user = new UserMon({...initialUsers[1], passwordHash: "HashTwo", reservedTours: []});
     await user.save();
 
-    user = new UserMon({...initialUsers[0], passwordHash: "HashOne", museums: [museumId]});
-    await user.save();
-
-    const {_id, username } = user;
-    const token = {
-        id: _id,
-        user: username
+    let token = {
+        id: user._id,
+        user: user.username
     };
 
-    userId = user._id;
+    customerId = user._id;
 
     if(!process.env.SECRET) {
          return;
     }
-    const header = jwt.sign(token, process.env.SECRET);
-    headers = {
+    let header = jwt.sign(token, process.env.SECRET);
+    customerHeaders = {
         'Authorization': `bearer ${header}`
     };
+
+    user = new UserMon({...initialUsers[0], passwordHash: "HashOne", museums: [museumId]});
+    await user.save();
+    token = {
+        id: user._id,
+        user: user.username
+    };
+
+    adminId = user._id;
+
+    if(!process.env.SECRET) {
+         return;
+    }
+    header = jwt.sign(token, process.env.SECRET);
+    adminHeaders = {
+        'Authorization': `bearer ${header}`
+    };
+
+    user = new UserMon({...initialUsers[2], passwordHash: "HashOne", museums: [museumId], reservedTours: []});
+    await user.save();
+    token = {
+        id: user._id,
+        user: user.username
+    };
+
+    guideId = user._id;
+
+    if(!process.env.SECRET) {
+         return;
+    }
+    header = jwt.sign(token, process.env.SECRET);
+    guideHeaders = {
+        'Authorization': `bearer ${header}`
+    };
+    
+
+    
   });
 
 test('users are returned as json', async () => {
@@ -70,7 +107,7 @@ describe('adding a user', () => {
 
     test('increases length by one', async () => {
     
-        await api.post(`/user`).set(headers).send(newUser);
+        await api.post(`/user`).set(adminHeaders).send(newUser);
         
         const res = await api.get('/user');
     
@@ -82,38 +119,37 @@ describe('adding a user', () => {
 describe('deleting a user', () => {
 
     test('deleting user removes an object', async() => {
-        await api.delete(`/user/${userId}`).set(headers);
+        await api.delete(`/user/${adminId}`).set(adminHeaders);
         const res = await api.get('/user');
         expect(res.body).toHaveLength(initialUsers.length - 1);
     });
     
     test('deleting removes right object', async() => {
-        await api.delete(`/user/${userId}`).set(headers);
+        await api.delete(`/user/${adminId}`).set(adminHeaders);
         const res = await api.get('/user');
-        expect(!res.body.find((t: any) => t._id === userId)).toBeTruthy();
+        expect(!res.body.find((t: any) => t._id === adminHeaders)).toBeTruthy();
     });
 
 });
 
 describe('updating', () => {
     test('updated user is saved correctly', async() => {
-        await api.put(`/user/${userId}`).set(headers).send(newUser).expect(200);
+        await api.put(`/user/${adminId}`).set(adminHeaders).send(newUser).expect(200);
         const res = await api.get('/user');
-        const updatedUser = (res.body.find((t: any) => t._id === String(userId)));
-        delete updatedUser.__v;
-        delete updatedUser._id;
+        const updatedUser = (res.body.find((t: any) => t._id === String(adminId)));
         delete updatedUser.__v;
         delete updatedUser._id;
         delete updatedUser.passwordHash;
         delete updatedUser.museums;
         delete updatedUser.reservedTours;
+        delete updatedUser.languages;
         const initial = {...newUser};
         delete initial.password;
         expect(updatedUser).toEqual(initial);
     });
     
     test('updating user does not affect size', async() => {
-        await api.put(`/user/${userId}`).set(headers).send(newUser).expect(200);
+        await api.put(`/user/${adminId}`).set(adminHeaders).send(newUser).expect(200);
         const res = await api.get('/user');
         expect(res.body).toHaveLength(initialUsers.length);
     });
@@ -125,23 +161,24 @@ describe('updating', () => {
             password: "Pass",
             type: "Type"
         };
-        await api.put(`/user/${userId}`).set(headers).send(faultyUser).expect(400);
+        await api.put(`/user/${adminId}`).set(adminHeaders).send(faultyUser).expect(400);
         const res = await api.get('/user');
-        const updatedUser = (res.body.find((t: any) => t._id === String(userId)));
+        const updatedUser = (res.body.find((t: any) => t._id === String(adminId)));
         delete updatedUser.__v;
         delete updatedUser._id;
         delete updatedUser.passwordHash;
         delete updatedUser.museums;
         delete updatedUser.reservedTours;
+        delete updatedUser.languages;
         const initial = {...initialUsers[0]};
         delete initial.password;
         expect(updatedUser).toEqual(initial);
     });
 
     test('adding user to museum works correctly', async() => {
-        await api.put(`/user/${userId}/museum/${museumId}`).set(headers).expect(200);
+        await api.put(`/user/${adminId}/museum/${museumId}`).set(adminHeaders).expect(200);
         const res = await api.get('/user');
-        const updatedUser = (res.body.find((t: any) => t._id === String(userId)));
+        const updatedUser = (res.body.find((t: any) => t._id === String(adminId)));
         expect(updatedUser.museums[0]._id === savedMuseum._id);
     });
 });

@@ -24,7 +24,11 @@ const reservedSchema: Schema = new Schema({
         name: String,
     },
     salary: {type: Number, required: false},
-    confirmed: Boolean
+    confirmed: Boolean,
+    museum: {
+        id: String,
+        name: String
+    }
 });
 
 export default mongoose.model<ReservedTour & Document>('ReservedMon', reservedSchema);

@@ -23,7 +23,11 @@ export interface ReservedTour extends GuidedTour {
         name: Guide['name'];
     };
     salary?: number;
-    confirmed: boolean
+    confirmed: boolean;
+    museum: {
+        id: Museum['_id'];
+        name: Museum['museumName'];
+    };
 }
 
 export interface Guide {

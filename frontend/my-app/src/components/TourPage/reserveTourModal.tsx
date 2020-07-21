@@ -6,7 +6,7 @@ import AddReservedForm from '../AddReserved/AddReservedForm'
 interface Props {
     modalOpen: boolean;
     onClose: () => void;
-    onSubmit: (values: Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide'>) => void;
+    onSubmit: (values: Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide' | 'museum'>) => void;
     tour: GuidedTour;
     museum: Museum;
 }

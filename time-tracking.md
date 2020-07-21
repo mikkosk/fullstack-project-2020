@@ -50,7 +50,9 @@
 | 18.7. | 3   | finished guide page, changed backend to allow sending and saving request to join a museum, added a request button to front end |
 | 19.7. | 2   | continued with adding users to museums |
 | 20.7. | 3   | added possibility to guides to accept tours |
-Total: 108 hours 
+| 21.7. | 3   | fixed bugs related to guide functionalities, fixed tests in backend started to write new ones|
+
+Total: 111 hours 
 
 
 (6cr)

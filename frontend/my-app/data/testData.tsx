@@ -219,7 +219,12 @@ export const initialState: RootState = {
                             name: ""
                         },
                         salary:0,
-                        confirmed:false}
+                        confirmed:false,
+                        museum: {
+                            id: "iidee",
+                            name: "testi"
+                        }
+                    }
                     ]     
                 }]
             }, 
@@ -251,7 +256,12 @@ export const initialState: RootState = {
                         name: ""
                     },
                     salary:0,
-                    confirmed:false}
+                    confirmed:false,
+                    museum: {
+                        id: "iidee",
+                        name: "testi"
+                    }
+                }
                 ]  
             }
         }
@@ -327,7 +337,11 @@ export const initialState: RootState = {
                         name: ""
                     },
                     salary:0,
-                    confirmed:false}
+                    confirmed:false,
+                    museum: {
+                        id: "iidee",
+                        name: "testi"
+                    }}
                 ]   
             }
         }

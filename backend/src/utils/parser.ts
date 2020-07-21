@@ -236,8 +236,8 @@ export const toNewUser = (object: any): NewUser => {
     return newUser;
 };
 
-export const toReservedTour = (object: any): Omit<ReservedTour, '_id'> => {
-    const tour: Omit<ReservedTour, '_id'>= {
+export const toReservedTour = (object: any): Omit<ReservedTour, '_id' | 'museum'> => {
+    const tour: Omit<ReservedTour, '_id' | 'museum'>= {
         possibleLanguages: parseLanguages(object.possibleLanguages),
         lengthInMinutes: parseLength(object.lengthInMinutes),
         tourName: parseName(object.tourName),

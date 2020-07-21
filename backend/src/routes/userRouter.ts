@@ -64,7 +64,7 @@ router.post('/:userid/museum/:museumid/reservedtour', async (req, res) => {
             res.status(401).send("Käyttäjän tulee olla kirjautunut sisään ja asiakas");
             return;
         }
-        const tour = toReservedTour(req.body);
+        const tour = {...toReservedTour(req.body)};
         const updatedEntry = await userService.addReservedTour(museumId, user._id, tour);
         res.json(updatedEntry);
     } catch (e) {

@@ -8,6 +8,11 @@ const users = [{
     type: "Customer",
     username: "Two",
     password: "Two"
+}, {
+    name: "Three",
+    type: "Guide",
+    username: "Three",
+    password: "Three"
 }];
 
 export default users;

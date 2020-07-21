@@ -242,7 +242,7 @@ export const deleteUser = (id: string): ThunkAction<void, RootState, unknown, Ac
     }
 }
 
-export const addReservation = (userId: string, museumId: string, reservation: Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide'>) => {
+export const addReservation = (userId: string, museumId: string, reservation: Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide' | 'museum'>) => {
     return async (dispatch: Dispatch<Action>) => {
         try {
             const payload: UserAnyType = await userService.addReservation(userId, museumId, reservation)
@@ -267,7 +267,7 @@ export const confirmTour = (tourId: string, userId: string): ThunkAction<void, R
             dispatch({
                 type: "CONFIRM_TOUR_SUCCESS",
                 payload,
-                notification: {message: "Pyyntö poistettu", error: false}
+                notification: {message: "Opastus varattu", error: false}
             })
         } catch(e) {
             dispatch({

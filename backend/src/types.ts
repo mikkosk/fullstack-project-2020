@@ -25,6 +25,10 @@ export interface ReservedTour extends GuidedTour {
     };
     salary?: number;
     confirmed: boolean;
+    museum: {
+        id: Museum['_id'];
+        name: Museum['museumName'];
+    };
 }
 
 export interface Museum {

@@ -5,7 +5,7 @@ import { TextField, SelectField, SelectArrayField, NumberField, DateField, TimeF
 import { Button, Grid, GridColumn, Modal, Header } from 'semantic-ui-react'
 
 interface Props {
-    onSubmit: (values: Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide'>) => void;
+    onSubmit: (values: Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide' | 'museum'>) => void;
     onCancel: () => void;
     tour: GuidedTour;
     museum: Museum;
@@ -22,7 +22,7 @@ const AddReservedForm: React.FC<Props> = ({ onSubmit, onCancel, tour, museum}) =
 
     const [ready, setReady] = useState<boolean>(false);
 
-    const initialValues:Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide'> = {
+    const initialValues:Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide' | 'museum'> = {
         ...tour,
         chosenLanguage: "",
         groupName: "",

@@ -5,7 +5,8 @@ import { RootState } from '../../store'
 import { useParams } from 'react-router-dom'
 import { ReservedTour, Museum } from '../../types'
 import { EssentialInformation, RestInformation } from '../ReservationPage'
-import { confirmTour } from '../../reducers/userReducer'
+import { confirmTour, getUsers } from '../../reducers/userReducer'
+import { allMuseums } from '../../reducers/museumReducer'
 
 const TourPreview: React.FC<{r: ReservedTour}> = ({r}) => (
     <div>
@@ -34,6 +35,7 @@ const GuideUserPage: React.FC<{}> = () => {
 
     useEffect(() => {
         if(user && user.type === "Guide") {
+            setToursToShow([]);
             user.museums.forEach((m:Museum) => m.reservedTours.forEach((r: ReservedTour) => {
                 if(!r.confirmed) {
                     setToursToShow(t => t.concat(r))
@@ -59,9 +61,9 @@ const GuideUserPage: React.FC<{}> = () => {
             <Header>{user.name}</Header>
             <Grid textAlign="center">
                 <Grid.Row columns={1}>
-                    <Header>Tulevat opastukset</Header>
+                    <Header>Opastukset</Header>
                 </Grid.Row>
-                <GridRow columns={2}>
+                <GridRow columns={3}>
                     <Grid.Column>
                         <Grid textAlign="center">
                             <GridRow columns={1}>
@@ -69,9 +71,13 @@ const GuideUserPage: React.FC<{}> = () => {
                             </GridRow>
                             {userTours.length > 0 && userTours.map((r: ReservedTour) => {
                             return(
-                                <div key={r._id}>
-                                    <TourPreview r={r} />
-                                </div>
+                                ((new Date(r.date) >= new Date())) 
+                                ?
+                                    <div key={r._id}>
+                                        <TourPreview r={r} />
+                                    </div>
+                                : 
+                                    null
                             )  
                             })}
 
@@ -85,15 +91,39 @@ const GuideUserPage: React.FC<{}> = () => {
                             </GridRow>
                             {toursToShow.length > 0 && toursToShow.map((r: ReservedTour) => {
                                 return(
-                                    <div key={r._id}>
-                                        <TourPreview r={r} />
-                                        <GridRow>
-                                            <Button onClick={() => takeTour(r._id)}>Varaa</Button>
-                                        </GridRow>
-                                    </div>
+                                    (!r.confirmed && (new Date(r.date) >= new Date())) 
+                                    ?
+                                        <div key={r._id}>
+                                            <TourPreview r={r} />
+                                            <GridRow>
+                                                <Button onClick={() => takeTour(r._id)}>Varaa</Button>
+                                            </GridRow>
+                                        </div>
+                                    : 
+                                        null
                                 )
                             })}
                             {toursToShow.length === 0 && <h3>Ei vapaita opastuksia</h3>}
+                        </Grid>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <Grid textAlign="center">
+                            <GridRow columns={1}>
+                                <Header>Menneet opastukset</Header>
+                            </GridRow>
+                            {userTours.length > 0 && userTours.map((r: ReservedTour) => {
+                            return(
+                                (r.confirmed && (new Date(r.date) < new Date())) 
+                                ?
+                                    <div key={r._id}>
+                                        <TourPreview r={r} />
+                                    </div>
+                                : 
+                                    null
+                            )  
+                            })}
+
+                            {userTours.length === 0 && <h3>Ei menneitä opastuksia opastuksia</h3>}
                         </Grid>
                     </Grid.Column>
                 </GridRow>

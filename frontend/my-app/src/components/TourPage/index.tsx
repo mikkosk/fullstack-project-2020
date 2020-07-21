@@ -37,7 +37,7 @@ const TourPage: React.FC = () => {
         dispatch(updateTour(values, museumid, tourid))
     }
 
-    const reserveTour = async (values: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'| 'guide'>) => {
+    const reserveTour = async (values: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'| 'guide' | 'museum'>) => {
         dispatch(addReservation(user._id, museum._id, values))
     }
 
@@ -47,7 +47,7 @@ const TourPage: React.FC = () => {
         closeModal(true);
     }
 
-    const handleReserveSubmit = async (values:  Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide'>) => {
+    const handleReserveSubmit = async (values:  Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide' | 'museum'>) => {
         await reserveTour(values)
         closeModal(false);
     }

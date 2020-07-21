@@ -75,32 +75,36 @@ const deleteUser = async (id: string) => {
 };
 
 
-const addReservedTour = async(museumId: Museum['_id'], id: User['_id'], tour: Omit<ReservedTour, "_id">): Promise<User> => {
-    const newTour = new ReservedMon({
-        ...tour
-    });
-    await newTour.save();
-
+const addReservedTour = async(museumId: Museum['_id'], id: User['_id'], tour: Omit<ReservedTour, "_id" | "museum">): Promise<User> => {
     const museum = await MuseumMon.findById(museumId);
     if (!museum) {
         throw new Error("Museota, johon varaus yritettiin tehdä ei löytynyt");
     }
+
+    const newTour = new ReservedMon({
+        ...tour,
+        museum: {
+            name: museum.museumName,
+            id: museum._id 
+        }
+    });
+    await newTour.save();
+
     museum.reservedTours = museum.reservedTours.concat(newTour._id);
 
-    const user = await UserMon.findById(id);
+    const user = await UserMon.findById(id).populate({path: 'museums', populate: {path: 'reservedTours'}}).populate("reservedTours");
     if(!user || user.type !== "Customer") {
         throw new Error("Käyttäjää ei löytynyt tai kyseessä ei ole asiakaskäyttäjä");
     }
-    user.reservedTours = user.reservedTours.concat(newTour._id);
+    user.reservedTours = user.reservedTours.concat(newTour);
 
     museum.save();
     user.save();
 
-    const result = await UserMon.findById(id).populate({path: 'museums', populate: {path: 'reservedTours'}}).populate("reservedTours");
-    if(!result) {
+    if(!user) {
         throw new Error("Käyttäjää ei löytynyt");
     }
-    return result;
+    return user;
 };
 
 const confirmTour = async (tourId: string, userId: string): Promise<UserAnyType> => {
@@ -114,13 +118,18 @@ const confirmTour = async (tourId: string, userId: string): Promise<UserAnyType>
         throw new Error('Kierros on jo varattu');
     }
 
-    const updatedTour = await ReservedMon.findByIdAndUpdate(tourId, {guide: {name: user.name, id: user._id}, confirmed: true});
+    const updatedTour = await ReservedMon.findByIdAndUpdate(tourId, {guide: {name: user.name, id: user._id}, confirmed: true}, {new: true});
     if(!updatedTour) {
         throw new Error('Kyseistä museota ei löytynyt');
     }
-    user.reservedTours = user.reservedTours.concat(updatedTour);
-    await user.save();
-    return user;
+
+    const updatedUser = await UserMon.findById(userId).populate({path: 'museums', populate: {path: 'reservedTours'}}).populate("reservedTours");
+    if(!updatedUser) {
+        throw new Error('Käyttäjää ei löytynyt');
+    }
+    updatedUser.reservedTours = updatedUser.reservedTours.concat(updatedTour);
+    await updatedUser.save();
+    return updatedUser;
 };
 
 export default {

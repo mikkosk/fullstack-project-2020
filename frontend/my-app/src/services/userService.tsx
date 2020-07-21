@@ -33,7 +33,7 @@ const deleteUser = async (id: string) => {
     await axios.delete(`${baseUrl}/${id}`, authenticationHelper.getAuthenticationHeaders());
 }
 
-const addReservation = async(userId: string, museumId: string, newReservation: Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide'>) => {
+const addReservation = async(userId: string, museumId: string, newReservation: Omit<ReservedTour, '_id' | 'salary' | 'confirmed' | 'guide' | 'museum'>) => {
     const res = await axios.post(`${baseUrl}/${userId}/museum/${museumId}/reservedtour`, newReservation, authenticationHelper.getAuthenticationHeaders())
     return res.data
 }

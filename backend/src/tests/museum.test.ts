@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+ 
 import mongoose, { Document } from 'mongoose';
 import supertest from 'supertest';
 import app from '../app';
@@ -177,7 +178,7 @@ describe('updating', () => {
 });
 
 
-    test('updating is not possible', async() => {
+    test('updating is not possible with faulty headers', async() => {
         await api.put(`/museum/${museumId}`).set(faultyHeaders).send(newMuseum).expect(401);
     });
     test('posting is not possible', async() => {

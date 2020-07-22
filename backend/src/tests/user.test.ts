@@ -4,9 +4,11 @@ import supertest from 'supertest';
 import app from '../app';
 import UserMon from '../models/user';
 import MuseumMon from '../models/museum';
+import ReservedMon from '../models/reservedTour';
 //import initialTours from '../../data/guidedTours';
 import initialUsers from '../../data/users';
 import initialMuseums from '../../data/museums';
+import initialTours from '../../data/reservedTours';
 import { Museum } from '../types';
 import jwt from 'jsonwebtoken';
 
@@ -22,6 +24,8 @@ const newUser = {
     type: "Admin",
     password: "Password"
 };
+
+const newTour = initialTours[0];
 let savedMuseum: Museum & Document;
 let customerHeaders: {Authorization: string};
 let adminHeaders: {Authorization: string};
@@ -30,61 +34,62 @@ let guideHeaders: {Authorization: string};
 beforeEach(async () => {
     await UserMon.deleteMany({});
     await MuseumMon.deleteMany({});
+    await ReservedMon.deleteMany({});
     
     savedMuseum = new MuseumMon({...initialMuseums[0]});
     await savedMuseum.save();
     museumId = savedMuseum._id;
 
-    let user = new UserMon({...initialUsers[1], passwordHash: "HashTwo", reservedTours: []});
-    await user.save();
+    const customer = new UserMon({...initialUsers[1], passwordHash: "HashTwo", reservedTours: []});
+    await customer.save();
 
-    let token = {
-        id: user._id,
-        user: user.username
+    const cToken = {
+        id: customer._id,
+        user: customer.username
     };
 
-    customerId = user._id;
+    customerId = customer._id;
 
     if(!process.env.SECRET) {
          return;
     }
-    let header = jwt.sign(token, process.env.SECRET);
+    const header = jwt.sign(cToken, process.env.SECRET);
     customerHeaders = {
         'Authorization': `bearer ${header}`
     };
 
-    user = new UserMon({...initialUsers[0], passwordHash: "HashOne", museums: [museumId]});
-    await user.save();
-    token = {
-        id: user._id,
-        user: user.username
+    const admin = new UserMon({...initialUsers[0], passwordHash: "HashOne", museums: [museumId]});
+    await admin.save();
+    const aToken = {
+        id: admin._id,
+        user: admin.username
     };
 
-    adminId = user._id;
+    adminId = admin._id;
 
     if(!process.env.SECRET) {
          return;
     }
-    header = jwt.sign(token, process.env.SECRET);
+    const aHeader = jwt.sign(aToken, process.env.SECRET);
     adminHeaders = {
-        'Authorization': `bearer ${header}`
+        'Authorization': `bearer ${aHeader}`
     };
 
-    user = new UserMon({...initialUsers[2], passwordHash: "HashOne", museums: [museumId], reservedTours: []});
-    await user.save();
-    token = {
-        id: user._id,
-        user: user.username
+    const guide = new UserMon({...initialUsers[2], passwordHash: "HashThree", museums: [museumId], reservedTours: []});
+    await guide.save();
+    const gToken = {
+        id: guide._id,
+        user: guide.username
     };
 
-    guideId = user._id;
+    guideId = guide._id;
 
     if(!process.env.SECRET) {
          return;
     }
-    header = jwt.sign(token, process.env.SECRET);
+    const gHeader = jwt.sign(gToken, process.env.SECRET);
     guideHeaders = {
-        'Authorization': `bearer ${header}`
+        'Authorization': `bearer ${gHeader}`
     };
     
 
@@ -176,10 +181,51 @@ describe('updating', () => {
     });
 
     test('adding user to museum works correctly', async() => {
-        await api.put(`/user/${adminId}/museum/${museumId}`).set(adminHeaders).expect(200);
+        await api.put(`/user/${guideId}/museum/${museumId}`).set(adminHeaders).expect(200);
         const res = await api.get('/user');
         const updatedUser = (res.body.find((t: any) => t._id === String(adminId)));
         expect(updatedUser.museums[0]._id === savedMuseum._id);
+    });
+});
+
+describe("reserving tour", () => {
+    
+    test("adding works", async() => {
+        const updatedUser = await api.post(`/user/${customerId}/museum/${museumId}/reservedtour`).set(customerHeaders).send(newTour).expect(200);
+        expect(updatedUser.body.reservedTours.length).toBe(1);
+        expect(updatedUser.body.reservedTours[0].tourName).toBe(newTour.tourName);
+    });
+
+    test("adding does not work if user is not a customer", async() => {
+        await api.post(`/user/${guideId}/museum/${museumId}/reservedtour`).set(guideHeaders).send(newTour).expect(401);
+        const res = await api.get('/user');
+        const updatedUser = res.body.find((t: any) => t._id === String(guideId));
+        expect(updatedUser.reservedTours.length).toBe(0);
+    });
+    
+    
+}); 
+
+describe("confirming tour", () => {
+    
+    let id: string;
+
+    test("guide can corfirm tour", async () => {
+        const res1 = await api.post(`/user/${customerId}/museum/${museumId}/reservedtour`).set(customerHeaders).send({...newTour});
+        id = res1.body.reservedTours[0]._id;
+        await api.put(`/user/${guideId}/tour/${id}`).set(guideHeaders).expect(200);
+        const res = await api.get('/user');
+        const updatedUser = (res.body.find((t: any) => t._id === String(guideId)));
+        expect(updatedUser.reservedTours.length).toBe(1);
+    });
+
+    test("only guide can corfirm tour", async () => {
+        const res1 = await api.post(`/user/${customerId}/museum/${museumId}/reservedtour`).set(customerHeaders).send({...newTour});
+        id = res1.body.reservedTours[0]._id;
+        await api.put(`/user/${adminId}/tour/${id}`).set(adminHeaders).expect(401);
+        const res = await api.get('/user');
+        const updatedUser = (res.body.find((t: any) => t._id === String(guideId)));
+        expect(updatedUser.reservedTours.length).toBe(0);
     });
 });
 

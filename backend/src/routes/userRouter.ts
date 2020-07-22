@@ -38,6 +38,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+//UserToMuseum
 router.put('/:userid/museum/:museumid', async (req, res) => {
     try {
         const auth = req.headers.authorization;
@@ -55,11 +56,15 @@ router.put('/:userid/museum/:museumid', async (req, res) => {
     }
 });
 
+
+//AddReservedTour
 router.post('/:userid/museum/:museumid/reservedtour', async (req, res) => {
     try {
         const museumId = req.params.museumid;
         const token = decodedToken(req.headers.authorization);
+
         const user = await userService.getUser(token.id);
+
         if(!user || !allowedUserType("Customer", user)) {
             res.status(401).send("Käyttäjän tulee olla kirjautunut sisään ja asiakas");
             return;
@@ -72,6 +77,8 @@ router.post('/:userid/museum/:museumid/reservedtour', async (req, res) => {
     }
 });
 
+
+//DeleteUser
 router.delete('/:id', async (req, res) => {
     const token = decodedToken(req.headers.authorization);
     if(req.params.id !== token.id) {
@@ -83,6 +90,8 @@ router.delete('/:id', async (req, res) => {
     res.status(204).end();
 });
 
+
+//ConfirmTour
 router.put('/:userid/tour/:tourid', async (req, res) => {
     try {
         const userId = req.params.userid;

@@ -51,8 +51,9 @@
 | 19.7. | 2   | continued with adding users to museums |
 | 20.7. | 3   | added possibility to guides to accept tours |
 | 21.7. | 3   | fixed bugs related to guide functionalities, fixed tests in backend started to write new ones|
+| 21.7. | 3   | spent most of the time finding bug in testing, wrote a few tests|
 
-Total: 111 hours 
+Total: 114 hours 
 
 
 (6cr)

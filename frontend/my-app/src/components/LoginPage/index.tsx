@@ -25,19 +25,7 @@ export const LoginPage: React.FC = () => {
             }
             console.log(loggedInUser)
             dispatch(login(loggedInUser));
-            if(loggedInUser.type === "Admin") {
-                if(loggedInUser.museums.length === 1) {
-                    history.push(`/museum/${loggedInUser.museums[0]._id}`)
-                } else {
-                    history.push(`/admin`)
-                }
-            }
-            else if(loggedInUser.type ==="Customer") {
-                history.push(`/user`)
-            }
-            else if(loggedInUser.type === "Guide") {
-                history.push(`/guide`)
-            }
+            history.push(`/user`)
         } catch {
             dispatch(addNotification({message: "Väärät tunnukset", error: true}))
         }

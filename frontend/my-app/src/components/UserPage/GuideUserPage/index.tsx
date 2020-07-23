@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Header, Grid, GridRow, Accordion, Button, GridColumn, Reveal, Popup } from 'semantic-ui-react'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../store'
+import { RootState } from '../../../store'
 import { useParams } from 'react-router-dom'
-import { ReservedTour, Museum } from '../../types'
-import { EssentialInformation, RestInformation } from '../ReservationPage'
-import { confirmTour, getUsers } from '../../reducers/userReducer'
-import { allMuseums } from '../../reducers/museumReducer'
+import { ReservedTour, Museum } from '../../../types'
+import { EssentialInformation, RestInformation } from '../../ReservationPage'
+import { confirmTour, getUsers } from '../../../reducers/userReducer'
+import { allMuseums } from '../../../reducers/museumReducer'
 
 const TourPreview: React.FC<{r: ReservedTour}> = ({r}) => (
     <div>

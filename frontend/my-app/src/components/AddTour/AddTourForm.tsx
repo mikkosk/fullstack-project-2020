@@ -33,7 +33,6 @@ export const AddTourForm: React.FC<Props> = ({ onSubmit, onCancel, initialTour }
                 errors.possibleLanguages = requiredError
             }
             if(!values.lengthInMinutes) {
-                errors.lengthInMinutes = requiredError
             }
             if(!values.tourName) {
                 errors.tourName = requiredError

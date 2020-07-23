@@ -1,5 +1,5 @@
 import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
+import '../UserPage/CustomerUserPage/node_modules/@testing-library/jest-dom/extend-expect'
 import AddReservedForm from './AddReservedForm'
 import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'

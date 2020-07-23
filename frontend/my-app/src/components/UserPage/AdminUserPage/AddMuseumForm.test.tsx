@@ -1,14 +1,14 @@
 import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
+import '../UserPage/CustomerUserPage/node_modules/@testing-library/jest-dom/extend-expect'
 import configureStore from 'redux-mock-store'
 import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
 import thunk from 'redux-thunk'
-import { GuidedTour } from '../../types'
+import { GuidedTour } from '../../../types'
 import { act } from 'react-dom/test-utils'
 import { wait } from '@testing-library/react'
 import AddMuseumForm from './AddMuseumForm'
-import { initialState } from '../../../data/testData'
+import { initialState } from '../../../../data/testData'
 import { Provider } from 'react-redux'
 
 Enzyme.configure({adapter: new Adapter() })

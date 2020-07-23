@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid, Button, Label } from "semantic-ui-react";
 import { Field, Formik, Form } from "formik";
-import { TextField, SelectField } from "../../utils/FormFields";
-import { NewTour, NewMuseum, OptionField } from "../../types";
+import { TextField, SelectField } from "../../../utils/FormFields";
+import { NewTour, NewMuseum, OptionField } from "../../../types";
 
 const checkTimes = ({mon, tue, wed, thu, fri, sat, sun}: {mon: string, tue: string, wed: string, thu: string, fri: string, sat: string, sun: string}): boolean => {
     if(!mon || !tue || !wed || !thu || !fri || !sat || !sun) {

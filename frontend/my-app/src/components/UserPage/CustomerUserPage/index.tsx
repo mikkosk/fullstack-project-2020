@@ -1,10 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../store';
+import { RootState } from '../../../store';
 import { useHistory } from 'react-router-dom';
 import { Header, Grid, GridRow, GridColumn } from 'semantic-ui-react';
-import { ReservedTour } from '../../types';
-import { dateToString } from '../../utils/DateTimeFunctions';
+import { ReservedTour } from '../../../types';
+import { dateToString } from '../../../utils/DateTimeFunctions';
 
 const CustomerUserPage: React.FC = () => {
     const user = useSelector((state: RootState) => state.users.users[state.login._id]);

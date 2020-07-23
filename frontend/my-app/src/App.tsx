@@ -7,16 +7,17 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import TourPage from './components/TourPage';
 import { allMuseums } from './reducers/museumReducer';
 import { LoginPage } from './components/LoginPage';
-import { AdminPage } from './components/AdminUserPage';
+import { AdminPage } from './components/UserPage/AdminUserPage';
 import loginStorage from './utils/loginStorage';
 import { login } from './reducers/loginReducer';
 import { getUsers } from './reducers/userReducer';
 import LogoutBar from './components/Logout/LogoutBar';
 import NotificationBar from './components/NotificationBar';
-import CustomerUserPage from './components/CustomerUserPage';
+import CustomerUserPage from './components/UserPage/CustomerUserPage';
 import FindMuseums from './components/FindMuseums';
 import ReservationPage from './components/ReservationPage';
-import GuideUserPage from './components/GuideUserPage';
+import GuideUserPage from './components/UserPage/GuideUserPage';
+import UserPage from './components/UserPage';
 
 
 function App() {
@@ -43,9 +44,7 @@ function App() {
             <Route path="/login" render={() => <LoginPage />}/>
             <Route path="/museum/:museumid/tour/:tourid" render={() => <TourPage />}/>
             <Route path="/museum/:id" render={() => <MuseumPage />}/>
-            <Route path="/admin/" render={() => <AdminPage />}/>
-            <Route path="/user/" render={() => <CustomerUserPage />}/>
-            <Route path="/guide/" render={() => <GuideUserPage />}/>
+            <Route path="/user/" render={() => <UserPage />}/>
             <Route path="/find/museums" render={() => <FindMuseums />}/>
             <Route path="/reservation/:id" render={() => <ReservationPage/>}/>
           </Switch>

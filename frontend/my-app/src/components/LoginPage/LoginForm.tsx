@@ -46,7 +46,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
                     name="password"
                     component={TextField}
                 />
-                <Button type="submit" name="submit" disabled={!dirty || !isValid}>
+                <Button id="loginButton" type="submit" name="submit" disabled={!dirty || !isValid}>
                        Kirjaudu sisään
                 </Button>
             </Form>

@@ -8,7 +8,8 @@
         "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
         "lint": "eslint --ext .ts .",
         "start": "cross-env NODE_ENV=production node build/src/index.js",
-        "test": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles"
+        "test": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
+        "start:test": "cross-env NODE_ENV=test node build/src/index.js"
     },
     "author": "",
     "license": "ISC",

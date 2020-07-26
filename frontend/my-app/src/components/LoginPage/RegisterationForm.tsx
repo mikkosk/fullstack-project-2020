@@ -82,7 +82,7 @@ export const RegisterationForm: React.FC<Props> = ({ onSubmit }) => {
                         fieldName="languages"
                     />
                 }
-                <Button type="submit" name="submit" disabled={!dirty || !isValid}>
+                <Button id="registerationButton" type="submit" name="submit" disabled={!dirty || !isValid}>
                         Lisää käyttäjä
                 </Button>
             </Form>

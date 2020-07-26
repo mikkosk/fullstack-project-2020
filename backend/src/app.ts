@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import museumRouter from './routes/museumRouter';
 import userRouter from './routes/userRouter';
 import loginRouter from './routes/loginRouter';
+import cypressRouter from './routes/cypressRouter';
 
 mongoose.set('useCreateIndex', true);
 let MONGODB_URI = process.env.MONGODB_URI;
@@ -30,9 +31,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/tour', toursRouter);
-app.use('/museum', museumRouter);
-app.use('/user', userRouter);
-app.use('/login', loginRouter);
+app.use('/api/tour', toursRouter);
+app.use('/api/museum', museumRouter);
+app.use('/api/user', userRouter);
+app.use('/api/login', loginRouter);
+if(process.env.NODE_ENV === 'test') {
+  app.use('/api/test', cypressRouter);
+}
 
 export default app;

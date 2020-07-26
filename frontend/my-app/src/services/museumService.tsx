@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Museum, NewMuseum } from '../types'
 import authenticationHelper from '../utils/authenticationHelper'
 
-const baseUrl = 'http://localhost:3001/museum'
+const baseUrl = 'http://localhost:3001/api/museum'
 
 const getAll = async (): Promise<Museum[]> => {
     const res = await axios.get(baseUrl)

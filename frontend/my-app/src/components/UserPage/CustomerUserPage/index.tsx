@@ -27,7 +27,7 @@ const CustomerUserPage: React.FC = () => {
                     <Header textAlign='center'>Varatut opastukset</Header>
                 </GridRow>
                 {user.reservedTours.map((r: ReservedTour) => 
-                    <GridRow key={r._id} onClick={() => toReservation(r._id)}columns="3">
+                    <GridRow  name="tourRow" key={r._id} onClick={() => toReservation(r._id)} columns="3">
                         <GridColumn>
                             <h4>{r.tourName} </h4>
                         </GridColumn>

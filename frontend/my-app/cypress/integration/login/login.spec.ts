@@ -1,13 +1,6 @@
 describe('Login page', function() {
     beforeEach(function() {
         cy.request('POST', 'http://localhost:3001/api/test/reset')
-        Cypress.Commands.add('loginCustomer', ({username, password}) => {
-            cy.request('POST', 'http:localhost:3001/api/login', {
-                username, password
-            }).then(({body}) => {
-                localStorage.setItem("LoggedUser", JSON.stringify(body));
-            })
-        })
     })
     it('login opens correctly', function() {
         cy.visit('http://localhost:3000/login')
@@ -40,5 +33,23 @@ describe('Login page', function() {
         cy.url().should('eq', 'http://localhost:3000/login')
     })
 
+    it('login works correctly', function() {
+        cy.visit('http://localhost:3000/login')
+        cy.contains('Kirjaudu sisään tai luo käyttäjä')
+        cy.get('input[name="username"]:first').type("CustomerOne")
+        cy.get('input[name="password"]:first').type("CustomerOne")     
+        cy.get('#loginButton').click()
+        cy.url().should('eq', 'http://localhost:3000/user')
+    })
+
+    it('error displayed with wrong credentials', function() {
+        cy.visit('http://localhost:3000/login')
+        cy.contains('Kirjaudu sisään tai luo käyttäjä')
+        cy.get('input[name="username"]:first').type("Väärät")
+        cy.get('input[name="password"]:first').type("Tiedot")     
+        cy.get('#loginButton').click()
+        cy.contains("Väärät tunnukset")
+        cy.url().should('eq', 'http://localhost:3000/login')
+    })
     
 })

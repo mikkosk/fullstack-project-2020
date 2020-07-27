@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../store';
@@ -6,11 +6,20 @@ import { Grid, Header, Button } from 'semantic-ui-react';
 import AddMuseumModal from './AddMuseumModal';
 import { NewMuseum } from '../../../types';
 import { addMuseum } from '../../../reducers/userReducer';
+import { allMuseums } from '../../../reducers/museumReducer'
 
 export const AdminPage: React.FC = () => {
     const user = useSelector((state: RootState) => state.users.users[state.login._id]);
     const dispatch = useDispatch();
     const [ modalOpen, setModalOpen ] = useState<boolean>(false);
+    const finished = useSelector((state: RootState) => state.users.finished);
+    
+    useEffect(() => {
+        if(finished) {
+            console.log("VALMISTA")
+            dispatch(allMuseums())
+        }
+    }, [finished, dispatch])
 
     console.log(user)
     if(!user || user.type !== "Admin") {
@@ -25,24 +34,18 @@ export const AdminPage: React.FC = () => {
 
     const dispatchAddMuseum = async (values: NewMuseum) => {
         dispatch(addMuseum(values, user._id))
-        console.log(values)
     }
 
     const handleSubmit = async (values: NewMuseum) => {
-        try {
-            await dispatchAddMuseum(values)
-        } catch (e) {
-            console.log(e.message)
-        }
+        await dispatchAddMuseum(values)
         closeModal()
-        window.location.reload()
 
     }
 
     
 
     return (
-        <div>
+        <div id="adminPage">
             
             <Grid columns={2} stackable textAlign='center'>
                 <Grid.Row>
@@ -87,7 +90,7 @@ export const AdminPage: React.FC = () => {
                 </Grid.Row>
 
             </Grid>
-            <Button onClick={openModal}>Lisää museo!</Button>
+            <Button id="addMuseumModalOpen"onClick={openModal}>Lisää museo!</Button>
             <AddMuseumModal modalOpen={modalOpen} onSubmit={handleSubmit} onClose={closeModal}/>
         </div>
 

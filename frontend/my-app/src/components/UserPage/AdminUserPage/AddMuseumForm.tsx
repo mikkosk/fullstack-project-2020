@@ -129,10 +129,10 @@ export const AddMuseumForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                             </Grid.Column>
                         )}
                     </Grid>
-                    <Button type="submit" name="submit" disabled={!dirty || !isValid}>
+                    <Button id="submitMuseumModal" type="submit" name="submit" disabled={!dirty || !isValid}>
                         Lisää!
                     </Button>
-                    <Button onClick={onCancel} name="cancelForm" color="red">Peruuta</Button>
+                    <Button id="cancelMuseumModal" onClick={onCancel} name="cancelForm" color="red">Peruuta</Button>
                 </Form>
             )
         }}

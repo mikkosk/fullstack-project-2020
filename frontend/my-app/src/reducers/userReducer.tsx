@@ -79,6 +79,9 @@ export type Action=
         type: "CONFIRM_TOUR_ERROR",
         notification: MessageError
     }
+    |{
+        type: "START_UPDATE"
+    }
 
 const initialState: UserState = {
     users: {},
@@ -111,9 +114,9 @@ const userReducer = (state = initialState, action: Action): UserState => {
                 return state
             }
             const updatedAdmin = {...admin, museums: admin.museums.concat(action.payload)}
-            return {...state, notification: action.notification, users: {...state.users, [action.id]: updatedAdmin}}
+            return {...state, finished: true, notification: action.notification, users: {...state.users, [action.id]: updatedAdmin}}
         case 'ADD_MUSEUM_ERROR':
-            return {...state, notification: action.notification}
+            return {...state, finished: true, notification: action.notification}
         case 'DELETE_USER_SUCCESS':
             return {...state, notification: action.notification, users: Object.values(state.users).filter(u => u._id !== action.id).reduce((memo, user) => ({...memo, [user._id]: user}), {})}
         case 'DELETE_USER_ERROR':
@@ -126,6 +129,8 @@ const userReducer = (state = initialState, action: Action): UserState => {
             return {...state, notification: action.notification, users: {...state.users, [action.payload._id]: {...action.payload}}}
         case 'CONFIRM_TOUR_ERROR':
             return {...state, notification: action.notification}
+        case 'START_UPDATE':
+            return {...state, finished: false}
         default:
             return state
     }
@@ -171,6 +176,9 @@ export const addUser = (newUser: NewUser): ThunkAction<void, RootState, unknown,
 
 export const addMuseum = (newMuseum: NewMuseum, id: UserAnyType["_id"]): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type:"START_UPDATE"
+        })
         try {
             const payload: Museum = await museumsService.addMuseum(newMuseum);
             dispatch({

@@ -48,9 +48,12 @@ router.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, 
     var user, rightCredentials, _a, userToken, token, name, username, type, passwordHash, _id, loggedInUser;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0: return [4 /*yield*/, loginService_1.default.login(req.body.username)];
+            case 0:
+                console.log(req.body);
+                return [4 /*yield*/, loginService_1.default.login(req.body.username)];
             case 1:
                 user = _b.sent();
+                console.log(user);
                 if (!(user === null)) return [3 /*break*/, 2];
                 _a = false;
                 return [3 /*break*/, 4];

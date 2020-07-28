@@ -11,7 +11,7 @@ interface Props {
 }
 
 const UpdateTourModal: React.FC<Props> = ({ modalOpen, onClose, onSubmit, initialTour}: Props) => (
-    <Modal open={modalOpen} onClose={onClose} closeIcon>
+    <Modal id="updateTourModal" open={modalOpen} onClose={onClose} closeIcon>
         <Modal.Header>Päivitä opastusta</Modal.Header>
         <Modal.Content>
             <AddTourForm onSubmit={onSubmit} onCancel={onClose} initialTour={initialTour}></AddTourForm>

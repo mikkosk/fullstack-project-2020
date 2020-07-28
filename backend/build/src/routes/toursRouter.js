@@ -123,25 +123,34 @@ router.put('/:tourid/museum/:museumid/', function (req, res) { return __awaiter(
     });
 }); });
 router.delete('/:tourid/museum/:museumid/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var museumId, token, user, museum;
+    var museumId, token, user, museum, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 museumId = req.params.museumid;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 5, , 6]);
                 token = userManagement_1.decodedToken(req.headers.authorization);
                 return [4 /*yield*/, userService_1.default.getUser(token.id)];
-            case 1:
+            case 2:
                 user = _a.sent();
                 return [4 /*yield*/, museumService_1.default.getMuseum(museumId)];
-            case 2:
+            case 3:
                 museum = _a.sent();
                 if (!user || !userManagement_1.allowedUserType("Admin", user) || !userManagement_1.allowedMuseum(museumId, user) || !userManagement_1.allowedTour(museum, req.params.tourid)) {
                     res.status(401).send("Ei oikeuksia poistaa opastusta.");
                     return [2 /*return*/];
                 }
                 return [4 /*yield*/, toursService_1.default.deleteTour(req.params.tourid)];
-            case 3:
+            case 4:
                 _a.sent();
+                return [3 /*break*/, 6];
+            case 5:
+                e_3 = _a.sent();
+                res.status(400).send(e_3.message);
+                return [3 /*break*/, 6];
+            case 6:
                 res.status(204).end();
                 return [2 /*return*/];
         }

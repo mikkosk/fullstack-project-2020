@@ -54,8 +54,8 @@
 | 22.7. | 3   | spent most of the time finding bug in testing, wrote a few tests|
 | 23.7. | 2   | wrote more tests in the backend|
 | 26.7. | 4   | started e2e testing with cypress. mostly figuring it out and creating test data, but also wrote few tests |
-
-Total: 120 hours 
+|27.7. | 6 | still learning about cypress and writing tests |
+Total: 126 hours 
 
 
 (6cr)

@@ -92,7 +92,7 @@ const MuseumAdminPage: React.FC<{museum: Museum}> = ({ museum }) => {
                 <GridColumn>
                     <Header>Käyttäjäpyynnöt</Header>
                 </GridColumn>
-                <Grid columns={4}>
+                <Grid name="requests" columns={4}>
                     {museum.userRequests.map((u: Professionals) => {
                         console.log(u)
                         return(

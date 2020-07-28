@@ -30,8 +30,12 @@ const TourPreview: React.FC<{r: ReservedTour}> = ({r}) => (
 const GuideUserPage: React.FC<{}> = () => {
     const dispatch = useDispatch()
     const user = useSelector((state: RootState) => state.users.users[state.login._id])
+    console.log(user)
+    
 
     const [toursToShow, setToursToShow] = useState<ReservedTour[]>([]);
+
+    console.log(toursToShow)
 
     useEffect(() => {
         if(user && user.type === "Guide") {
@@ -49,7 +53,7 @@ const GuideUserPage: React.FC<{}> = () => {
     }
 
     const userTours = user.reservedTours.map((r: ReservedTour) => r)
-    
+    console.log(userTours)
     const takeTour = (tourId: string) => {
         dispatch(confirmTour(tourId, user._id))
     }
@@ -65,7 +69,7 @@ const GuideUserPage: React.FC<{}> = () => {
                 </Grid.Row>
                 <GridRow columns={3}>
                     <Grid.Column>
-                        <Grid textAlign="center">
+                        <Grid name="ownTours" textAlign="center">
                             <GridRow columns={1}>
                                 <Header>Omat opastukset</Header>
                             </GridRow>
@@ -85,7 +89,7 @@ const GuideUserPage: React.FC<{}> = () => {
                         </Grid>
                     </Grid.Column>
                     <Grid.Column>
-                        <Grid textAlign="center">
+                        <Grid name="freeTours" textAlign="center">
                             <GridRow columns={1}>
                                 <Header>Vapaat opastukset</Header>
                             </GridRow>
@@ -107,7 +111,7 @@ const GuideUserPage: React.FC<{}> = () => {
                         </Grid>
                     </Grid.Column>
                     <Grid.Column>
-                        <Grid textAlign="center">
+                        <Grid name="pastTours" textAlign="center">
                             <GridRow columns={1}>
                                 <Header>Menneet opastukset</Header>
                             </GridRow>

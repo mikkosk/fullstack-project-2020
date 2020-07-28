@@ -177,7 +177,32 @@ var reservedTour2Cy = {
     groupAge: "Koululaisia",
     paymentMethod: "Cash",
     time: "12:00",
-    date: new Date(),
+    date: new Date(2022, 10, 10),
+    email: "email@email.com",
+    groupInfo: "Koululaisryhmä",
+    guide: {
+        name: "",
+        id: ""
+    },
+    confirmed: false,
+    museum: {
+        name: "",
+        id: ""
+    }
+};
+var reservedTour3Cy = {
+    possibleLanguages: ["Suomi", "Ruotsi"],
+    lengthInMinutes: 45,
+    tourName: "Taidekierros",
+    maxNumberOfPeople: 20,
+    price: 50,
+    chosenLanguage: "Ruotsi",
+    groupName: "Kauniaisten koulu",
+    numberOfPeople: 15,
+    groupAge: "Koululaisia",
+    paymentMethod: "Cash",
+    time: "12:00",
+    date: new Date(2022, 12, 12),
     email: "email@email.com",
     groupInfo: "Koululaisryhmä",
     guide: {
@@ -233,12 +258,10 @@ var guideReservedCy = {
     languages: ["Suomi"]
 };
 router.post('/reset', function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var tour1, tour2, reservedTour1, reservedTour2, guide1, _a, _b, _c, museum1, museum2, museum3, customer1, _d, _e, _f, customer2, _g, _h, _j, admin1, _k, _l, _m, admin2, _o, _p, _q, guide2, _r, _s, _t;
+    var tour1, tour2, reservedTour1, reservedTour2, reservedTour3, guide1, _a, _b, _c, museum1, museum2, museum3, customer1, _d, _e, _f, customer2, _g, _h, _j, admin1, _k, _l, _m, admin2, _o, _p, _q, guide2, _r, _s, _t;
     return __generator(this, function (_u) {
         switch (_u.label) {
-            case 0:
-                console.log("RESET");
-                return [4 /*yield*/, user_1.default.deleteMany({})];
+            case 0: return [4 /*yield*/, user_1.default.deleteMany({})];
             case 1:
                 _u.sent();
                 return [4 /*yield*/, reservedTour_1.default.deleteMany({})];
@@ -262,59 +285,66 @@ router.post('/reset', function (_req, res) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, new reservedTour_1.default(__assign({}, reservedTour2Cy)).save()];
             case 8:
                 reservedTour2 = _u.sent();
+                return [4 /*yield*/, new reservedTour_1.default(__assign({}, reservedTour3Cy)).save()];
+            case 9:
+                reservedTour3 = _u.sent();
                 _a = user_1.default.bind;
                 _b = [__assign({}, guideEmptyCy)];
                 _c = { museums: [], reservedTours: [] };
                 return [4 /*yield*/, bcrypt_1.default.hash(guideEmptyCy.password, 10)];
-            case 9: return [4 /*yield*/, new (_a.apply(user_1.default, [void 0, __assign.apply(void 0, _b.concat([(_c.passwordHash = _u.sent(), _c)]))]))().save()];
-            case 10:
+            case 10: return [4 /*yield*/, new (_a.apply(user_1.default, [void 0, __assign.apply(void 0, _b.concat([(_c.passwordHash = _u.sent(), _c)]))]))().save()];
+            case 11:
                 guide1 = _u.sent();
                 return [4 /*yield*/, new museum_1.default(__assign({}, museumNoToursCy)).save()];
-            case 11:
+            case 12:
                 museum1 = _u.sent();
                 return [4 /*yield*/, new museum_1.default(__assign(__assign({}, museumNoReservedCy), { offeredTours: [tour1], reservedTours: [], userRequests: [guide1] })).save()];
-            case 12:
-                museum2 = _u.sent();
-                return [4 /*yield*/, new museum_1.default(__assign(__assign({}, museumReservedCy), { offeredTours: [tour2], reservedTours: [reservedTour1, reservedTour2], userRequests: [] })).save()];
             case 13:
+                museum2 = _u.sent();
+                return [4 /*yield*/, new museum_1.default(__assign(__assign({}, museumReservedCy), { offeredTours: [tour2], reservedTours: [reservedTour1, reservedTour2, reservedTour3], userRequests: [guide1] })).save()];
+            case 14:
                 museum3 = _u.sent();
                 _d = user_1.default.bind;
                 _e = [__assign({}, customerEmptyCy)];
                 _f = { museums: [], reservedTours: [] };
                 return [4 /*yield*/, bcrypt_1.default.hash(customerEmptyCy.password, 10)];
-            case 14: return [4 /*yield*/, new (_d.apply(user_1.default, [void 0, __assign.apply(void 0, _e.concat([(_f.passwordHash = _u.sent(), _f)]))]))().save()];
-            case 15:
+            case 15: return [4 /*yield*/, new (_d.apply(user_1.default, [void 0, __assign.apply(void 0, _e.concat([(_f.passwordHash = _u.sent(), _f)]))]))().save()];
+            case 16:
                 customer1 = _u.sent();
                 _g = user_1.default.bind;
                 _h = [__assign({}, customerReservedCy)];
                 _j = { museums: [], reservedTours: [reservedTour1, reservedTour2] };
                 return [4 /*yield*/, bcrypt_1.default.hash(customerReservedCy.password, 10)];
-            case 16: return [4 /*yield*/, new (_g.apply(user_1.default, [void 0, __assign.apply(void 0, _h.concat([(_j.passwordHash = _u.sent(), _j)]))]))().save()];
-            case 17:
+            case 17: return [4 /*yield*/, new (_g.apply(user_1.default, [void 0, __assign.apply(void 0, _h.concat([(_j.passwordHash = _u.sent(), _j)]))]))().save()];
+            case 18:
                 customer2 = _u.sent();
                 _k = user_1.default.bind;
                 _l = [__assign({}, admin1Cy)];
                 _m = { museums: [museum1], reservedTours: [] };
                 return [4 /*yield*/, bcrypt_1.default.hash(admin1Cy.password, 10)];
-            case 18: return [4 /*yield*/, new (_k.apply(user_1.default, [void 0, __assign.apply(void 0, _l.concat([(_m.passwordHash = _u.sent(), _m)]))]))().save()];
-            case 19:
+            case 19: return [4 /*yield*/, new (_k.apply(user_1.default, [void 0, __assign.apply(void 0, _l.concat([(_m.passwordHash = _u.sent(), _m)]))]))().save()];
+            case 20:
                 admin1 = _u.sent();
                 _o = user_1.default.bind;
                 _p = [__assign({}, admin2Cy)];
                 _q = { museums: [museum2, museum3], reservedTours: [] };
                 return [4 /*yield*/, bcrypt_1.default.hash(admin2Cy.password, 10)];
-            case 20: return [4 /*yield*/, new (_o.apply(user_1.default, [void 0, __assign.apply(void 0, _p.concat([(_q.passwordHash = _u.sent(), _q)]))]))().save()];
-            case 21:
+            case 21: return [4 /*yield*/, new (_o.apply(user_1.default, [void 0, __assign.apply(void 0, _p.concat([(_q.passwordHash = _u.sent(), _q)]))]))().save()];
+            case 22:
                 admin2 = _u.sent();
                 _r = user_1.default.bind;
                 _s = [__assign({}, guideReservedCy)];
                 _t = { museums: [museum2, museum3], reservedTours: [reservedTour1, reservedTour2] };
                 return [4 /*yield*/, bcrypt_1.default.hash(guideReservedCy.password, 10)];
-            case 22: return [4 /*yield*/, new (_r.apply(user_1.default, [void 0, __assign.apply(void 0, _s.concat([(_t.passwordHash = _u.sent(), _t)]))]))().save()];
-            case 23:
+            case 23: return [4 /*yield*/, new (_r.apply(user_1.default, [void 0, __assign.apply(void 0, _s.concat([(_t.passwordHash = _u.sent(), _t)]))]))().save()];
+            case 24:
                 guide2 = _u.sent();
-                reservedTour_1.default.findByIdAndUpdate(reservedTour1._id, { guide: { name: guide2.name, id: guide2._id }, confirmed: true, museum: { name: museum3.museumName, id: museum3._id } });
-                reservedTour_1.default.findByIdAndUpdate(reservedTour2._id, { guide: { name: guide2.name, id: guide2._id }, confirmed: true, museum: { name: museum3.museumName, id: museum3._id } });
+                return [4 /*yield*/, reservedTour_1.default.findByIdAndUpdate(reservedTour1._id, { guide: { name: guide2.name, id: guide2._id }, confirmed: true, museum: { name: museum3.museumName, id: museum3._id } })];
+            case 25:
+                _u.sent();
+                return [4 /*yield*/, reservedTour_1.default.findByIdAndUpdate(reservedTour2._id, { guide: { name: guide2.name, id: guide2._id }, confirmed: true, museum: { name: museum3.museumName, id: museum3._id } })];
+            case 26:
+                _u.sent();
                 res.status(200).end();
                 return [2 /*return*/];
         }

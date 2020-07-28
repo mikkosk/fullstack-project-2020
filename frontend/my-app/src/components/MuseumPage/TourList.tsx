@@ -23,7 +23,7 @@ const TourList = () => {
     
     return (
         <div>
-            <List divided>
+            <List id="tourList" divided>
                 {tours && Object.values(tours).map(t =>
                     <List.Content key={t._id}>
                         <b onClick={() => toTour(t._id)}> {t.tourName}</b>

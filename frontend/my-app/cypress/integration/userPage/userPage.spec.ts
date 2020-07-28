@@ -58,7 +58,7 @@ describe("userPage", function() {
             cy.contains("Päivitä opastusta").should("not.exist")
         })
 
-        it("closes modal if cancel is clicked", function() {
+        it("closes modal if submit is clicked", function() {
             cy.get("#addMuseumModalOpen").click()
             cy.get("input[name='museumName']").type("TestiMuseo")
             cy.get("input[name='museumInfo']").type("TestiMuseo")
@@ -81,6 +81,32 @@ describe("userPage", function() {
             cy.contains("TestiMuseo lisätty!")
             cy.contains("Päivitä opastusta").should("not.exist")
         })
+    })
 
+    describe("guide", function() {
+        beforeEach(function() {
+            cy.login("GuideTwo", "GuideTwo");
+            cy.visit('http://localhost:3000/user')
+        })
+
+        it("opens page correctly", function() {
+            cy.contains("GuideTwo")
+            cy.get("div[name='ownTours']")
+            cy.get("div[name='freeTours']")
+            cy.get("div[name='pastTours']")
+        })
+
+        it("clicking button reserves the tour", function() {
+            cy.get("div[name='freeTours']").get("button:first").click()
+            cy.get("div[name='freeTours']").get("button").should("not.exist")
+            cy.get("div[name='ownTours'] div[class='row']").should("have.length", 2)
+        })
+    })
+
+    describe("not logged in", function() {
+            it("nothing shows", function() {
+                cy.visit('http://localhost:3000/user')
+                cy.get("#emptyUserPage")
+            })  
     })
 })

@@ -10,7 +10,7 @@ import GuideUserPage from './GuideUserPage';
 const UserPage: React.FC = () => {
     const user = useSelector((state: RootState) => state.users.users[state.login._id]);
     if(!user) {
-        return null;
+        return <div id="emptyUserPage"></div>;
     }
 
     if(user.type === "Customer") {

@@ -1,5 +1,4 @@
 import React from 'react'
-import '../UserPage/CustomerUserPage/node_modules/@testing-library/jest-dom/extend-expect'
 import AddReservedForm from './AddReservedForm'
 import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
@@ -79,7 +78,7 @@ describe('AddReservedForm', () => {
         })
 
         await act(async () => {
-            enzymeWrapper.find('div[className="react-datepicker__day react-datepicker__day--029"]').simulate('click')
+            enzymeWrapper.find('div[aria-label="Choose Friday, July 31st, 2020"]').simulate('click')
         });
         enzymeWrapper.update()
         
@@ -103,7 +102,7 @@ describe('AddReservedForm', () => {
         const { enzymeWrapper } = setup()
 
         await act(async () => {
-            enzymeWrapper.find('div[className="react-datepicker__day react-datepicker__day--029"]').simulate('click')
+            enzymeWrapper.find('div[aria-label="Choose Friday, July 31st, 2020"]').simulate('click')
         });
         enzymeWrapper.update()
         
@@ -136,7 +135,7 @@ describe('AddReservedForm', () => {
         })
 
         await act(async () => {
-            enzymeWrapper.find('div[className="react-datepicker__day react-datepicker__day--029"]').simulate('click')
+            enzymeWrapper.find('div[aria-label="Choose Friday, July 31st, 2020"]').simulate('click')
         });
         enzymeWrapper.update()
         
@@ -184,7 +183,7 @@ describe('AddReservedForm', () => {
         })
 
         await act(async () => {
-            enzymeWrapper.find('div[className="react-datepicker__day react-datepicker__day--029"]').simulate('click')
+            enzymeWrapper.find('div[aria-label="Choose Friday, July 31st, 2020"]').simulate('click')
         });
         enzymeWrapper.update()
         
@@ -225,7 +224,7 @@ describe('AddReservedForm', () => {
         })
 
         await act(async () => {
-            enzymeWrapper.find('div[className="react-datepicker__day react-datepicker__day--029"]').simulate('click')
+            enzymeWrapper.find('div[aria-label="Choose Friday, July 31st, 2020"]').simulate('click')
         });
         enzymeWrapper.update()
         

@@ -15,12 +15,6 @@ const MuseumPage = () => {
     if(!museum) {
         return <Loader active/>
     }
-
-    console.log(user)
-    if(user && user.type === "Admin") {
-        console.log(user.museums)
-        console.log(museum)
-    }
     
     if(user && user.type === "Admin" && user.museums.find((m: Museum) => m._id === museum._id)) {
         return <MuseumAdminPage museum={museum} />

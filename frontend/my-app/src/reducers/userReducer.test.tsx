@@ -260,7 +260,8 @@ describe("User actions", () => {
                         _id: "three"}],
                     openInfo: "Auki",
                     museumInfo: "Museo",
-                    reservedTours:[]   
+                    reservedTours:[],
+                    userRequests:[]   
                 }]
         }
 
@@ -304,7 +305,7 @@ describe("User actions", () => {
 
         const store = mockStoreCreator(initial)
         
-        moxios.stubRequest('http://localhost:3001/user/UserOne', {
+        moxios.stubRequest('http://localhost:3001/api/user/UserOne', {
             status: 200,
           })
         
@@ -362,7 +363,8 @@ describe("User actions", () => {
                 offeredTours:[],
                 openInfo: "Auki",
                 museumInfo: "Museo",
-                reservedTours:[]   
+                reservedTours:[],
+                userRequests:[]   
             }
 
         moxios.wait(() => {
@@ -377,8 +379,8 @@ describe("User actions", () => {
         const actions = store.getActions()
 
         expect.assertions(2)
-        expect(actions[0].type).toEqual("ADD_MUSEUM_SUCCESS")
-        expect(actions[0].payload).toMatchObject(response)
+        expect(actions[1].type).toEqual("ADD_MUSEUM_SUCCESS")
+        expect(actions[1].payload).toMatchObject(response)
     })
 
     test('error when calling addMuseum dispatches ADD_MUSEUM_ERROR', async () => {
@@ -410,7 +412,8 @@ describe("User actions", () => {
                 offeredTours:[],
                 openInfo: "Auki",
                 museumInfo: "Museo",
-                reservedTours:[]   
+                reservedTours:[],
+                userRequests:[]   
             }
 
         moxios.wait(() => {
@@ -422,8 +425,8 @@ describe("User actions", () => {
         const actions = store.getActions()
 
         expect.assertions(2)
-        expect(actions[0].type).toEqual("ADD_MUSEUM_ERROR")
-        expect(actions[0].notification).toMatchObject(errorNotification)
+        expect(actions[1].type).toEqual("ADD_MUSEUM_ERROR")
+        expect(actions[1].notification).toMatchObject(errorNotification)
     })
 
     const newReservation: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'> = {
@@ -441,6 +444,10 @@ describe("User actions", () => {
         time:"04:00",
         date: new Date(),
         guide: {
+            id: "",
+            name: ""
+        },
+        museum: {
             id: "",
             name: ""
         },
@@ -465,6 +472,10 @@ describe("User actions", () => {
         email:"Sähköposti",
         groupInfo:"Info",
         guide: {
+            id: "",
+            name: ""
+        },
+        museum: {
             id: "",
             name: ""
         },
@@ -694,7 +705,8 @@ describe('reducers', () => {
                 offeredTours:[],
                 openInfo: "Auki",
                 museumInfo: "Museo",
-                reservedTours: [] 
+                reservedTours: [],
+                userRequests: []
             }]}, notification: 
             {message: "", error: false}
         })
@@ -733,7 +745,8 @@ describe('reducers', () => {
                     offeredTours:[],
                     openInfo: "Auki",
                     museumInfo: "Museo",
-                    reservedTours: []    
+                    reservedTours: [],
+                    userRequests: []    
                 }]}
             }, notification: {message: "", error: false}, finished: true
         }
@@ -797,7 +810,8 @@ describe('reducers', () => {
                     offeredTours:[],
                     openInfo: "Auki",
                     museumInfo: "Museo",
-                    reservedTours: []  
+                    reservedTours: [],
+                    userRequests: []  
         }
 
         const reducer = userReducer(initialStateNotEmpty, {type: "ADD_MUSEUM_SUCCESS", payload: 
@@ -852,6 +866,10 @@ describe('reducers', () => {
                 date: new Date(),
                 email:"Sähköposti",
                 guide: {
+                    id: "",
+                    name: ""
+                },
+                museum: {
                     id: "",
                     name: ""
                 },

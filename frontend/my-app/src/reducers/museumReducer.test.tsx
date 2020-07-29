@@ -65,7 +65,9 @@ describe("Museum actions", () => {
                 },
                 offeredTours:[],
                 openInfo: "Auki",
-                museumInfo: "Museo"   
+                museumInfo: "Museo",
+                reservedTours: [],
+                userRequests: []   
             }
         ]
 
@@ -104,7 +106,6 @@ describe("Museum actions", () => {
         const actions = store.getActions()
 
         expect.assertions(2)
-        console.log(actions[0])
         expect(actions[0].type).toEqual("GET_ALL_MUSEUMS_ERROR")
         expect(actions[0].notification).toEqual(response)
 
@@ -151,7 +152,9 @@ describe("Museum actions", () => {
                 },
                 offeredTours:[response],
                 openInfo: "Auki",
-                museumInfo: "Museo"   
+                museumInfo: "Museo",
+                reservedTours: [],
+                userRequests: []    
             }
 
         moxios.wait(() => {
@@ -225,7 +228,9 @@ describe("Museum actions", () => {
                 },
                 offeredTours:[],
                 openInfo: "Auki",
-                museumInfo: "Museo"   
+                museumInfo: "Museo",
+                reservedTours: [],
+                userRequests: []   
             }
 
         moxios.wait(() => {
@@ -272,7 +277,9 @@ describe("Museum actions", () => {
                 },
                 offeredTours:[],
                 openInfo: "Auki",
-                museumInfo: "Museo"   
+                museumInfo: "Museo",
+                reservedTours: [],
+                userRequests: []    
             }
 
         moxios.wait(() => {
@@ -293,7 +300,7 @@ describe("Museum actions", () => {
 
         const store = mockStoreCreator(initialState)
         
-        moxios.stubRequest('http://localhost:3001/museum/iidee', {
+        moxios.stubRequest('http://localhost:3001/api/museum/iidee', {
             status: 200,
           })
         
@@ -325,7 +332,7 @@ describe("Museum actions", () => {
     test('deleteTour dispatches DELETE_TOUR_SUCCESS and returns 200', async () => {
         const store = mockStoreCreator(initialState)
         
-        moxios.stubRequest('http://localhost:3001/tour/three/museum/iidee', {
+        moxios.stubRequest('http://localhost:3001/api/tour/three/museum/iidee', {
             status: 200,
           })
         
@@ -378,7 +385,9 @@ describe('reducers', () => {
                 },
                 offeredTours:[],
                 openInfo: "Auki",
-                museumInfo: "Museo"  
+                museumInfo: "Museo",
+                reservedTours: [],
+                userRequests: []   
     }
 
     const initialState: MuseumState = {

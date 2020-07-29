@@ -55,7 +55,9 @@
 | 23.7. | 2   | wrote more tests in the backend|
 | 26.7. | 4   | started e2e testing with cypress. mostly figuring it out and creating test data, but also wrote few tests |
 |27.7. | 6 | still learning about cypress and writing tests |
-Total: 126 hours 
+|28.7. | 5 | more tests |
+|29.7. | 3 | finished tests, started to implment css |
+Total: 134 hours 
 
 
-(6cr)
+(7cr)

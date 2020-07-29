@@ -1,7 +1,7 @@
 import React from 'react'
-import '../UserPage/CustomerUserPage/node_modules/@testing-library/jest-dom/extend-expect'
 import LogoutBar from './LogoutBar'
 import Adapter from 'enzyme-adapter-react-16'
+import '@testing-library/jest-dom/extend-expect'
 import Enzyme, {mount} from 'enzyme'
 import { act } from 'react-dom/test-utils'
 import { wait } from '@testing-library/react'

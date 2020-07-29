@@ -1,5 +1,5 @@
 import React from 'react'
-import '../UserPage/CustomerUserPage/node_modules/@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 import configureStore from 'redux-mock-store'
 import MuseumAdminPage from './index'
 import Adapter from 'enzyme-adapter-react-16'

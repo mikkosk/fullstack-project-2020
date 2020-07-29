@@ -35,9 +35,6 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
     }
 
     const alreadySent  = Boolean(museum.userRequests.find((u: Professionals) => u._id === (user?user._id:false)));
-    console.log(alreadySent)
-
-
 
     const nextPage = (next: boolean) => {
         if(numberOfTours < 2) {
@@ -86,8 +83,8 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
 
     return (
         <div>
-            <Grid columns="2">
-                <GridColumn>
+            <Grid divided id="basicGrid" columns="2">
+                <GridColumn className="addTopMargin">
                     <Grid columns="equal">
                         <GridRow>
                             <GridColumn>
@@ -114,7 +111,7 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
                         </GridRow>
                     </Grid>
                 </GridColumn>
-                <GridColumn>
+                <GridColumn className="addTopMargin">
                     <Grid>
                         <GridRow centered>
                             <Header>
@@ -133,7 +130,7 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
                                            
                                     </Card.Content>
                                     {tour._id !== "0" &&  
-                                    <Card.Content extra onClick={() => toTour(museum._id, tour._id)}>
+                                    <Card.Content id="extraInfo" extra onClick={() => toTour(museum._id, tour._id)}>
                                         <b>Lisätiedot ja varaukset</b>
                                     </Card.Content>}
                                 </Card>

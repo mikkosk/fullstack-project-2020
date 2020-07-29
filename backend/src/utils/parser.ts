@@ -243,7 +243,6 @@ export const toReservedTour = (object: any): Omit<ReservedTour, '_id' | 'museum'
         tourName: parseName(object.tourName),
         maxNumberOfPeople: parseNumberOfPeople(object.maxNumberOfPeople),
         price: parsePrice(object.price),
-        tourInfo: parseInfo(object.tourInfo),
         chosenLanguage: parseLanguage(object.chosenLanguage),
         groupName: parseName(object.groupName),
         numberOfPeople: parseNumberOfPeople(object.numberOfPeople),
@@ -260,6 +259,13 @@ export const toReservedTour = (object: any): Omit<ReservedTour, '_id' | 'museum'
         salary: 0,
         confirmed: false
     };
+
+    if(object.tourInfo) {
+        return {
+            ...tour,
+            tourInfo: parseInfo(object.tourInfo)
+        };
+    }
 
     return tour;
 };

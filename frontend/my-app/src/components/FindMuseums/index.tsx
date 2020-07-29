@@ -38,9 +38,9 @@ const FindMuseums: React.FC = () => {
                         </Card>
                     </div>
                 )}
-                <Grid centered>
+                <Grid id="pageNumbers" centered>
                     {Array.from(Array(numberOfPages()).keys()).map((n: number) => 
-                        <GridColumn key={n}><p onClick={() => setPage(n)}>{n + 1}</p></GridColumn>
+                        <GridColumn centered key={n}><p className="centerNumber" onClick={() => setPage(n)}>{n + 1}</p></GridColumn>
                     )}
                 </Grid>
             </Container>

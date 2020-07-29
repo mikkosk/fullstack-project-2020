@@ -90,8 +90,6 @@ export const updateTour = (newTour: NewTour, museumId: string, tourId: string): 
                 notification: {message: `${newTour.tourName} päivitetty!`, error: false}
             })
         } catch(e) {
-            console.log(e.response.data)
-            console.log(e.response)
             dispatch({
                 type:"UPDATE_TOUR_ERROR",
                 notification: {message: e.response.data, error: true}

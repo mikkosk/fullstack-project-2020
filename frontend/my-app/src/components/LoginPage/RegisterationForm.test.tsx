@@ -1,5 +1,5 @@
 import React from 'react'
-import '../UserPage/CustomerUserPage/node_modules/@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
 import { act } from 'react-dom/test-utils'

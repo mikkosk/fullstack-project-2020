@@ -39,18 +39,15 @@ function setup(type?: UserTypes) {
 describe('CustomerUserPage', () => {
     test('Nothing is shown if user is admin', () => {
         const { enzymeWrapper } = setup("Admin")
-        console.log(enzymeWrapper.text())
         expect(enzymeWrapper.text()).toBe("Mitään ei löytynyt")
     })
 
     test('Nothing is shown if user is not logged in', () => {
         const { enzymeWrapper } = setup()
-        console.log(enzymeWrapper.text())
         expect(enzymeWrapper.text()).toBe("Mitään ei löytynyt")
     })
-    test('Page is show if user is logged in', () => {
+    test('Page is shown if user is logged in', () => {
         const { enzymeWrapper } = setup("Customer")
-        console.log(enzymeWrapper.text())
         expect(enzymeWrapper.text().includes("Varatut opastukset")).toBe(true)
     })
 })

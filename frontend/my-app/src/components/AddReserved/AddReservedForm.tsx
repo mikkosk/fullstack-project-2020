@@ -147,7 +147,7 @@ const AddReservedForm: React.FC<Props> = ({ onSubmit, onCancel, tour, museum}) =
                         </Modal.Content>
                         <Modal.Actions>
                             <Button color="green"type='submit' name='submit' onClick={() => handleSubmit()}>Varaa!</Button>
-                            <Button color="red" type="button" name='closeConfirmation' onClick={() => {console.log("LOL"); setReady(false)}}>Peruuta</Button>
+                            <Button color="red" type="button" name='closeConfirmation' onClick={() => {setReady(false)}}>Peruuta</Button>
                         </Modal.Actions>
                     </Modal>
                     <Button type="button" onClick={() => setReady(true)} name="ready" disabled={!isValid || !dirty}>

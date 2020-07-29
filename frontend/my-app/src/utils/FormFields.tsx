@@ -90,7 +90,6 @@ interface ArrayProps extends FieldProps {
 }
 export const ArrayField: React.FC<ArrayProps> = ({fieldName, field, label, values}) => {
     const name = fieldName
-    console.log(name)
     return (
     <Form.Field>
         <label>{label}</label>
@@ -102,8 +101,8 @@ export const ArrayField: React.FC<ArrayProps> = ({fieldName, field, label, value
                                     values.map((language, index) => (
                                         <div key={index}>
                                             <Field name={`${name}.${index}`} />
-                                            <Button type="button" onClick={() => arrayHelpers.remove(index)}>-</Button>
-                                            <Button type="button" onClick={() => arrayHelpers.insert(index, '')}>+</Button>
+                                            <Button className="add" type="button" onClick={() => arrayHelpers.remove(index)}>-</Button>
+                                            <Button className="add" type="button" onClick={() => arrayHelpers.insert(index, '')}>+</Button>
                                         </div>
                                     ))
                                 ) : (

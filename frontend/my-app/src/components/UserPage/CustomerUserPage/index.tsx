@@ -10,7 +10,6 @@ const CustomerUserPage: React.FC = () => {
     const user = useSelector((state: RootState) => state.users.users[state.login._id]);
     const history = useHistory();
 
-    console.log(user)
     if(!user || user.type !== "Customer") {
         return <div>Mitään ei löytynyt</div>
     }
@@ -21,8 +20,8 @@ const CustomerUserPage: React.FC = () => {
 
     return (
         <div>
-            <Header>{user.username}</Header>
-            <Grid columns={1}>
+            <Grid id="basicGrid" centered columns={1}>
+                <Header className="title" textAlign='center'>{user.username}</Header>
                 <GridRow centered>
                     <Header textAlign='center'>Varatut opastukset</Header>
                 </GridRow>

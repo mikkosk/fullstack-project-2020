@@ -1,0 +1,47 @@
+html, body {
+    background-color: rgba(255, 246, 193, 0.185)
+}
+
+.ui.button {
+    background-color: tan;
+}
+
+.ui.button.add {
+    background-color: rgb(241, 228, 211);
+    margin-top: 2%;
+}
+
+.grid{
+    background-color: white;
+}
+
+.ui.header.title {
+    margin-top: 2%;
+}
+
+#basicGrid {
+    padding-bottom: 10%;
+    border-radius: 1px;
+    box-shadow: 0px 0px 2px 2px lightgray;
+}
+
+.ui.centered.card {
+    margin-top: 2%;
+}
+
+#pageNumbers {
+    margin-top: 2%;
+    background-color: transparent;
+}
+
+.centerNumber {
+    text-align: center;
+}
+
+.addTopMargin {
+    margin-top: 2%;
+}
+
+#extraInfo {
+    background-color: rgb(245, 210, 165);
+}

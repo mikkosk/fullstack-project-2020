@@ -105,6 +105,7 @@ var parsePrice = function (price) {
 };
 var parseInfo = function (info) {
     try {
+        console.log(info);
         var parsedInfo = parseGenericTextField(info);
         return parsedInfo;
     }
@@ -217,7 +218,6 @@ exports.toReservedTour = function (object) {
         tourName: parseName(object.tourName),
         maxNumberOfPeople: parseNumberOfPeople(object.maxNumberOfPeople),
         price: parsePrice(object.price),
-        tourInfo: parseInfo(object.tourInfo),
         chosenLanguage: parseLanguage(object.chosenLanguage),
         groupName: parseName(object.groupName),
         numberOfPeople: parseNumberOfPeople(object.numberOfPeople),
@@ -234,5 +234,8 @@ exports.toReservedTour = function (object) {
         salary: 0,
         confirmed: false
     };
+    if (object.tourInfo) {
+        return __assign(__assign({}, tour), { tourInfo: parseInfo(object.tourInfo) });
+    }
     return tour;
 };

@@ -22,7 +22,7 @@ const TourList = () => {
     }
     
     return (
-        <div>
+        <div className="centerText">
             <List id="tourList" divided>
                 {tours && Object.values(tours).map(t =>
                     <List.Content key={t._id}>

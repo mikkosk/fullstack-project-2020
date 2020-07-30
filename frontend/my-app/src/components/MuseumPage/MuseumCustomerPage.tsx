@@ -83,72 +83,77 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
 
     return (
         <div>
-            <Grid divided id="basicGrid" columns="2">
-                <GridColumn className="addTopMargin">
-                    <Grid columns="equal">
-                        <GridRow>
-                            <GridColumn>
-                                <Header>Aukiolo: </Header>
-                            </GridColumn>
-                        </GridRow>
-                        {openHours.map(o => 
-                            <GridRow key={o.day}>
+            <Grid divided id="basicGrid">
+                <GridRow columns="2">
+                    <GridColumn className="addTopMargin">
+                        <Grid columns="equal">
+                            <GridRow>
                                 <GridColumn>
-                                    <h4>{o.day}: </h4>
+                                    <Header>Aukiolo: </Header>
+                                </GridColumn>
+                            </GridRow>
+                            {openHours.map(o => 
+                                <GridRow key={o.day}>
+                                    <GridColumn>
+                                        <h4>{o.day}: </h4>
+                                    </GridColumn>
+                                    <GridColumn>
+                                        <p>{o.open} - {o.closed}</p>
+                                    </GridColumn>
+                                </GridRow>  
+                            )}
+                            <GridRow>
+                                <GridColumn>
+                                    <h4>Lisätietoja: </h4>
                                 </GridColumn>
                                 <GridColumn>
-                                    <p>{o.open} - {o.closed}</p>
+                                    <p>{museum.openInfo}</p>
                                 </GridColumn>
-                            </GridRow>  
-                        )}
-                        <GridRow>
-                            <GridColumn>
-                                <h4>Lisätietoja: </h4>
-                            </GridColumn>
-                            <GridColumn>
-                                <p>{museum.openInfo}</p>
-                            </GridColumn>
-                        </GridRow>
-                    </Grid>
-                </GridColumn>
-                <GridColumn className="addTopMargin">
-                    <Grid>
-                        <GridRow centered>
-                            <Header>
-                                Opastukset
-                            </Header>
-                        </GridRow>
-                        <GridRow centered>
-                            <GridColumn width="1">
-                                <Icon name="angle double left" onClick={() => nextPage(false)}/>
-                            </GridColumn>
-                            <GridColumn width="10">
-                                <Card centered>
-                                    <Card.Content>
-                                        <CardHeader>{tour.tourName}</CardHeader>
-                                        <Card.Description>{tour.tourInfo}</Card.Description>
-                                           
-                                    </Card.Content>
-                                    {tour._id !== "0" &&  
-                                    <Card.Content id="extraInfo" extra onClick={() => toTour(museum._id, tour._id)}>
-                                        <b>Lisätiedot ja varaukset</b>
-                                    </Card.Content>}
-                                </Card>
-                            </GridColumn>
-                            <GridColumn>
-                                <Icon name="angle double right" onClick={() => nextPage(true)}/>
-                            </GridColumn>
-                        </GridRow>
-                    </Grid>
-                </GridColumn>
+                            </GridRow>
+                        </Grid>
+                    </GridColumn>
+                    <GridColumn className="addTopMargin">
+                        <Grid>
+                            <GridRow centered>
+                                <Header>
+                                    Opastukset
+                                </Header>
+                            </GridRow>
+                            <GridRow centered>
+                                <GridColumn width="1">
+                                    <Icon name="angle double left" onClick={() => nextPage(false)}/>
+                                </GridColumn>
+                                <GridColumn width="10">
+                                    <Card centered>
+                                        <Card.Content>
+                                            <CardHeader>{tour.tourName}</CardHeader>
+                                            <Card.Description>{tour.tourInfo}</Card.Description>
+                                            
+                                        </Card.Content>
+                                        {tour._id !== "0" &&  
+                                        <Card.Content id="extraInfo" extra onClick={() => toTour(museum._id, tour._id)}>
+                                            <b>Lisätiedot ja varaukset</b>
+                                        </Card.Content>}
+                                    </Card>
+                                </GridColumn>
+                                <GridColumn>
+                                    <Icon name="angle double right" onClick={() => nextPage(true)}/>
+                                </GridColumn>
+                            </GridRow>
+                        </Grid>
+                    </GridColumn>
+                </GridRow>
+                <GridRow className="addTopMargin" centered>
+                    {user && user.type !== "Customer" && !user.museums.find((m: Museum) => m._id === museum._id) && 
+                        <div>
+                            <p>Oletko tämän museon henkilökuntaa? Lähetä pyyntö!</p>
+                            <Button onClick={handleRequest} disabled={alreadySent}>Lähetä!</Button>
+                            {alreadySent && <p>Olet jo lähettänyt pyynnön</p>}
+                        </div>
+                    }
+                </GridRow>
             </Grid>
-            {user && user.type !== "Customer" && !user.museums.find((m: Museum) => m._id === museum._id) && 
-                <div>
-                    <p>Oletko tämän museon henkilökuntaa? Lähetä pyyntö!</p>
-                    <Button onClick={handleRequest} disabled={alreadySent}>Lähetä!</Button>
-                    {alreadySent && <p>Olet jo lähettänyt pyynnön</p>}
-                </div>
-            }
+            
         </div>
     )
 }

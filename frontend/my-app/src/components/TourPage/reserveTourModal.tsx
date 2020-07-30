@@ -13,7 +13,7 @@ interface Props {
 
 const ReserveTourModal: React.FC<Props> = ({ modalOpen, onClose, onSubmit, tour, museum}: Props) => (
     <Modal id="reserveTourModal" open={modalOpen} onClose={onClose} closeIcon>
-        <Modal.Header>Varaa opastus</Modal.Header>
+        <Modal.Header id="modalHeader">Varaa opastus</Modal.Header>
         <Modal.Content>
             <AddReservedForm onSubmit={onSubmit} onCancel={onClose} tour={tour} museum={museum}></AddReservedForm>
         </Modal.Content>

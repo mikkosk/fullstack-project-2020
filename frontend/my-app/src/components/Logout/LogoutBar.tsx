@@ -24,8 +24,8 @@ const LogoutBar: React.FC = () => {
     if (!user._id) {
         return (
             <div>
-                <Menu>
-                    <Menu.Item header>Et ole kirjautunut sisään</Menu.Item>
+                <Menu widths={2}>
+                    <Menu.Item id="logoutbarState" header>Et ole kirjautunut sisään</Menu.Item>
                     <Menu.Item name="login" onClick={() => toPage('login')}>Kirjaudu sisään</Menu.Item>
                 </Menu>
             </div>
@@ -34,8 +34,8 @@ const LogoutBar: React.FC = () => {
 
     return (
         <div>
-            <Menu>
-                <Menu.Item header>Kirjautunut sisään käyttäjänä {user.username}</Menu.Item>
+            <Menu widths={4}>
+                <Menu.Item id="logoutbarState" header>Kirjautunut sisään käyttäjänä {user.username}</Menu.Item>
                 <Menu.Item name="mainPage" onClick={() => toPage("find/museums")}>Etusivu</Menu.Item>
                 <Menu.Item name="userPage" onClick={() => toPage("user")}>Oma sivu</Menu.Item>
                 <Menu.Item name="logout" onClick={handleLogout}>Kirjaudu ulos</Menu.Item>

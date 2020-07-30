@@ -11,7 +11,7 @@ interface Props {
 
 const AddMuseumModal: React.FC<Props> = ({ modalOpen, onClose, onSubmit}: Props) => (
     <Modal open={modalOpen} onClose={onClose} closeIcon>
-        <Modal.Header>Päivitä opastusta</Modal.Header>
+        <Modal.Header id="modalHeader">Päivitä opastusta</Modal.Header>
         <Modal.Content>
             <AddMuseumForm onSubmit={onSubmit} onCancel={onClose}></AddMuseumForm>
         </Modal.Content>

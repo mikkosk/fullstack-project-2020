@@ -40,7 +40,7 @@ const FindMuseums: React.FC = () => {
                 )}
                 <Grid id="pageNumbers" centered>
                     {Array.from(Array(numberOfPages()).keys()).map((n: number) => 
-                        <GridColumn centered key={n}><p className="centerNumber" onClick={() => setPage(n)}>{n + 1}</p></GridColumn>
+                        <GridColumn centered key={n}><p className="centerText" onClick={() => setPage(n)}>{n + 1}</p></GridColumn>
                     )}
                 </Grid>
             </Container>

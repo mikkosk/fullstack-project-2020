@@ -57,7 +57,8 @@
 |27.7. | 6 | still learning about cypress and writing tests |
 |28.7. | 5 | more tests |
 |29.7. | 3 | finished tests, started to implment css |
-Total: 134 hours 
+|30.7. | 3 | finished css for now|
+Total: 137 hours 
 
 
 (7cr)

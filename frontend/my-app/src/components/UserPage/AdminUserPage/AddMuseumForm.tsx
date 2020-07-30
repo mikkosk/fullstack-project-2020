@@ -114,8 +114,10 @@ export const AddMuseumForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                     />
                     <Grid columns={7} relaxed stackable >
                         {days.map(d => 
-                            <Grid.Column key={d.value}>
-                                <Label>{d.name}</Label>
+                            <Grid.Column className="centerText" key={d.value}>
+                                <div className="bottomMargin">
+                                    <Label basic>{d.name}</Label>
+                                </div>
                                 <SelectField
                                     label="Auki"
                                     name={`open.${d.value}`}
@@ -129,10 +131,14 @@ export const AddMuseumForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                             </Grid.Column>
                         )}
                     </Grid>
-                    <Button id="submitMuseumModal" type="submit" name="submit" disabled={!dirty || !isValid}>
-                        Lisää!
-                    </Button>
-                    <Button id="cancelMuseumModal" onClick={onCancel} name="cancelForm" color="red">Peruuta</Button>
+                    <Grid>
+                        <Grid.Row centered className="addTopMarginSmall" columns="2">
+                            <Button id="submitMuseumModal" type="submit" name="submit" disabled={!dirty || !isValid}>
+                                Lisää!
+                            </Button>
+                            <Button id="cancelMuseumModal" onClick={onCancel} name="cancelForm" color="red">Peruuta</Button>
+                        </Grid.Row>
+                    </Grid>
                 </Form>
             )
         }}

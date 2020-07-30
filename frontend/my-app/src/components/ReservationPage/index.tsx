@@ -9,11 +9,11 @@ import { dateToString } from '../../utils/DateTimeFunctions';
 export const EssentialInformation: React.FC<{tour: ReservedTour}> = ({tour}) => {
     return (
         <div>
-            <GridColumn><b>Kierros: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Kierros: </h4></GridColumn>
             <GridColumn>{tour.tourName}</GridColumn>
-            <GridColumn><b>Päivä: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Päivä: </h4></GridColumn>
             <GridColumn>{dateToString(tour.date)}</GridColumn>
-            <GridColumn><b>Aika: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Aika: </h4></GridColumn>
             <GridColumn>{tour.time}</GridColumn>
         </div>
     )
@@ -22,29 +22,29 @@ export const EssentialInformation: React.FC<{tour: ReservedTour}> = ({tour}) => 
 export const RestInformation: React.FC<{tour: ReservedTour}> = ({tour}) => {
     return(
         <div>
-            <GridColumn><b>Ryhmä: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Ryhmä: </h4></GridColumn>
             <GridColumn>{tour.groupName}</GridColumn>
-            <GridColumn><b>Kieli: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Kieli: </h4></GridColumn>
             <GridColumn>{tour.chosenLanguage}</GridColumn>
-            <GridColumn><b>Varaajan sähköposti: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Varaajan sähköposti: </h4></GridColumn>
             <GridColumn>{tour.email}</GridColumn>
-            <GridColumn><b>Hinta: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Hinta: </h4></GridColumn>
             <GridColumn>{tour.price}</GridColumn>
-            <GridColumn><b>Maksutapa: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Maksutapa: </h4></GridColumn>
             <GridColumn>{tour.paymentMethod}</GridColumn>
-            <GridColumn><b>Kesto: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Kesto: </h4></GridColumn>
             <GridColumn>{tour.lengthInMinutes}min</GridColumn>
-            <GridColumn><b>Osallistujia: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Osallistujia: </h4></GridColumn>
             <GridColumn>{tour.numberOfPeople}</GridColumn>
-            <GridColumn><b>Ikäryhmä: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Ikäryhmä: </h4></GridColumn>
             <GridColumn>{tour.groupAge}</GridColumn>
-            <GridColumn><b>Lisätietoja ryhmästä: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Lisätietoja ryhmästä: </h4></GridColumn>
             <GridColumn>{tour.groupInfo}</GridColumn>
-            <GridColumn><b>Lisätietoja opastuksesta: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Lisätietoja opastuksesta: </h4></GridColumn>
             <GridColumn>{tour.tourInfo}</GridColumn>
-            <GridColumn><b>Opas: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Opas: </h4></GridColumn>
             <GridColumn>{tour.guide.name}</GridColumn>
-            <GridColumn><b>Vahvistettu: </b></GridColumn>
+            <GridColumn className="addTopMarginSmall"><h4>Vahvistettu: </h4></GridColumn>
             <GridColumn>{tour.confirmed?"Kyllä":"Ei"}</GridColumn>
         </div>
     )
@@ -81,9 +81,11 @@ const ReservationPage: React.FC = () => {
     return ( 
         <div>
             <Header>Varattu kierros</Header>
-            <Grid columns="2">
-                <EssentialInformation tour={tour}/>
-                <RestInformation tour={tour}/>
+            <Grid id="basicGrid" columns="1">
+                <GridColumn>
+                    <EssentialInformation tour={tour}/>
+                    <RestInformation tour={tour}/>
+                </GridColumn>
             </Grid>
         </div>
     )

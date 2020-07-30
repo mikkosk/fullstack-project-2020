@@ -26,14 +26,14 @@ const CustomerUserPage: React.FC = () => {
                     <Header textAlign='center'>Varatut opastukset</Header>
                 </GridRow>
                 {user.reservedTours.map((r: ReservedTour) => 
-                    <GridRow  name="tourRow" key={r._id} onClick={() => toReservation(r._id)} columns="3">
-                        <GridColumn>
+                    <GridRow centered name="tourRow" key={r._id} onClick={() => toReservation(r._id)} columns="3">
+                        <GridColumn textAlign="center">
                             <h4>{r.tourName} </h4>
                         </GridColumn>
-                        <GridColumn>
+                        <GridColumn textAlign="center">
                             <p>{r.time} </p>
                         </GridColumn>
-                        <GridColumn>
+                        <GridColumn textAlign="center">
                             <p>{dateToString(r.date)}</p>
                         </GridColumn>
                     </GridRow>

@@ -46,12 +46,11 @@ export const AdminPage: React.FC = () => {
 
     return (
         <div id="adminPage">
-            
-            <Grid columns={2} stackable textAlign='center'>
+            <Grid id="basicGrid" columns={2} stackable textAlign='center'>
                 <Grid.Row>
                     <Header>Käyttäjän {user.username} tiedot</Header>
                 </Grid.Row>
-                <Grid.Row>
+                <Grid.Row className="addTopMargin">
                     <Grid.Column>
                         <h4>Kaikki museot: </h4>
                     </Grid.Column>
@@ -88,9 +87,10 @@ export const AdminPage: React.FC = () => {
                         </Grid>
                     </Grid.Column>
                 </Grid.Row>
-
+                <Grid.Row className="addTopMargin">
+                    <Button id="addMuseumModalOpen" onClick={openModal}>Lisää museo!</Button>
+                </Grid.Row>
             </Grid>
-            <Button id="addMuseumModalOpen"onClick={openModal}>Lisää museo!</Button>
             <AddMuseumModal modalOpen={modalOpen} onSubmit={handleSubmit} onClose={closeModal}/>
         </div>
 

@@ -47,73 +47,101 @@ const MuseumAdminPage: React.FC<{museum: Museum}> = ({ museum }) => {
     return (
         <div>
             <Header as="h2">Museon opastukset</Header>
-            <Grid divided='vertically' columns={2}>
-                    <Grid.Column>
-                        <Header as="h4">Nykyiset opastukset</Header>
-                        <TourList />
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Header as="h4">Lisää opastus</Header>
-                        <AddTourForm onSubmit={submitNewTour} onCancel={console.log}/>
-                    </Grid.Column>
-            </Grid>
-            <Grid>
-                <GridRow columns="1">
-                    <Header>Vahvistamattomat opastukset</Header>
-                </GridRow>
-                {museum.reservedTours.map((r: ReservedTour) => (!r.confirmed && (new Date(r.date) >= new Date())) ?
-                    <TourShow r={r} key={r._id} />
-                    : null
-                )}
-            </Grid>
-            <Grid>
-                <GridRow columns="1">
-                    <Header>Vahvistetut opastukset</Header>
-                </GridRow>
-                {museum.reservedTours.map((r: ReservedTour) => (r.confirmed && (new Date(r.date) >= new Date())) ? 
-                    <GridRow key={r._id} columns={4} onClick={() => toReservation(r._id)}>
-                        <TourShow r={r} key={r._id} />
-                    </GridRow>
-                    : null
-                )}
-            </Grid>
-            <Grid>
-                <GridRow columns="1">
-                    <Header>Menneet opastukset</Header>
-                </GridRow>
-                {museum.reservedTours.map((r: ReservedTour) => (new Date(r.date) < new Date()) ? 
-                    <GridRow key={r._id} columns={4} onClick={() => toReservation(r._id)}>
-                        <TourShow r={r} key={r._id} />
-                    </GridRow>
-                    : null
-                )}
-            </Grid>
-            <Grid columns="1">
-                <GridColumn>
-                    <Header>Käyttäjäpyynnöt</Header>
-                </GridColumn>
-                <Grid name="requests" columns={4}>
-                    {museum.userRequests.map((u: Professionals) => {
-                        console.log(u)
-                        return(
-                            <Grid.Row key={u._id}>
-                                <Grid.Column>
-                                    <p>{u.name}</p>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <b>{u.type}</b>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Icon name="heart outline" color="green" onClick={() => acceptUser(u._id)}/>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Icon name="ban" color="red" onClick={() => deleteRequest(u._id)}/>
-                                </Grid.Column>  
-                            </Grid.Row>
-                        )
-                    }
-                    )}
+
+            <Grid centered id="basicGrid" columns={1}>
+                <Grid centered divided='vertically' columns={2}>
+                        <Grid.Column>
+                            <Header className="centerText" as="h3">Nykyiset opastukset</Header>
+                            <TourList/>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Header className="centerText" as="h3">Lisää opastus</Header>
+                            <div className="centerText">
+                                <AddTourForm onSubmit={submitNewTour} onCancel={console.log}/>
+                            </div>
+                        </Grid.Column>
                 </Grid>
+
+                <Grid className="addTopMargin">
+                    <GridRow columns={3}>
+                        <Grid.Column>
+                            <Grid>
+                                <GridRow centered columns="1">
+                                    <Header>Vahvistamattomat opastukset</Header>
+                                </GridRow>
+                                {museum.reservedTours.map((r: ReservedTour) => (!r.confirmed && (new Date(r.date) >= new Date())) ?
+                                    <GridRow key={r._id} columns={1} onClick={() => toReservation(r._id)}>
+                                        <TourShow r={r} key={r._id} />
+                                    </GridRow>
+                                    : null
+                                )}
+                            </Grid>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Grid>
+                                <GridRow centered columns="1">
+                                    <Header>Vahvistetut opastukset</Header>
+                                </GridRow>
+                                {museum.reservedTours.map((r: ReservedTour) => (r.confirmed && (new Date(r.date) >= new Date())) ? 
+                                    <GridRow key={r._id} columns={1} onClick={() => toReservation(r._id)}>
+                                        <TourShow r={r} key={r._id} />
+                                    </GridRow>
+                                    : null
+                                )}
+                            </Grid>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Grid>
+                                <GridRow columns="1" centered>
+                                    <Header>Menneet opastukset</Header>
+                                </GridRow>
+                                {museum.reservedTours.map((r: ReservedTour) => (new Date(r.date) < new Date()) ? 
+                                    <GridRow key={r._id} columns={1} onClick={() => toReservation(r._id)}>
+                                        <TourShow r={r} key={r._id} />
+                                    </GridRow>
+                                    : null
+                                )}
+                            </Grid>
+                        </Grid.Column>
+                    </GridRow>
+                </Grid>
+
+                <Grid className="addTopMargin" columns="1">
+                    <GridColumn>
+                        <Header className="centerText">Käyttäjäpyynnöt</Header>
+                    </GridColumn>
+                    <Grid name="requests" columns={4}>
+                        {museum.userRequests.map((u: Professionals) => {
+                            console.log(u)
+                            return(
+                                <Grid.Row centered key={u._id}>
+                                    <Grid.Column>
+                                        <div className="centerText">
+                                            <p>{u.name}</p>
+                                        </div>
+                                    </Grid.Column>
+                                    <Grid.Column centered className="centerText">
+                                        <div className="centerText">
+                                            <b>{u.type}</b>
+                                        </div>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <div className="centerText">
+                                            <Icon className="centerText" name="heart outline" color="blue" onClick={() => acceptUser(u._id)}/>
+                                        </div>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <div className="centerText">
+                                            <Icon className="centerText" name="ban" color="red" onClick={() => deleteRequest(u._id)}/>
+                                        </div>  
+                                    </Grid.Column>  
+                                </Grid.Row>
+                            )
+                        }
+                        )}
+                    </Grid>
+                </Grid>
+
             </Grid>
         </div>
     )

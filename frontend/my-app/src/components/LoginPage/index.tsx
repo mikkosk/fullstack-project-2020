@@ -43,16 +43,14 @@ export const LoginPage: React.FC = () => {
     return (
         <div>
             <Header as="h1">Kirjaudu sisään tai luo käyttäjä</Header>
-            <Segment>
-                <Grid columns={2} relaxed="very" stackable divided>
-                    <Grid.Column>
-                        <LoginForm onSubmit={submitLogin}/>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <RegisterationForm onSubmit={submitRegisteration}/>
-                    </Grid.Column>
-                </Grid>
-            </Segment>
+            <Grid id="basicGrid" columns={2} relaxed="very" stackable divided>
+                <Grid.Column>
+                    <LoginForm onSubmit={submitLogin}/>
+                </Grid.Column>
+                <Grid.Column>
+                    <RegisterationForm onSubmit={submitRegisteration}/>
+                </Grid.Column>
+            </Grid>
         </div>
     )
 }

@@ -35,7 +35,7 @@ const NotificationBar: React.FC = () => {
     return (
         <div>
             {show.map((n: MessageError & {key: number}) => 
-                <Header key={n.key}color={n.error ? "red" : "green"}>{n.message}</Header>
+                <Header key={n.key}color={n.error ? "red" : "blue"}>{n.message}</Header>
             )}
         </div>
     )

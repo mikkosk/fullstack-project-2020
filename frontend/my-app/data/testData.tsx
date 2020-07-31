@@ -83,6 +83,8 @@ export const initialStateEmptyTours: RootState = {
                     sun: "10:00"
                     
                 },
+                image: undefined,
+                location: "Location",
                 offeredTours:[],
                 openInfo: "Auki",
                 museumInfo: "Museo",
@@ -187,6 +189,8 @@ export const initialState: RootState = {
                         sun: "12:00"
                         
                     },
+                    image: undefined,
+                    location: "Location",
                     offeredTours:[{lengthInMinutes: 2, 
                         maxNumberOfPeople:2, 
                         possibleLanguages: ["Two"],
@@ -303,6 +307,8 @@ export const initialState: RootState = {
                     sun: "12:00"
                     
                 },
+                image: undefined,
+                location: "Location",
                 offeredTours:[
                     {lengthInMinutes: 2, 
                     maxNumberOfPeople:2, 

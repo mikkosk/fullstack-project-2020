@@ -61,9 +61,11 @@ export interface Museum {
     museumInfo?: string;
     reservedTours: ReservedTour[];
     userRequests: Professionals[];
+    location: string;
+    image?: string;
 }
 
-export type NewMuseum = Omit<Museum, '_id' | 'offeredTours' | 'reservedTours' | 'userRequests'>;
+export type NewMuseum = Omit<Museum, '_id' | 'offeredTours' | 'reservedTours' | 'userRequests' | 'image'> & {image: File | undefined};
 export type NewTour = Pick<GuidedTour, 'possibleLanguages' | 'lengthInMinutes' | 'tourName' | 'maxNumberOfPeople' | 'price' | 'tourInfo'>;
 export type NewUser = Omit<UserAnyType, '_id' | 'museums' | 'passwordHash'> & {password: string; languages: string[]};
 

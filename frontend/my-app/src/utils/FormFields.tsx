@@ -118,6 +118,24 @@ export const ArrayField: React.FC<ArrayProps> = ({fieldName, field, label, value
     )
 }
 
+
+export const ImageField: React.FC<{name: string}> = ({name}) => {
+    const { setFieldValue }  = useFormikContext()
+    const [field] = useField(name)
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files) {
+            if(e.target.files[0]) {
+                setFieldValue(field.name, e.target.files[0])
+            }
+        }
+    }
+
+    return (
+        <input type='file' name='file' id='fileInput' onChange={e => handleChange(e)}></input>
+    )
+}
+
 export const DateField: React.FC<{name: string}> = ({name}) => {
     const { setFieldValue } = useFormikContext()
     const [field] = useField(name)

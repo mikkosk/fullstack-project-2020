@@ -58,6 +58,21 @@ const parseGenericNumberField = (number: any): number => {
     return number;
 };
 
+const parseLocation = (location: any): string => {
+    try {
+        return parseGenericTextField(location);
+    } catch {
+        throw new Error("Missing or invalid location");
+    }
+};
+
+const parseImage = (image: any): string => {
+    try {
+        return parseGenericTextField(image);
+    } catch {
+        throw new Error("Missing or invalid image path");
+    }
+};
 const parseLanguage = (language: any): string => {
     try {
         const parsedLanguage = parseGenericTextField(language);
@@ -200,7 +215,8 @@ export const toNewMuseum = (object: any): NewMuseum => {
                 fri: parseTime(object.closed.fri),
                 sat: parseTime(object.closed.sat),
                 sun: parseTime(object.closed.sun)
-            }
+            },
+            location: parseLocation(object.location)
         };
 
     if(object.openInfo) {
@@ -210,13 +226,18 @@ export const toNewMuseum = (object: any): NewMuseum => {
         };
     }
 
-    if(object.openInfo) {
+    if(object.museumInfo) {
         newMuseum = {
             ...newMuseum,
             museumInfo: parseInfo(object.museumInfo)
         };
     }
-    
+    if(object.image) {
+        newMuseum = {
+            ...newMuseum,
+            image: parseImage(object.image)
+        };
+    }
     return newMuseum;
     
 };

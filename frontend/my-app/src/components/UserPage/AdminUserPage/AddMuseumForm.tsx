@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Button, Label } from "semantic-ui-react";
 import { Field, Formik, Form } from "formik";
-import { TextField, SelectField } from "../../../utils/FormFields";
+import { TextField, SelectField, ImageField } from "../../../utils/FormFields";
 import { NewTour, NewMuseum, OptionField } from "../../../types";
 
 const checkTimes = ({mon, tue, wed, thu, fri, sat, sun}: {mon: string, tue: string, wed: string, thu: string, fri: string, sat: string, sun: string}): boolean => {
@@ -65,7 +65,9 @@ const initialValues: NewMuseum = {
         fri: "",
         sat: "",
         sun: ""
-    }
+    },
+    location: "",
+    image: undefined
 }
 export const AddMuseumForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
     return (
@@ -111,6 +113,15 @@ export const AddMuseumForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                         placeholder="Lisätietoja"
                         name="openInfo"
                         component={TextField}
+                    />
+                    <Field
+                        label="Sijainti"
+                        placeholder="Sijainti"
+                        name="location"
+                        component={TextField}
+                    />
+                    <ImageField
+                        name="image"
                     />
                     <Grid columns={7} relaxed stackable >
                         {days.map(d => 

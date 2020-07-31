@@ -46,7 +46,9 @@ const museumNoToursCy: NewMuseum = {
         sun: "16:00" 
     },
     openInfo: "Suljettu maanantaisin",
-    museumInfo: "Pikkuruinen museo"
+    museumInfo: "Pikkuruinen museo",
+    location: "location",
+    image: undefined
 };
 
 const museumNoReservedCy: NewMuseum = {
@@ -70,7 +72,9 @@ const museumNoReservedCy: NewMuseum = {
         sun: "16:00" 
     },
     openInfo: "Suljettu maanantaisin",
-    museumInfo: "Museo kaipaa varauksia"
+    museumInfo: "Museo kaipaa varauksia",
+    location: "location",
+    image: undefined
 };
 
 const museumReservedCy: NewMuseum = {
@@ -94,7 +98,9 @@ const museumReservedCy: NewMuseum = {
         sun: "16:00" 
     },
     openInfo: "Suljettu maanantaisin",
-    museumInfo: "Täällä kaikki hyvin"
+    museumInfo: "Täällä kaikki hyvin",
+    location: "location",
+    image: undefined
 };
 
 const reservedTour1Cy: Omit<ReservedTour, '_id'> = {

@@ -33,6 +33,7 @@ export const AdminPage: React.FC = () => {
     }
 
     const dispatchAddMuseum = async (values: NewMuseum) => {
+        console.log(values)
         dispatch(addMuseum(values, user._id))
     }
 

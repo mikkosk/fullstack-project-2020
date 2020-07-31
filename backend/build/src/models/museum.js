@@ -48,6 +48,8 @@ var museumSchema = new mongoose_1.Schema({
     museumInfo: {
         type: String || undefined,
     },
+    location: {type: String},
+    image: {type: String || undefined},
     reservedTours: [{
             type: mongoose_1.default.Schema.Types.ObjectId,
             ref: 'ReservedMon'

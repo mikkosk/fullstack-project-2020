@@ -3,22 +3,27 @@ import museumService from '../services/museumService';
 import { toNewMuseum } from '../utils/parser';
 import userService from '../services/userService';
 import { decodedToken, allowedUserType, allowedMuseum } from '../utils/userManagement';
+import multer from 'multer';
+
 const router = express.Router();
+
+const upload = multer({dest: "./uploads/"});
 
 router.get('/', async (_req, res) => {
     res.json(await museumService.getMuseums());
 });
 
-
-router.post('/', async (req, res) => {
-    try {
+//AddMuseum
+router.post('/', upload.single('image'), async (req, res) => {
+    try {    
+        console.log(JSON.parse(req.body.open)); 
         const token = decodedToken(req.headers.authorization);
         const user = await userService.getUser(token.id);
         if(!user || !allowedUserType("Admin", user)) {
             res.status(401).send("Ei oikeuksia luoda museota");
             return;
         }
-        const newMuseum = toNewMuseum(req.body);
+        const newMuseum = toNewMuseum({...req.body, open: JSON.parse(req.body.open), closed: JSON.parse(req.body.closed) , image: req.file.filename});
         const addedMuseum = await museumService.addMuseum(newMuseum);
         await userService.addUserToMuseum(addedMuseum._id, token.id);
         res.json(addedMuseum);
@@ -28,6 +33,7 @@ router.post('/', async (req, res) => {
     }
 });
 
+//UpdateMuseum
 router.put('/:id', async (req, res) => {
     try {
         const museumId = req.params.id;

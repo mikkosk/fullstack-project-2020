@@ -57,6 +57,8 @@ export interface Museum {
     museumInfo?: string;
     reservedTours: ReservedTour[];
     userRequests: Professionals[];
+    location: string;
+    image?: string;
 }
 
 export interface User {

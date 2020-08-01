@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { Museum } from '../../types'
-import { Card, Button, Header, Grid, GridColumn, Container } from 'semantic-ui-react'
+import { Image, Card, Button, Header, Grid, GridColumn, Container, CardContent } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
 
 const FindMuseums: React.FC = () => {
@@ -31,6 +31,10 @@ const FindMuseums: React.FC = () => {
                     <div key={m._id}>
                         <Card centered>
                             <Card.Content header={m.museumName} />
+                            {m.image && 
+                            <CardContent>
+                                <Image src={`http://localhost:3001/uploads/${m.image}`} size="small"/>
+                            </CardContent>}
                             <Card.Content description={m.museumInfo} />
                             <Card.Content extra>
                                 <Button onClick={() => toMuseum(m._id)}>Tarkastele</Button>
@@ -40,7 +44,7 @@ const FindMuseums: React.FC = () => {
                 )}
                 <Grid id="pageNumbers" centered>
                     {Array.from(Array(numberOfPages()).keys()).map((n: number) => 
-                        <GridColumn centered key={n}><p className="centerText" onClick={() => setPage(n)}>{n + 1}</p></GridColumn>
+                        <GridColumn key={n}><p className="centerText" onClick={() => setPage(n)}>{n + 1}</p></GridColumn>
                     )}
                 </Grid>
             </Container>

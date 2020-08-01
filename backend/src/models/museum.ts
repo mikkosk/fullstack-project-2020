@@ -46,7 +46,13 @@ const museumSchema: Schema = new Schema({
     userRequests: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserMon'
-    }]
+    }],
+    location: {
+        type: String
+    },
+    image: {
+        type: String || undefined
+    }
 });
 
 museumSchema.plugin(uniqueValidator);

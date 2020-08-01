@@ -132,7 +132,7 @@ export const ImageField: React.FC<{name: string}> = ({name}) => {
     }
 
     return (
-        <input type='file' name='file' id='fileInput' onChange={e => handleChange(e)}></input>
+        <input type='file' accept=".jpg, .png" name='file' id='fileInput' onChange={e => handleChange(e)}></input>
     )
 }
 

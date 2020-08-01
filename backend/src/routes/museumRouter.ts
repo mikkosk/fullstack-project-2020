@@ -4,10 +4,30 @@ import { toNewMuseum } from '../utils/parser';
 import userService from '../services/userService';
 import { decodedToken, allowedUserType, allowedMuseum } from '../utils/userManagement';
 import multer from 'multer';
+import crypto from 'crypto';
 
 const router = express.Router();
 
-const upload = multer({dest: "./uploads/"});
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./uploads/");
+    },
+    filename: (req, file, cb) => {
+        console.log(file);
+        cb(null, crypto.randomBytes(10).toString('hex') + file.originalname);
+    }
+    
+});
+
+const filter = (_req: any, file: Express.Multer.File, cb: any) => {
+    if(file.mimetype === 'image/png' || file.mimetype ==='image/jpg') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
+const upload = multer({storage: storage, fileFilter: filter});
 
 router.get('/', async (_req, res) => {
     res.json(await museumService.getMuseums());

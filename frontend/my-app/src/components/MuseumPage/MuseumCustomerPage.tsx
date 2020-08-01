@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Museum, GuidedTour, UserAnyType, Professionals } from '../../types'
-import { Grid, GridColumn, GridRow, Header, Icon, Card, CardHeader, Button } from 'semantic-ui-react'
+import { Image, Grid, GridColumn, GridRow, Header, Icon, Card, CardHeader, Button, Label } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
 import museumReducer, { sendRequest } from '../../reducers/museumReducer'
 import { useDispatch } from 'react-redux'
@@ -114,6 +114,13 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
                     </GridColumn>
                     <GridColumn className="addTopMargin">
                         <Grid>
+                            <GridRow centered>
+                                <Header>{museum.museumName}</Header>
+                            </GridRow>
+                            <GridRow centered>
+                                {museum.image && <Image src={`http://localhost:3001/uploads/${museum.image}`} />}
+                                {!museum.image && <Label> Ei kuvaa saatavilla</Label>} 
+                            </GridRow>
                             <GridRow centered>
                                 <Header>
                                     Opastukset

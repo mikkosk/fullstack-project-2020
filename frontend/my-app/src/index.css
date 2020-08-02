@@ -1,5 +1,5 @@
-html, body {
-    background-color: rgba(248, 248, 228, 0.185)
+html, body{
+    background-color: rgba(248, 248, 228, 0.185);
 }
 
 .ui.button {
@@ -61,4 +61,12 @@ html, body {
 
 #extraInfo {
     background-color: rgb(245, 210, 165);
+}
+
+.box {
+    display: inline-block;
+    position: relative;
+    height: 40vw;
+    width: 80vw;
+    text-align: center;
 }

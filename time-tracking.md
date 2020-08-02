@@ -60,7 +60,8 @@
 |30.7. | 3 | finished css for now|
 |31.7.|3|started adding posibility to add a picture to a museum profile|
 |1.8.|2|finished adding images|
-Total: 142 hours 
+|2.8.|3|started to add mapbox|
+Total: 145 hours 
 
 
 (8cr)

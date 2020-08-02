@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header, Segment, Grid } from 'semantic-ui-react'
+import { Header, Segment, Grid, GridColumn, GridRow } from 'semantic-ui-react'
 import { LoginForm } from './LoginForm'
 import { RegisterationForm } from './RegisterationForm'
 import loginService from '../../services/loginService'
@@ -10,6 +10,7 @@ import { login } from '../../reducers/loginReducer'
 import { addUser } from '../../reducers/userReducer'
 import { useHistory } from 'react-router-dom'
 import { addNotification } from '../../reducers/notificationReducer'
+import Mapbox from '../../utils/Mapbox'
 
 export const LoginPage: React.FC = () => {
     const dispatch = useDispatch()

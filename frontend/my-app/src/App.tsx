@@ -18,6 +18,7 @@ import FindMuseums from './components/FindMuseums';
 import ReservationPage from './components/ReservationPage';
 import GuideUserPage from './components/UserPage/GuideUserPage';
 import UserPage from './components/UserPage';
+import Mapbox from './utils/Mapbox';
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
             <Route path="/user/" render={() => <UserPage />}/>
             <Route path="/find/museums" render={() => <FindMuseums />}/>
             <Route path="/reservation/:id" render={() => <ReservationPage/>}/>
+            <Route path="/map" render={() => <Mapbox/>}/>
           </Switch>
         </Container>
       </Router>

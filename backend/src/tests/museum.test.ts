@@ -9,7 +9,7 @@ import UserMon from '../models/user';
 //import initialTours from '../../data/guidedTours';
 import initialMuseums from '../../data/museums';
 import initialUsers from '../../data/users';
-import { Museum } from '../types';
+import { Museum, NewMuseum } from '../types';
 import jwt from 'jsonwebtoken';
 
 const api = supertest(app);
@@ -20,7 +20,7 @@ let adminHeaders: {Authorization: string};
 let guideHeaders: {Authorization: string};
 let customerId: string;
 let guideId: string;
-const newMuseum = {
+const newMuseum: NewMuseum = {
     museumName: "Uusi",
     open: {
         mon: "10:00",
@@ -42,7 +42,11 @@ const newMuseum = {
         
     },
     openInfo: "Auki",
-    museumInfo: "Museo"
+    museumInfo: "Museo",
+    location: "location",
+    long: 0,
+    lat: 0,
+    image: undefined
 
 };
 
@@ -108,22 +112,22 @@ beforeEach(async () => {
 
 test('museums are returned as json', async () => {
   await api
-    .get('/museum')
+    .get('/api/museum')
     .expect(200)
     .expect('Content-Type', /application\/json/);
 });
 
 test('all museums are returned initially', async () => {
-    const res = await api.get('/museum');
+    const res = await api.get('/api/museum');
     expect(res.body).toHaveLength(initialMuseums.length);
 });
 
 describe('adding a museum', () => {
 
     test('increases length by one', async () => {
-        await api.post(`/museum`).set(adminHeaders).send(newMuseum);
+        await api.post(`/api/museum`).set(adminHeaders).send(newMuseum);
         
-        const res = await api.get('/museum');
+        const res = await api.get('/api/museum');
     
         expect(res.body).toHaveLength(initialMuseums.length + 1);
     });
@@ -133,14 +137,14 @@ describe('adding a museum', () => {
 describe('deleting a museum', () => {
 
     test('deleting museum removes an object', async() => {
-        await api.delete(`/museum/${museumId}`).set(adminHeaders);
-        const res = await api.get('/museum');
+        await api.delete(`/api/museum/${museumId}`).set(adminHeaders);
+        const res = await api.get('/api/museum');
         expect(res.body).toHaveLength(initialMuseums.length - 1);
     });
     
     test('deleting removes right object', async() => {
-        await api.delete(`/museum/${museumId}`).set(adminHeaders);
-        const res = await api.get('/museum');
+        await api.delete(`/api/museum/${museumId}`).set(adminHeaders);
+        const res = await api.get('/api/museum');
         expect(!res.body.find((t: any) => t._id === museumId)).toBeTruthy();
     });
 
@@ -148,8 +152,8 @@ describe('deleting a museum', () => {
 
 describe('updating', () => {
     test('updated museum is saved correctly', async() => {
-        await api.put(`/museum/${museumId}`).set(adminHeaders).send(newMuseum).expect(200);
-        const res = await api.get('/museum');
+        await api.put(`/api/museum/${museumId}`).set(adminHeaders).send(newMuseum).expect(200);
+        const res = await api.get('/api/museum');
         const updatedMuseum = (res.body.find((t: any) => t._id === String(museumId)));
         delete updatedMuseum.__v;
         delete updatedMuseum._id;
@@ -157,8 +161,8 @@ describe('updating', () => {
     });
     
     test('updating museum does not affect size', async() => {
-        await api.put(`/museum/${museumId}`).set(adminHeaders).send(newMuseum).expect(200);
-        const res = await api.get('/museum');
+        await api.put(`/api/museum/${museumId}`).set(adminHeaders).send(newMuseum).expect(200);
+        const res = await api.get('/api/museum');
         expect(res.body).toHaveLength(initialMuseums.length);
     });
     
@@ -185,10 +189,13 @@ describe('updating', () => {
                 
             },
             openInfo: "Auki",
-            museumInfo: "Museo"
+            museumInfo: "Museo",
+            location: "location",
+            long: 0,
+            lat: 0
         };
-        await api.put(`/museum/${museumId}`).set(adminHeaders).send(faultyMuseum).expect(400);
-        const res = await api.get('/museum');
+        await api.put(`/api/museum/${museumId}`).set(adminHeaders).send(faultyMuseum).expect(400);
+        const res = await api.get('/api/museum');
         const updatedMuseum = (res.body.find((t: any) => t._id === String(museumId)));
         delete updatedMuseum.__v;
         delete updatedMuseum._id;
@@ -199,40 +206,40 @@ describe('updating', () => {
 describe("request", () => {
 
     test('adding request works on right type', async() => {
-        await api.put(`/museum/${museumId}/request`).set(guideHeaders).send({id: guideId}).expect(200);
-        const res = await api.get('/museum');
+        await api.put(`/api/museum/${museumId}/request`).set(guideHeaders).send({id: guideId}).expect(200);
+        const res = await api.get('/api/museum');
         const updatedMuseum: Museum = (res.body.find((t: any) => t._id === String(museumId)));
         expect(updatedMuseum.userRequests.length).toEqual(1);
         expect(String(updatedMuseum.userRequests[0]._id)).toBe(String(guideId));
     });
 
     test('adding request will not work on wrong type', async() => {
-        await api.put(`/museum/${museumId}/request`).set(customerHeaders).send({id: customerId}).expect(400);
+        await api.put(`/api/museum/${museumId}/request`).set(customerHeaders).send({id: customerId}).expect(400);
     });
 
     test('removing request works if museum admin', async () => {
-        await api.put(`/museum/${museumId}/request`).set(guideHeaders).send({id: guideId}).expect(200);
-        await api.put(`/museum/${museumId}/request/remove`).set(adminHeaders).send({id: guideId}).expect(200);
-        const res = await api.get('/museum');
+        await api.put(`/api/museum/${museumId}/request`).set(guideHeaders).send({id: guideId}).expect(200);
+        await api.put(`/api/museum/${museumId}/request/remove`).set(adminHeaders).send({id: guideId}).expect(200);
+        const res = await api.get('/api/museum');
         const updatedMuseum: Museum = (res.body.find((t: any) => t._id === String(museumId)));
         expect(updatedMuseum.userRequests.length).toEqual(0);
     });
 
     test('removing request will not work if not museum admin', async () => {
-        await api.put(`/museum/${museumId}/request`).set(guideHeaders).send({id: guideId}).expect(200);
-        await api.put(`/museum/${museumId}/request/remove`).set(customerHeaders).send({id: guideId}).expect(401);
+        await api.put(`/api/museum/${museumId}/request`).set(guideHeaders).send({id: guideId}).expect(200);
+        await api.put(`/api/museum/${museumId}/request/remove`).set(customerHeaders).send({id: guideId}).expect(401);
     });
 });
 
 test('updating is not possible with faulty headers', async() => {
-    await api.put(`/museum/${museumId}`).set(customerHeaders).send(newMuseum).expect(401);
+    await api.put(`/api/museum/${museumId}`).set(customerHeaders).send(newMuseum).expect(401);
 });
 test('posting is not possible', async() => {
-    const lol = await api.post(`/museum`).set(customerHeaders).send(newMuseum);
+    const lol = await api.post(`/api/museum`).set(customerHeaders).send(newMuseum);
     expect(lol.status).toBe(401);
 });
 test('deleting is not possible', async() => {
-    const result = await api.delete(`/museum/${museumId}`).set(customerHeaders);
+    const result = await api.delete(`/api/museum/${museumId}`).set(customerHeaders);
     expect(result.status).toBe(401);
 });
 

@@ -22,6 +22,10 @@ var museum = [{
         },
         openInfo: "Auki",
         museumInfo: "Museo",
+        location: "location",
+        long: 0,
+        lat: 0,
+        image: undefined
     },
     {
         museumName: "testi2",
@@ -45,6 +49,10 @@ var museum = [{
         },
         openInfo: "Auki2",
         museumInfo: "Museo2",
+        location: "location",
+        long: 0,
+        lat: 0,
+        image: undefined
     }
 ];
 exports.default = museum;

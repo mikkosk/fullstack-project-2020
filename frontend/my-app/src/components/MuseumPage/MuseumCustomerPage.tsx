@@ -4,8 +4,10 @@ import { Image, Grid, GridColumn, GridRow, Header, Icon, Card, CardHeader, Butto
 import { useHistory } from 'react-router-dom'
 import museumReducer, { sendRequest } from '../../reducers/museumReducer'
 import { useDispatch } from 'react-redux'
+import Mapbox from '../../utils/Mapbox'
 
 const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({museum, user}) => {
+    console.log(museum)
     const openHours = [
         {day: "Maanantai", open: museum.open.mon, closed: museum.closed.mon},
         {day: "Tiistai", open: museum.open.tue, closed: museum.closed.tue},
@@ -149,6 +151,17 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
                             </GridRow>
                         </Grid>
                     </GridColumn>
+                </GridRow>
+                <GridRow centered>
+                    <Header textAlign="center">Sijainti</Header>
+                </GridRow>
+                <GridRow centered>
+                    <b>{museum.location}</b>
+                </GridRow>
+                <GridRow centered>
+                    <div className="box">
+                        <Mapbox lat={museum.lat} long={museum.long}/>
+                    </div>
                 </GridRow>
                 <GridRow className="addTopMargin" centered>
                     {user && user.type !== "Customer" && !user.museums.find((m: Museum) => m._id === museum._id) && 

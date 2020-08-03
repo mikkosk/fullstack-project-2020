@@ -48,8 +48,6 @@ var museumSchema = new mongoose_1.Schema({
     museumInfo: {
         type: String || undefined,
     },
-    location: {type: String},
-    image: {type: String || undefined},
     reservedTours: [{
             type: mongoose_1.default.Schema.Types.ObjectId,
             ref: 'ReservedMon'
@@ -57,7 +55,19 @@ var museumSchema = new mongoose_1.Schema({
     userRequests: [{
             type: mongoose_1.default.Schema.Types.ObjectId,
             ref: 'UserMon'
-        }]
+        }],
+    location: {
+        type: String
+    },
+    lat: {
+        type: Number
+    },
+    long: {
+        type: Number
+    },
+    image: {
+        type: String || undefined
+    }
 });
 museumSchema.plugin(mongoose_unique_validator_1.default);
 exports.default = mongoose_1.default.model('MuseumMon', museumSchema);

@@ -58,6 +58,30 @@ var parseGenericNumberField = function (number) {
     }
     return number;
 };
+var parseLatLong = function (number) {
+    if (!isNaN(number) && number <= 90 && number >= -90) {
+        return number;
+    }
+    else {
+        throw new Error("Missing or invalid coordinate");
+    }
+};
+var parseLocation = function (location) {
+    try {
+        return parseGenericTextField(location);
+    }
+    catch (_a) {
+        throw new Error("Missing or invalid location");
+    }
+};
+var parseImage = function (image) {
+    try {
+        return parseGenericTextField(image);
+    }
+    catch (_a) {
+        throw new Error("Missing or invalid image path");
+    }
+};
 var parseLanguage = function (language) {
     try {
         var parsedLanguage = parseGenericTextField(language);
@@ -105,7 +129,6 @@ var parsePrice = function (price) {
 };
 var parseInfo = function (info) {
     try {
-        console.log(info);
         var parsedInfo = parseGenericTextField(info);
         return parsedInfo;
     }
@@ -188,13 +211,19 @@ exports.toNewMuseum = function (object) {
             fri: parseTime(object.closed.fri),
             sat: parseTime(object.closed.sat),
             sun: parseTime(object.closed.sun)
-        }
+        },
+        location: parseLocation(object.location),
+        lat: parseLatLong(object.lat),
+        long: parseLatLong(object.long)
     };
     if (object.openInfo) {
         newMuseum = __assign(__assign({}, newMuseum), { openInfo: parseInfo(object.openInfo) });
     }
-    if (object.openInfo) {
+    if (object.museumInfo) {
         newMuseum = __assign(__assign({}, newMuseum), { museumInfo: parseInfo(object.museumInfo) });
+    }
+    if (object.image) {
+        newMuseum = __assign(__assign({}, newMuseum), { image: parseImage(object.image) });
     }
     return newMuseum;
 };

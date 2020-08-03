@@ -92,7 +92,11 @@ var museumNoToursCy = {
         sun: "16:00"
     },
     openInfo: "Suljettu maanantaisin",
-    museumInfo: "Pikkuruinen museo"
+    museumInfo: "Pikkuruinen museo",
+    location: "location",
+    image: undefined,
+    lat: 0,
+    long: 0
 };
 var museumNoReservedCy = {
     museumName: "Varaamaton museo",
@@ -115,7 +119,11 @@ var museumNoReservedCy = {
         sun: "16:00"
     },
     openInfo: "Suljettu maanantaisin",
-    museumInfo: "Museo kaipaa varauksia"
+    museumInfo: "Museo kaipaa varauksia",
+    location: "location",
+    image: undefined,
+    lat: 0,
+    long: 0
 };
 var museumReservedCy = {
     museumName: "Museo",
@@ -138,7 +146,11 @@ var museumReservedCy = {
         sun: "16:00"
     },
     openInfo: "Suljettu maanantaisin",
-    museumInfo: "Täällä kaikki hyvin"
+    museumInfo: "Täällä kaikki hyvin",
+    location: "location",
+    image: undefined,
+    lat: 0,
+    long: 0
 };
 var reservedTour1Cy = {
     possibleLanguages: ["Suomi", "Ruotsi"],

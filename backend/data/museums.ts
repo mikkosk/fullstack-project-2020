@@ -23,6 +23,10 @@ const museum: NewMuseum[] = [{
         },
         openInfo: "Auki",
         museumInfo: "Museo", 
+        location: "location",
+        long: 0,
+        lat: 0,
+        image: undefined
     },
     {
         museumName: "testi2",
@@ -47,6 +51,10 @@ const museum: NewMuseum[] = [{
         },
         openInfo: "Auki2",
         museumInfo: "Museo2",
+        location: "location",
+        long: 0,
+        lat: 0,
+        image: undefined
     }
 
 ];

@@ -125,7 +125,7 @@ test('tours are returned as json', function () { return __awaiter(void 0, void 0
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, api
-                    .get('/tour')
+                    .get('/api/tour')
                     .expect(200)
                     .expect('Content-Type', /application\/json/)];
             case 1:
@@ -138,7 +138,7 @@ test('all tours are returned initially', function () { return __awaiter(void 0, 
     var res;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, api.get('/tour')];
+            case 0: return [4 /*yield*/, api.get('/api/tour')];
             case 1:
                 res = _a.sent();
                 expect(res.body).toHaveLength(guidedTours_1.default.length);
@@ -151,10 +151,10 @@ describe('adding a tour', function () {
         var res;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.post("/tour/museum/" + museumId).set(headers).send(newTour)];
+                case 0: return [4 /*yield*/, api.post("/api/tour/museum/" + museumId).set(headers).send(newTour)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/tour')];
+                    return [4 /*yield*/, api.get('/api/tour')];
                 case 2:
                     res = _a.sent();
                     expect(res.body).toHaveLength(guidedTours_1.default.length + 1);
@@ -168,10 +168,10 @@ describe('deleting a tour', function () {
         var res;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.delete("/tour/" + tourId + "/museum/" + museumId).set(headers)];
+                case 0: return [4 /*yield*/, api.delete("/api/tour/" + tourId + "/museum/" + museumId).set(headers)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/tour')];
+                    return [4 /*yield*/, api.get('/api/tour')];
                 case 2:
                     res = _a.sent();
                     expect(res.body).toHaveLength(guidedTours_1.default.length - 1);
@@ -183,10 +183,10 @@ describe('deleting a tour', function () {
         var res;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.delete("/tour/" + tourId + "/museum/" + museumId).set(headers)];
+                case 0: return [4 /*yield*/, api.delete("/api/tour/" + tourId + "/museum/" + museumId).set(headers)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/tour')];
+                    return [4 /*yield*/, api.get('/api/tour')];
                 case 2:
                     res = _a.sent();
                     expect(!res.body.find(function (t) { return t._id === tourId; })).toBeTruthy();
@@ -200,10 +200,10 @@ describe('updating', function () {
         var res, updatedTour;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.put("/tour/" + tourId + "/museum/" + museumId).set(headers).send(newTour).expect(200)];
+                case 0: return [4 /*yield*/, api.put("/api/tour/" + tourId + "/museum/" + museumId).set(headers).send(newTour).expect(200)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/tour')];
+                    return [4 /*yield*/, api.get('/api/tour')];
                 case 2:
                     res = _a.sent();
                     updatedTour = (res.body.find(function (t) { return t._id === String(tourId); }));
@@ -218,10 +218,10 @@ describe('updating', function () {
         var res;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.put("/tour/" + tourId + "/museum/" + museumId).set(headers).send(newTour).expect(200)];
+                case 0: return [4 /*yield*/, api.put("/api/tour/" + tourId + "/museum/" + museumId).set(headers).send(newTour).expect(200)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/tour')];
+                    return [4 /*yield*/, api.get('/api/tour')];
                 case 2:
                     res = _a.sent();
                     expect(res.body).toHaveLength(guidedTours_1.default.length);
@@ -242,10 +242,10 @@ describe('updating', function () {
                         price: "ok",
                         tourInfo: "Opastus museoon"
                     };
-                    return [4 /*yield*/, api.put("/tour/" + tourId + "/museum/" + museumId).set(headers).send(faultyTour).expect(400)];
+                    return [4 /*yield*/, api.put("/api/tour/" + tourId + "/museum/" + museumId).set(headers).send(faultyTour).expect(400)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/tour')];
+                    return [4 /*yield*/, api.get('/api/tour')];
                 case 2:
                     res = _a.sent();
                     updatedTour = (res.body.find(function (t) { return t._id === String(tourId); }));

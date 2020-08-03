@@ -50,6 +50,12 @@ const museumSchema: Schema = new Schema({
     location: {
         type: String
     },
+    lat: {
+        type: Number
+    },
+    long: {
+        type: Number
+    },
     image: {
         type: String || undefined
     }

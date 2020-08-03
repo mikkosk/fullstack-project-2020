@@ -98,13 +98,13 @@ beforeEach(async () => {
 
 test('users are returned as json', async () => {
   await api
-    .get('/user')
+    .get('/api/user')
     .expect(200)
     .expect('Content-Type', /application\/json/);
 });
 
 test('all users are returned initially', async () => {
-    const res = await api.get('/user');
+    const res = await api.get('/api/user');
     expect(res.body).toHaveLength(initialUsers.length);
 });
 
@@ -112,9 +112,9 @@ describe('adding a user', () => {
 
     test('increases length by one', async () => {
     
-        await api.post(`/user`).set(adminHeaders).send(newUser);
+        await api.post(`/api/user`).set(adminHeaders).send(newUser);
         
-        const res = await api.get('/user');
+        const res = await api.get('/api/user');
     
         expect(res.body).toHaveLength(initialUsers.length + 1);
     });
@@ -124,14 +124,14 @@ describe('adding a user', () => {
 describe('deleting a user', () => {
 
     test('deleting user removes an object', async() => {
-        await api.delete(`/user/${adminId}`).set(adminHeaders);
-        const res = await api.get('/user');
+        await api.delete(`/api/user/${adminId}`).set(adminHeaders);
+        const res = await api.get('/api/user');
         expect(res.body).toHaveLength(initialUsers.length - 1);
     });
     
     test('deleting removes right object', async() => {
-        await api.delete(`/user/${adminId}`).set(adminHeaders);
-        const res = await api.get('/user');
+        await api.delete(`/api/user/${adminId}`).set(adminHeaders);
+        const res = await api.get('/api/user');
         expect(!res.body.find((t: any) => t._id === adminHeaders)).toBeTruthy();
     });
 
@@ -139,8 +139,8 @@ describe('deleting a user', () => {
 
 describe('updating', () => {
     test('updated user is saved correctly', async() => {
-        await api.put(`/user/${adminId}`).set(adminHeaders).send(newUser).expect(200);
-        const res = await api.get('/user');
+        await api.put(`/api/user/${adminId}`).set(adminHeaders).send(newUser).expect(200);
+        const res = await api.get('/api/user');
         const updatedUser = (res.body.find((t: any) => t._id === String(adminId)));
         delete updatedUser.__v;
         delete updatedUser._id;
@@ -154,8 +154,8 @@ describe('updating', () => {
     });
     
     test('updating user does not affect size', async() => {
-        await api.put(`/user/${adminId}`).set(adminHeaders).send(newUser).expect(200);
-        const res = await api.get('/user');
+        await api.put(`/api/user/${adminId}`).set(adminHeaders).send(newUser).expect(200);
+        const res = await api.get('/api/user');
         expect(res.body).toHaveLength(initialUsers.length);
     });
     
@@ -167,7 +167,7 @@ describe('updating', () => {
             type: "Type"
         };
         await api.put(`/user/${adminId}`).set(adminHeaders).send(faultyUser).expect(400);
-        const res = await api.get('/user');
+        const res = await api.get('/api/user');
         const updatedUser = (res.body.find((t: any) => t._id === String(adminId)));
         delete updatedUser.__v;
         delete updatedUser._id;
@@ -181,8 +181,8 @@ describe('updating', () => {
     });
 
     test('adding user to museum works correctly', async() => {
-        await api.put(`/user/${guideId}/museum/${museumId}`).set(adminHeaders).expect(200);
-        const res = await api.get('/user');
+        await api.put(`/api/user/${guideId}/museum/${museumId}`).set(adminHeaders).expect(200);
+        const res = await api.get('/api/user');
         const updatedUser = (res.body.find((t: any) => t._id === String(adminId)));
         expect(updatedUser.museums[0]._id === savedMuseum._id);
     });
@@ -191,14 +191,14 @@ describe('updating', () => {
 describe("reserving tour", () => {
     
     test("adding works", async() => {
-        const updatedUser = await api.post(`/user/${customerId}/museum/${museumId}/reservedtour`).set(customerHeaders).send(newTour).expect(200);
+        const updatedUser = await api.post(`/api/user/${customerId}/museum/${museumId}/reservedtour`).set(customerHeaders).send(newTour).expect(200);
         expect(updatedUser.body.reservedTours.length).toBe(1);
         expect(updatedUser.body.reservedTours[0].tourName).toBe(newTour.tourName);
     });
 
     test("adding does not work if user is not a customer", async() => {
-        await api.post(`/user/${guideId}/museum/${museumId}/reservedtour`).set(guideHeaders).send(newTour).expect(401);
-        const res = await api.get('/user');
+        await api.post(`/api/user/${guideId}/museum/${museumId}/reservedtour`).set(guideHeaders).send(newTour).expect(401);
+        const res = await api.get('/api/user');
         const updatedUser = res.body.find((t: any) => t._id === String(guideId));
         expect(updatedUser.reservedTours.length).toBe(0);
     });
@@ -211,19 +211,19 @@ describe("confirming tour", () => {
     let id: string;
 
     test("guide can corfirm tour", async () => {
-        const res1 = await api.post(`/user/${customerId}/museum/${museumId}/reservedtour`).set(customerHeaders).send({...newTour});
+        const res1 = await api.post(`/api/user/${customerId}/museum/${museumId}/reservedtour`).set(customerHeaders).send({...newTour});
         id = res1.body.reservedTours[0]._id;
-        await api.put(`/user/${guideId}/tour/${id}`).set(guideHeaders).expect(200);
-        const res = await api.get('/user');
+        await api.put(`/api/user/${guideId}/tour/${id}`).set(guideHeaders).expect(200);
+        const res = await api.get('/api/user');
         const updatedUser = (res.body.find((t: any) => t._id === String(guideId)));
         expect(updatedUser.reservedTours.length).toBe(1);
     });
 
     test("only guide can corfirm tour", async () => {
-        const res1 = await api.post(`/user/${customerId}/museum/${museumId}/reservedtour`).set(customerHeaders).send({...newTour});
+        const res1 = await api.post(`/api/user/${customerId}/museum/${museumId}/reservedtour`).set(customerHeaders).send({...newTour});
         id = res1.body.reservedTours[0]._id;
-        await api.put(`/user/${adminId}/tour/${id}`).set(adminHeaders).expect(401);
-        const res = await api.get('/user');
+        await api.put(`/api/user/${adminId}/tour/${id}`).set(adminHeaders).expect(401);
+        const res = await api.get('/api/user');
         const updatedUser = (res.body.find((t: any) => t._id === String(guideId)));
         expect(updatedUser.reservedTours.length).toBe(0);
     });

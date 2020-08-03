@@ -58,6 +58,14 @@ const parseGenericNumberField = (number: any): number => {
     return number;
 };
 
+const parseLatLong = (number: any): number => {
+    if(!isNaN(number) && number <= 90 && number >= -90) {
+        return number;
+    } else {
+        throw new Error("Missing or invalid coordinate");
+    }
+};
+
 const parseLocation = (location: any): string => {
     try {
         return parseGenericTextField(location);
@@ -216,7 +224,9 @@ export const toNewMuseum = (object: any): NewMuseum => {
                 sat: parseTime(object.closed.sat),
                 sun: parseTime(object.closed.sun)
             },
-            location: parseLocation(object.location)
+            location: parseLocation(object.location),
+            lat: parseLatLong(object.lat),
+            long: parseLatLong(object.long)
         };
 
     if(object.openInfo) {

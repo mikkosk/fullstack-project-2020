@@ -153,7 +153,7 @@ test('users are returned as json', function () { return __awaiter(void 0, void 0
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, api
-                    .get('/user')
+                    .get('/api/user')
                     .expect(200)
                     .expect('Content-Type', /application\/json/)];
             case 1:
@@ -166,7 +166,7 @@ test('all users are returned initially', function () { return __awaiter(void 0, 
     var res;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, api.get('/user')];
+            case 0: return [4 /*yield*/, api.get('/api/user')];
             case 1:
                 res = _a.sent();
                 expect(res.body).toHaveLength(users_1.default.length);
@@ -179,10 +179,10 @@ describe('adding a user', function () {
         var res;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.post("/user").set(adminHeaders).send(newUser)];
+                case 0: return [4 /*yield*/, api.post("/api/user").set(adminHeaders).send(newUser)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/user')];
+                    return [4 /*yield*/, api.get('/api/user')];
                 case 2:
                     res = _a.sent();
                     expect(res.body).toHaveLength(users_1.default.length + 1);
@@ -196,10 +196,10 @@ describe('deleting a user', function () {
         var res;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.delete("/user/" + adminId).set(adminHeaders)];
+                case 0: return [4 /*yield*/, api.delete("/api/user/" + adminId).set(adminHeaders)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/user')];
+                    return [4 /*yield*/, api.get('/api/user')];
                 case 2:
                     res = _a.sent();
                     expect(res.body).toHaveLength(users_1.default.length - 1);
@@ -211,10 +211,10 @@ describe('deleting a user', function () {
         var res;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.delete("/user/" + adminId).set(adminHeaders)];
+                case 0: return [4 /*yield*/, api.delete("/api/user/" + adminId).set(adminHeaders)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/user')];
+                    return [4 /*yield*/, api.get('/api/user')];
                 case 2:
                     res = _a.sent();
                     expect(!res.body.find(function (t) { return t._id === adminHeaders; })).toBeTruthy();
@@ -228,10 +228,10 @@ describe('updating', function () {
         var res, updatedUser, initial;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.put("/user/" + adminId).set(adminHeaders).send(newUser).expect(200)];
+                case 0: return [4 /*yield*/, api.put("/api/user/" + adminId).set(adminHeaders).send(newUser).expect(200)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/user')];
+                    return [4 /*yield*/, api.get('/api/user')];
                 case 2:
                     res = _a.sent();
                     updatedUser = (res.body.find(function (t) { return t._id === String(adminId); }));
@@ -252,10 +252,10 @@ describe('updating', function () {
         var res;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.put("/user/" + adminId).set(adminHeaders).send(newUser).expect(200)];
+                case 0: return [4 /*yield*/, api.put("/api/user/" + adminId).set(adminHeaders).send(newUser).expect(200)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/user')];
+                    return [4 /*yield*/, api.get('/api/user')];
                 case 2:
                     res = _a.sent();
                     expect(res.body).toHaveLength(users_1.default.length);
@@ -277,7 +277,7 @@ describe('updating', function () {
                     return [4 /*yield*/, api.put("/user/" + adminId).set(adminHeaders).send(faultyUser).expect(400)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/user')];
+                    return [4 /*yield*/, api.get('/api/user')];
                 case 2:
                     res = _a.sent();
                     updatedUser = (res.body.find(function (t) { return t._id === String(adminId); }));
@@ -298,10 +298,10 @@ describe('updating', function () {
         var res, updatedUser;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.put("/user/" + guideId + "/museum/" + museumId).set(adminHeaders).expect(200)];
+                case 0: return [4 /*yield*/, api.put("/api/user/" + guideId + "/museum/" + museumId).set(adminHeaders).expect(200)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/user')];
+                    return [4 /*yield*/, api.get('/api/user')];
                 case 2:
                     res = _a.sent();
                     updatedUser = (res.body.find(function (t) { return t._id === String(adminId); }));
@@ -316,7 +316,7 @@ describe("reserving tour", function () {
         var updatedUser;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.post("/user/" + customerId + "/museum/" + museumId + "/reservedtour").set(customerHeaders).send(newTour).expect(200)];
+                case 0: return [4 /*yield*/, api.post("/api/user/" + customerId + "/museum/" + museumId + "/reservedtour").set(customerHeaders).send(newTour).expect(200)];
                 case 1:
                     updatedUser = _a.sent();
                     expect(updatedUser.body.reservedTours.length).toBe(1);
@@ -329,10 +329,10 @@ describe("reserving tour", function () {
         var res, updatedUser;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.post("/user/" + guideId + "/museum/" + museumId + "/reservedtour").set(guideHeaders).send(newTour).expect(401)];
+                case 0: return [4 /*yield*/, api.post("/api/user/" + guideId + "/museum/" + museumId + "/reservedtour").set(guideHeaders).send(newTour).expect(401)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/user')];
+                    return [4 /*yield*/, api.get('/api/user')];
                 case 2:
                     res = _a.sent();
                     updatedUser = res.body.find(function (t) { return t._id === String(guideId); });
@@ -348,14 +348,14 @@ describe("confirming tour", function () {
         var res1, res, updatedUser;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.post("/user/" + customerId + "/museum/" + museumId + "/reservedtour").set(customerHeaders).send(__assign({}, newTour))];
+                case 0: return [4 /*yield*/, api.post("/api/user/" + customerId + "/museum/" + museumId + "/reservedtour").set(customerHeaders).send(__assign({}, newTour))];
                 case 1:
                     res1 = _a.sent();
                     id = res1.body.reservedTours[0]._id;
-                    return [4 /*yield*/, api.put("/user/" + guideId + "/tour/" + id).set(guideHeaders).expect(200)];
+                    return [4 /*yield*/, api.put("/api/user/" + guideId + "/tour/" + id).set(guideHeaders).expect(200)];
                 case 2:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/user')];
+                    return [4 /*yield*/, api.get('/api/user')];
                 case 3:
                     res = _a.sent();
                     updatedUser = (res.body.find(function (t) { return t._id === String(guideId); }));
@@ -368,14 +368,14 @@ describe("confirming tour", function () {
         var res1, res, updatedUser;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.post("/user/" + customerId + "/museum/" + museumId + "/reservedtour").set(customerHeaders).send(__assign({}, newTour))];
+                case 0: return [4 /*yield*/, api.post("/api/user/" + customerId + "/museum/" + museumId + "/reservedtour").set(customerHeaders).send(__assign({}, newTour))];
                 case 1:
                     res1 = _a.sent();
                     id = res1.body.reservedTours[0]._id;
-                    return [4 /*yield*/, api.put("/user/" + adminId + "/tour/" + id).set(adminHeaders).expect(401)];
+                    return [4 /*yield*/, api.put("/api/user/" + adminId + "/tour/" + id).set(adminHeaders).expect(401)];
                 case 2:
                     _a.sent();
-                    return [4 /*yield*/, api.get('/user')];
+                    return [4 /*yield*/, api.get('/api/user')];
                 case 3:
                     res = _a.sent();
                     updatedUser = (res.body.find(function (t) { return t._id === String(guideId); }));

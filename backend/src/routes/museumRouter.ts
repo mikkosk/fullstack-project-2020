@@ -43,7 +43,11 @@ router.post('/', upload.single('image'), async (req, res) => {
             res.status(401).send("Ei oikeuksia luoda museota");
             return;
         }
-        const newMuseum = toNewMuseum({...req.body, open: JSON.parse(req.body.open), closed: JSON.parse(req.body.closed) , image: req.file.filename});
+        let image = undefined;
+        if(req.file) {
+            image = req.file.filename;
+        }
+        const newMuseum = toNewMuseum({...req.body, open: JSON.parse(req.body.open), closed: JSON.parse(req.body.closed), image: image});
         const addedMuseum = await museumService.addMuseum(newMuseum);
         await userService.addUserToMuseum(addedMuseum._id, token.id);
         res.json(addedMuseum);

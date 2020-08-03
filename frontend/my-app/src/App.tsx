@@ -48,7 +48,6 @@ function App() {
             <Route path="/user/" render={() => <UserPage />}/>
             <Route path="/find/museums" render={() => <FindMuseums />}/>
             <Route path="/reservation/:id" render={() => <ReservationPage/>}/>
-            <Route path="/map" render={() => <Mapbox/>}/>
           </Switch>
         </Container>
       </Router>

@@ -11,8 +11,6 @@ const getAll = async (): Promise<Museum[]> => {
 }
 
 const addMuseum = async (newMuseum: NewMuseum): Promise<Museum> => {
-    console.log("LOL")
-    console.log(newMuseum)
     let data = new FormData()
     const keys = Object.keys(newMuseum);
     const values = Object.values(newMuseum);
@@ -25,7 +23,9 @@ const addMuseum = async (newMuseum: NewMuseum): Promise<Museum> => {
             data.append(currentKey, JSON.stringify(values[i]))
         }
     } 
-    data.append('image', newMuseum.image, newMuseum.image?.name)
+    if(newMuseum.image) {
+        data.append('image', newMuseum.image, newMuseum.image?.name)
+    }
     const res = await axios.post(baseUrl, data, {headers: { Authorization: authenticationHelper.getAuthenticationHeaders().headers.Authorization, 'Content-Type': 'multipart/form-data'}})
     return res.data
 }

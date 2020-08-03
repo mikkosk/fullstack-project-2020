@@ -67,6 +67,8 @@ const initialValues: NewMuseum = {
         sun: ""
     },
     location: "",
+    lat: 0,
+    long: 0,
     image: undefined
 }
 export const AddMuseumForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
@@ -89,6 +91,26 @@ export const AddMuseumForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
             if(!checkTimes(values.closed)) {
                 errors.closed = requiredError
             }
+            if(!values.location) {
+                errors.location = requiredError
+            }
+            if(values.lat === 0) {
+                errors.lat = requiredError;
+            }
+            if(values.long === 0) {
+                errors.long = requiredError;
+            }
+            if(isNaN(values.lat)) {
+                errors.lat = "Luvun täytyy olla numero"
+            } else if(values.lat < -90 || values.lat > 90) {
+                errors.lat = "Luvun täytyy olla -90 ja 90 välillä"
+            }
+            if(isNaN(values.long)) {
+                errors.long = "Luvun täytyy olla numero"
+            } else if(values.long < -90 || values.long > 90) {
+                errors.long = "Luvun täytyy olla -90 ja 90 välillä"
+            }
+            
             return errors;
         }
         }
@@ -120,10 +142,22 @@ export const AddMuseumForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                         name="location"
                         component={TextField}
                     />
+                    <Field
+                        label="Leveyspiiri (latitude)"
+                        placeholder="Leveyspiiri"
+                        name="lat"
+                        component={TextField}
+                    />
+                    <Field
+                        label="Pituuspiiri (longitude)"
+                        placeholder="Pituuspiiri"
+                        name="long"
+                        component={TextField}
+                    />
                     <ImageField
                         name="image"
                     />
-                    <Grid columns={7} relaxed stackable >
+                    <Grid className="addTopMargin" columns={7} relaxed stackable >
                         {days.map(d => 
                             <Grid.Column className="centerText" key={d.value}>
                                 <div className="bottomMargin">

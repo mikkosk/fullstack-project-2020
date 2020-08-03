@@ -188,6 +188,7 @@ export const addMuseum = (newMuseum: NewMuseum, id: UserAnyType["_id"]): ThunkAc
                 notification: {message: `${newMuseum.museumName} lisätty!`, error: false}
             })
         } catch(e) {
+            console.log(e)
             dispatch({
                 type: "ADD_MUSEUM_ERROR",
                 notification: {message: e.response.data, error: true}

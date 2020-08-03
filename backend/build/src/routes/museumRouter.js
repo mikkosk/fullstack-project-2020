@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -44,7 +55,27 @@ var museumService_1 = __importDefault(require("../services/museumService"));
 var parser_1 = require("../utils/parser");
 var userService_1 = __importDefault(require("../services/userService"));
 var userManagement_1 = require("../utils/userManagement");
+var multer_1 = __importDefault(require("multer"));
+var crypto_1 = __importDefault(require("crypto"));
 var router = express_1.default.Router();
+var storage = multer_1.default.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "./uploads/");
+    },
+    filename: function (req, file, cb) {
+        console.log(file);
+        cb(null, crypto_1.default.randomBytes(10).toString('hex') + file.originalname);
+    }
+});
+var filter = function (_req, file, cb) {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
+        cb(null, true);
+    }
+    else {
+        cb(null, false);
+    }
+};
+var upload = multer_1.default({ storage: storage, fileFilter: filter });
 router.get('/', function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, _b;
     return __generator(this, function (_c) {
@@ -58,12 +89,14 @@ router.get('/', function (_req, res) { return __awaiter(void 0, void 0, void 0, 
         }
     });
 }); });
-router.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var token, user, newMuseum, addedMuseum, e_1;
+//AddMuseum
+router.post('/', upload.single('image'), function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var token, user, image, newMuseum, addedMuseum, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 4, , 5]);
+                console.log(JSON.parse(req.body.open));
                 token = userManagement_1.decodedToken(req.headers.authorization);
                 return [4 /*yield*/, userService_1.default.getUser(token.id)];
             case 1:
@@ -72,7 +105,11 @@ router.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, 
                     res.status(401).send("Ei oikeuksia luoda museota");
                     return [2 /*return*/];
                 }
-                newMuseum = parser_1.toNewMuseum(req.body);
+                image = undefined;
+                if (req.file) {
+                    image = req.file.filename;
+                }
+                newMuseum = parser_1.toNewMuseum(__assign(__assign({}, req.body), { open: JSON.parse(req.body.open), closed: JSON.parse(req.body.closed), image: image }));
                 return [4 /*yield*/, museumService_1.default.addMuseum(newMuseum)];
             case 2:
                 addedMuseum = _a.sent();
@@ -90,6 +127,7 @@ router.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, 
         }
     });
 }); });
+//UpdateMuseum
 router.put('/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var museumId, token, user, updatedMuseum, updatedEntry, e_2;
     return __generator(this, function (_a) {

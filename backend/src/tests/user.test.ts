@@ -166,7 +166,7 @@ describe('updating', () => {
             password: "Pass",
             type: "Type"
         };
-        await api.put(`/user/${adminId}`).set(adminHeaders).send(faultyUser).expect(400);
+        await api.put(`/api/user/${adminId}`).set(adminHeaders).send(faultyUser).expect(400);
         const res = await api.get('/api/user');
         const updatedUser = (res.body.find((t: any) => t._id === String(adminId)));
         delete updatedUser.__v;

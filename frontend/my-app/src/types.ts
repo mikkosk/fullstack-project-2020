@@ -132,6 +132,10 @@ export interface LoginState extends User {
     museums?: Museum[]
 }
 
+export interface KeyState {
+    mapbox: string;
+}
+
 export type LoggedInUser = UserAnyType & {token: string}
 
 export interface OptionField {

@@ -61,7 +61,9 @@
 |31.7.|3|started adding posibility to add a picture to a museum profile|
 |1.8.|2|finished adding images|
 |2.8.|3|started to add mapbox|
-Total: 145 hours 
+|3.8.|3|finished adding the mapbox, started fixing tests|
+|4.8.|3|applied a way to handle mapboxes api key, fixed some more tests|
+Total: 151 hours 
 
 
 (8cr)

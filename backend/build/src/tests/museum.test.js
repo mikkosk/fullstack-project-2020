@@ -69,9 +69,9 @@ var adminHeaders;
 var guideHeaders;
 var customerId;
 var guideId;
-var newMuseum = {
+var newMuseumAdd = {
     museumName: "Uusi",
-    open: {
+    open: JSON.stringify({
         mon: "10:00",
         tue: "10:00",
         wed: "10:00",
@@ -79,8 +79,8 @@ var newMuseum = {
         fri: "10:00",
         sat: "10:00",
         sun: "10:00"
-    },
-    closed: {
+    }),
+    closed: JSON.stringify({
         mon: "10:00",
         tue: "10:00",
         wed: "10:00",
@@ -88,13 +88,30 @@ var newMuseum = {
         fri: "10:00",
         sat: "10:00",
         sun: "10:00"
-    },
+    }),
     openInfo: "Auki",
     museumInfo: "Museo",
     location: "location",
     long: 0,
     lat: 0
 };
+var newMuseumUpdate = __assign(__assign({}, newMuseumAdd), { open: {
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00"
+    }, closed: {
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00"
+    } });
 beforeEach(function () { return __awaiter(void 0, void 0, void 0, function () {
     var museum, admin, aToken, aHeader, customer, cToken, header, guide, gToken, gHeader;
     return __generator(this, function (_a) {
@@ -188,15 +205,22 @@ test('all museums are returned initially', function () { return __awaiter(void 0
     });
 }); });
 describe('adding a museum', function () {
+    beforeEach(function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, api.post("/api/museum").set(adminHeaders).send(newMuseumAdd).expect(200)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
     test('increases length by one', function () { return __awaiter(void 0, void 0, void 0, function () {
         var res;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.post("/api/museum").set(adminHeaders).send(newMuseum)];
+                case 0: return [4 /*yield*/, api.get('/api/museum')];
                 case 1:
-                    _a.sent();
-                    return [4 /*yield*/, api.get('/api/museum')];
-                case 2:
                     res = _a.sent();
                     expect(res.body).toHaveLength(museums_1.default.length + 1);
                     return [2 /*return*/];
@@ -241,7 +265,7 @@ describe('updating', function () {
         var res, updatedMuseum;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.put("/api/museum/" + museumId).set(adminHeaders).send(newMuseum).expect(200)];
+                case 0: return [4 /*yield*/, api.put("/api/museum/" + museumId).set(adminHeaders).send(newMuseumUpdate).expect(200)];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, api.get('/api/museum')];
@@ -250,7 +274,7 @@ describe('updating', function () {
                     updatedMuseum = (res.body.find(function (t) { return t._id === String(museumId); }));
                     delete updatedMuseum.__v;
                     delete updatedMuseum._id;
-                    expect(updatedMuseum).toEqual(__assign(__assign({}, newMuseum), { offeredTours: [], reservedTours: [], userRequests: [] }));
+                    expect(updatedMuseum).toEqual(__assign(__assign({}, newMuseumUpdate), { offeredTours: [], reservedTours: [], userRequests: [] }));
                     return [2 /*return*/];
             }
         });
@@ -259,7 +283,7 @@ describe('updating', function () {
         var res;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api.put("/api/museum/" + museumId).set(adminHeaders).send(newMuseum).expect(200)];
+                case 0: return [4 /*yield*/, api.put("/api/museum/" + museumId).set(adminHeaders).send(newMuseumUpdate).expect(200)];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, api.get('/api/museum')];
@@ -380,7 +404,7 @@ describe("request", function () {
 test('updating is not possible with faulty headers', function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, api.put("/api/museum/" + museumId).set(customerHeaders).send(newMuseum).expect(401)];
+            case 0: return [4 /*yield*/, api.put("/api/museum/" + museumId).set(customerHeaders).send(newMuseumUpdate).expect(401)];
             case 1:
                 _a.sent();
                 return [2 /*return*/];
@@ -388,13 +412,13 @@ test('updating is not possible with faulty headers', function () { return __awai
     });
 }); });
 test('posting is not possible', function () { return __awaiter(void 0, void 0, void 0, function () {
-    var lol;
+    var res;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, api.post("/api/museum").set(customerHeaders).send(newMuseum)];
+            case 0: return [4 /*yield*/, api.post("/api/museum").set(customerHeaders).send(newMuseumAdd)];
             case 1:
-                lol = _a.sent();
-                expect(lol.status).toBe(401);
+                res = _a.sent();
+                expect(res.status).toBe(401);
                 return [2 /*return*/];
         }
     });

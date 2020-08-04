@@ -1,6 +1,9 @@
 import { RootState } from '../src/store'
 
 export const initialStateEmpty: RootState = {
+    key: {
+        mapbox: ""
+    },
     login: {type: undefined, username: "", name: "", _id: "", passwordHash: "", token: ""},
     users: {
         finished: true,
@@ -22,6 +25,9 @@ export const initialStateEmpty: RootState = {
 
 
 export const initialStateEmptyTours: RootState = {
+    key: {
+        mapbox: ""
+    },
     login: {
         type: "Admin",
         token: "token",
@@ -99,6 +105,9 @@ export const initialStateEmptyTours: RootState = {
 }
 
 export const initialStateEmptyMuseums: RootState = {
+    key: {
+        mapbox: ""
+    },
     login: {
         type: "Admin",
         token: "token",
@@ -150,6 +159,9 @@ export const initialStateEmptyMuseums: RootState = {
 }
 
 export const initialState: RootState = {
+    key: {
+        mapbox: ""
+    },
     login: {
         type: "Admin",
         token: "token",

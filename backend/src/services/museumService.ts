@@ -66,7 +66,6 @@ const removeRequest = async (userId: Professionals['_id'], museumId: Museum['_id
     if(!updatedMuseum) {
         throw new Error('Kyseistä museota ei löytynyt');
     }
-    console.log(museum.userRequests);
     return updatedMuseum;
 };
 

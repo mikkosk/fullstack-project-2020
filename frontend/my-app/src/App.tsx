@@ -19,6 +19,7 @@ import ReservationPage from './components/ReservationPage';
 import GuideUserPage from './components/UserPage/GuideUserPage';
 import UserPage from './components/UserPage';
 import Mapbox from './utils/Mapbox';
+import { getKey } from './reducers/keyReducer';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
     dispatch(allTours())
     dispatch(allMuseums())
     dispatch(getUsers())
+    dispatch(getKey())
     const user = loginStorage.loadUser()
     if(user) {
       dispatch(login(user));

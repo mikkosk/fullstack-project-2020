@@ -152,7 +152,6 @@ var removeRequest = function (userId, museumId) { return __awaiter(void 0, void 
                 if (!updatedMuseum) {
                     throw new Error('Kyseistä museota ei löytynyt');
                 }
-                console.log(museum.userRequests);
                 return [2 /*return*/, updatedMuseum];
         }
     });

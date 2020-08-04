@@ -9,7 +9,7 @@ import UserMon from '../models/user';
 //import initialTours from '../../data/guidedTours';
 import initialMuseums from '../../data/museums';
 import initialUsers from '../../data/users';
-import { Museum, NewMuseum } from '../types';
+import { Museum } from '../types';
 import jwt from 'jsonwebtoken';
 
 const api = supertest(app);
@@ -20,8 +20,35 @@ let adminHeaders: {Authorization: string};
 let guideHeaders: {Authorization: string};
 let customerId: string;
 let guideId: string;
-const newMuseum: NewMuseum = {
+const newMuseumAdd = {
     museumName: "Uusi",
+    open: JSON.stringify({
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00"
+    }),
+    closed: JSON.stringify({
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00" 
+    }),
+    openInfo: "Auki",
+    museumInfo: "Museo",
+    location: "location",
+    long: 0,
+    lat: 0
+};
+
+const newMuseumUpdate = {
+    ...newMuseumAdd,
     open: {
         mon: "10:00",
         tue: "10:00",
@@ -39,16 +66,8 @@ const newMuseum: NewMuseum = {
         fri: "10:00",
         sat: "10:00",
         sun: "10:00"
-        
-    },
-    openInfo: "Auki",
-    museumInfo: "Museo",
-    location: "location",
-    long: 0,
-    lat: 0,
-    image: undefined
-
-};
+    }
+}
 
 beforeEach(async () => {
     await TourMon.deleteMany({});
@@ -123,13 +142,13 @@ test('all museums are returned initially', async () => {
 });
 
 describe('adding a museum', () => {
-
+    beforeEach(async () => {
+        await api.post(`/api/museum`).set(adminHeaders).send(newMuseumAdd).expect(200);
+    });
     test('increases length by one', async () => {
-        await api.post(`/api/museum`).set(adminHeaders).send(newMuseum);
-        
         const res = await api.get('/api/museum');
-    
         expect(res.body).toHaveLength(initialMuseums.length + 1);
+        
     });
 
 });
@@ -152,16 +171,16 @@ describe('deleting a museum', () => {
 
 describe('updating', () => {
     test('updated museum is saved correctly', async() => {
-        await api.put(`/api/museum/${museumId}`).set(adminHeaders).send(newMuseum).expect(200);
+        await api.put(`/api/museum/${museumId}`).set(adminHeaders).send(newMuseumUpdate).expect(200);
         const res = await api.get('/api/museum');
         const updatedMuseum = (res.body.find((t: any) => t._id === String(museumId)));
         delete updatedMuseum.__v;
         delete updatedMuseum._id;
-        expect(updatedMuseum).toEqual({...newMuseum, offeredTours: [], reservedTours: [], userRequests: []});
+        expect(updatedMuseum).toEqual({...newMuseumUpdate, offeredTours: [], reservedTours: [], userRequests: []});
     });
     
     test('updating museum does not affect size', async() => {
-        await api.put(`/api/museum/${museumId}`).set(adminHeaders).send(newMuseum).expect(200);
+        await api.put(`/api/museum/${museumId}`).set(adminHeaders).send(newMuseumUpdate).expect(200);
         const res = await api.get('/api/museum');
         expect(res.body).toHaveLength(initialMuseums.length);
     });
@@ -232,11 +251,11 @@ describe("request", () => {
 });
 
 test('updating is not possible with faulty headers', async() => {
-    await api.put(`/api/museum/${museumId}`).set(customerHeaders).send(newMuseum).expect(401);
+    await api.put(`/api/museum/${museumId}`).set(customerHeaders).send(newMuseumUpdate).expect(401);
 });
 test('posting is not possible', async() => {
-    const lol = await api.post(`/api/museum`).set(customerHeaders).send(newMuseum);
-    expect(lol.status).toBe(401);
+    const res = await api.post(`/api/museum`).set(customerHeaders).send(newMuseumAdd);
+    expect(res.status).toBe(401);
 });
 test('deleting is not possible', async() => {
     const result = await api.delete(`/api/museum/${museumId}`).set(customerHeaders);

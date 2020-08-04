@@ -6,13 +6,15 @@ import museumReducer from './reducers/museumReducer'
 import userReducer from './reducers/userReducer'
 import loginReducer from './reducers/loginReducer'
 import notificationReducer from './reducers/notificationReducer'
+import keyReducer from './reducers/keyReducer'
 
 export const rootReducer = combineReducers({
     tours: tourReducer,
     museums: museumReducer,
     users: userReducer,
     login: loginReducer,
-    notification: notificationReducer
+    notification: notificationReducer,
+    key: keyReducer
 })
 
 export default createStore(rootReducer, composeWithDevTools(

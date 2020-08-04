@@ -13,7 +13,6 @@ const storage = multer.diskStorage({
         cb(null, "./uploads/");
     },
     filename: (req, file, cb) => {
-        console.log(file);
         cb(null, crypto.randomBytes(10).toString('hex') + file.originalname);
     }
     
@@ -36,7 +35,6 @@ router.get('/', async (_req, res) => {
 //AddMuseum
 router.post('/', upload.single('image'), async (req, res) => {
     try {    
-        console.log(JSON.parse(req.body.open)); 
         const token = decodedToken(req.headers.authorization);
         const user = await userService.getUser(token.id);
         if(!user || !allowedUserType("Admin", user)) {
@@ -52,7 +50,6 @@ router.post('/', upload.single('image'), async (req, res) => {
         await userService.addUserToMuseum(addedMuseum._id, token.id);
         res.json(addedMuseum);
     } catch (e) {
-        console.log(e.message);
         res.status(400).send(e.message);
     }
 });
@@ -71,7 +68,6 @@ router.put('/:id', async (req, res) => {
         const updatedEntry = await museumService.updateMuseum(updatedMuseum, req.params.id);
         res.json(updatedEntry);
     } catch (e) {
-        console.log(e.message);
         res.status(400).send(e.message);
     }
 });

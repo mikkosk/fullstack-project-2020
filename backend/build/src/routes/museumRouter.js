@@ -63,7 +63,6 @@ var storage = multer_1.default.diskStorage({
         cb(null, "./uploads/");
     },
     filename: function (req, file, cb) {
-        console.log(file);
         cb(null, crypto_1.default.randomBytes(10).toString('hex') + file.originalname);
     }
 });
@@ -96,7 +95,6 @@ router.post('/', upload.single('image'), function (req, res) { return __awaiter(
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 4, , 5]);
-                console.log(JSON.parse(req.body.open));
                 token = userManagement_1.decodedToken(req.headers.authorization);
                 return [4 /*yield*/, userService_1.default.getUser(token.id)];
             case 1:
@@ -120,7 +118,6 @@ router.post('/', upload.single('image'), function (req, res) { return __awaiter(
                 return [3 /*break*/, 5];
             case 4:
                 e_1 = _a.sent();
-                console.log(e_1.message);
                 res.status(400).send(e_1.message);
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
@@ -151,7 +148,6 @@ router.put('/:id', function (req, res) { return __awaiter(void 0, void 0, void 0
                 return [3 /*break*/, 4];
             case 3:
                 e_2 = _a.sent();
-                console.log(e_2.message);
                 res.status(400).send(e_2.message);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];

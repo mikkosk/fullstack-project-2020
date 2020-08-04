@@ -8,6 +8,7 @@ import museumRouter from './routes/museumRouter';
 import userRouter from './routes/userRouter';
 import loginRouter from './routes/loginRouter';
 import cypressRouter from './routes/cypressRouter';
+import keyRouter from './routes/keyRouter';
 
 mongoose.set('useCreateIndex', true);
 let MONGODB_URI = process.env.MONGODB_URI;
@@ -35,6 +36,7 @@ app.use('/api/tour', toursRouter);
 app.use('/api/museum', museumRouter);
 app.use('/api/user', userRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/key', keyRouter);
 if(process.env.NODE_ENV === 'test') {
   app.use('/api/test', cypressRouter);
 }

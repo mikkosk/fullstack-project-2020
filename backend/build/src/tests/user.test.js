@@ -274,7 +274,7 @@ describe('updating', function () {
                         password: "Pass",
                         type: "Type"
                     };
-                    return [4 /*yield*/, api.put("/user/" + adminId).set(adminHeaders).send(faultyUser).expect(400)];
+                    return [4 /*yield*/, api.put("/api/user/" + adminId).set(adminHeaders).send(faultyUser).expect(400)];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, api.get('/api/user')];

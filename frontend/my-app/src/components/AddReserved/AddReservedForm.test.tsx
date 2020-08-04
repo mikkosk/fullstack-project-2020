@@ -78,7 +78,7 @@ describe('AddReservedForm', () => {
         })
 
         await act(async () => {
-            enzymeWrapper.find('div[aria-label="Choose Friday, July 31st, 2020"]').simulate('click')
+            enzymeWrapper.find('div[aria-label="Choose Friday, August 28th, 2020"]').simulate('click')
         });
         enzymeWrapper.update()
         
@@ -102,7 +102,7 @@ describe('AddReservedForm', () => {
         const { enzymeWrapper } = setup()
 
         await act(async () => {
-            enzymeWrapper.find('div[aria-label="Choose Friday, July 31st, 2020"]').simulate('click')
+            enzymeWrapper.find('div[aria-label="Choose Friday, August 28th, 2020"]').simulate('click')
         });
         enzymeWrapper.update()
         
@@ -135,7 +135,7 @@ describe('AddReservedForm', () => {
         })
 
         await act(async () => {
-            enzymeWrapper.find('div[aria-label="Choose Friday, July 31st, 2020"]').simulate('click')
+            enzymeWrapper.find('div[aria-label="Choose Friday, August 28th, 2020"]').simulate('click')
         });
         enzymeWrapper.update()
         
@@ -183,7 +183,7 @@ describe('AddReservedForm', () => {
         })
 
         await act(async () => {
-            enzymeWrapper.find('div[aria-label="Choose Friday, July 31st, 2020"]').simulate('click')
+            enzymeWrapper.find('div[aria-label="Choose Friday, August 28th, 2020"]').simulate('click')
         });
         enzymeWrapper.update()
         
@@ -224,7 +224,7 @@ describe('AddReservedForm', () => {
         })
 
         await act(async () => {
-            enzymeWrapper.find('div[aria-label="Choose Friday, July 31st, 2020"]').simulate('click')
+            enzymeWrapper.find('div[aria-label="Choose Friday, August 28th, 2020"]').simulate('click')
         });
         enzymeWrapper.update()
         

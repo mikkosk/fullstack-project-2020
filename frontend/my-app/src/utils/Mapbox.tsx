@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef } from 'react'
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useSelector } from 'react-redux';
@@ -33,7 +33,7 @@ const Mapbox: React.FC<{lat: number, long: number}> = ({lat, long}) => {
         })
 
         return () => map.remove();
-    }, [lat, long])
+    }, [lat, long, key])
 
     return <div ref={mapContainerRef} style={styles}/>
 }

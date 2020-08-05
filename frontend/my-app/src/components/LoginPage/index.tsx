@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header, Segment, Grid, GridColumn, GridRow } from 'semantic-ui-react'
+import { Header, Grid } from 'semantic-ui-react'
 import { LoginForm } from './LoginForm'
 import { RegisterationForm } from './RegisterationForm'
 import loginService from '../../services/loginService'
@@ -10,21 +10,18 @@ import { login } from '../../reducers/loginReducer'
 import { addUser } from '../../reducers/userReducer'
 import { useHistory } from 'react-router-dom'
 import { addNotification } from '../../reducers/notificationReducer'
-import Mapbox from '../../utils/Mapbox'
 
 export const LoginPage: React.FC = () => {
     const dispatch = useDispatch()
     const history = useHistory()
 
     const submitLogin = async (credentials: {username: string, password: string}) => {
-        console.log(credentials)
         const {username, password} = credentials;
         try {
             const loggedInUser = await loginService.login(username, password);
             if(loggedInUser) {
                 loginStorage.saveUser(loggedInUser);
             }
-            console.log(loggedInUser)
             dispatch(login(loggedInUser));
             history.push(`/user`)
         } catch {
@@ -33,11 +30,10 @@ export const LoginPage: React.FC = () => {
     }
 
     const submitRegisteration = async (newUser: NewUser) => {
-        console.log(newUser)
         try {
             dispatch(addUser(newUser));
         } catch {
-            console.log("Käyttäjää ei voi lisätä")
+            dispatch(addNotification({message: "Käyttäjää ei voitu lisätä", error: true}))
         }
     }
 

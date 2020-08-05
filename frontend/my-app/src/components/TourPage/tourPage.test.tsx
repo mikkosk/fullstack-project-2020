@@ -1,17 +1,13 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import configureStore from 'redux-mock-store'
-import MuseumAdminPage from './index'
 import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import { useParams } from 'react-router-dom'
 import TourPage from './index'
-import { act } from 'react-dom/test-utils'
-import { wait, waitForElement } from '@testing-library/react'
+import { waitForElement } from '@testing-library/react'
 import { initialState, initialStateCustomer, initialStateAdmin } from '../../../data/testData'
-import { debug } from 'console'
 import { UserTypes } from '../../types'
 
 Enzyme.configure({adapter: new Adapter() })

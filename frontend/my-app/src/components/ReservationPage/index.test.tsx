@@ -5,7 +5,7 @@ import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import { initialStateEmptyTours, initialState, initialStateCustomer, initialStateAdmin } from '../../../data/testData'
+import { initialState, initialStateCustomer, initialStateAdmin } from '../../../data/testData'
 import { UserTypes } from '../../types'
 import ReservationPage from '.'
 

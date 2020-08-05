@@ -20,7 +20,7 @@ describe("museumPage", function() {
         })
 
         it("can go to tour page", function() {
-            cy.get('b:last').click()
+            cy.get('#extraInfo b:last').click()
             cy.url().should('contain', 'tour')
         })
     })

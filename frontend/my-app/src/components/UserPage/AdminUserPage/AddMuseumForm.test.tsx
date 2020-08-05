@@ -4,7 +4,6 @@ import configureStore from 'redux-mock-store'
 import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
 import thunk from 'redux-thunk'
-import { GuidedTour } from '../../../types'
 import { act } from 'react-dom/test-utils'
 import { wait } from '@testing-library/react'
 import AddMuseumForm from './AddMuseumForm'
@@ -17,7 +16,7 @@ const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
 const onSubmit = jest.fn()
 const onCancel = jest.fn()
-const inputs = ["museumName", "museumInfo", "openInfo"]
+const inputs = ["museumName", "museumInfo", "openInfo", "location", "lat", "long"]
 const selects = [
     "open.mon","open.tue","open.wed","open.thu","open.fri","open.sat","open.sun",
     "closed.mon","closed.tue","closed.wed","closed.thu","closed.fri","closed.sat","closed.sun"]
@@ -45,7 +44,7 @@ describe('AddMuseumForm', () => {
     test('Right inputs are displayed', () => {
         const { enzymeWrapper } = setup()
         expect(findTags(enzymeWrapper, selects, "select").length).toBe(14)
-        expect(findTags(enzymeWrapper, inputs, "input").length).toBe(3)
+        expect(findTags(enzymeWrapper, inputs, "input").length).toBe(6)
     })
 
     test('Both buttons are displayed', () => {
@@ -67,7 +66,7 @@ describe('AddMuseumForm', () => {
         await act(async () => {
             let i;
             for(i = 0; i < inputsToChange.length; i++) {
-                inputsToChange[i].simulate('change', {persist: () => {}, target: {name: inputs[i], value: 'values'}})
+                inputsToChange[i].simulate('change', {persist: () => {}, target: {name: inputs[i], value: '45.00'}})
             }
             for(i = 0; i < selectsToChange.length; i++) {
                 selectsToChange[i].simulate('change', {persist: () => {}, target: {name: selects[i], value: 'closed'}})
@@ -123,7 +122,7 @@ describe('AddMuseumForm', () => {
             await act(async () => {
                 let i;
                 for(i = 0; i < inputsToChange.length; i++) {
-                    inputsToChange[i].simulate('change', {persist: () => {}, target: {name: inputs[i], value: 'values'}})
+                    inputsToChange[i].simulate('change', {persist: () => {}, target: {name: inputs[i], value: '45.00'}})
                 }
                 for(i = 0; i < selectsToChange.length; i++) {
                     selectsToChange[i].simulate('change', {persist: () => {}, target: {name: selects[i], value: 'closed'}})

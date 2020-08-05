@@ -12,7 +12,6 @@ const MuseumPage = () => {
     const user = useSelector((state: RootState) => state.users.users[state.login._id]);
     const museum: Museum = useSelector((state: RootState) => state.museums.museums[id])
 
-    console.log(museum)
     if(!museum) {
         return <Loader active/>
     }

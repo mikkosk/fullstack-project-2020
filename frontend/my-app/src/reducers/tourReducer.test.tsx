@@ -17,10 +17,6 @@ const errorNotification: MessageError = {
     message: "Virhe",
     error: true
 }
-const successNotification: MessageError = {
-    message: "Success",
-    error: false
-}
 
 const errorResp = {
     status: 500,

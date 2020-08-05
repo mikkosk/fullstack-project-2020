@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { UserAnyType, NewUser, LoggedInUser } from '../types'
+import { LoggedInUser } from '../types'
 
 const baseUrl = 'http://localhost:3001/api/login'
 

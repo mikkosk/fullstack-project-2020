@@ -1,12 +1,11 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import configureStore from 'redux-mock-store'
-import MuseumAdminPage from './MuseumAdminPage'
 import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import { initialStateEmptyTours, initialState, initialStateCustomer, initialStateAdmin } from '../../../data/testData'
+import { initialState, initialStateCustomer, initialStateAdmin } from '../../../data/testData'
 import { UserTypes } from '../../types'
 import MuseumPage from '.'
 
@@ -23,7 +22,10 @@ jest.mock('react-router-dom', () => ({
         push: jest.fn()
     })
 }));
-  
+
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+    Map: () => ({}),
+  }));
 
 function setup(type?: UserTypes) {
     let store = mockStore(initialState)

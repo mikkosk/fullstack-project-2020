@@ -41,7 +41,6 @@ const deleteMuseum = async (id: string) => {
 
 const sendRequest = async (userId: string, museumId: string) => {
     const res = await axios.put(`${baseUrl}/${museumId}/request`, {id: userId})
-    console.log(res.data)
     return res.data
 }
 

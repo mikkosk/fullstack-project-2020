@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../store'
 import { List, Button } from 'semantic-ui-react'
 import { deleteTour } from '../../reducers/museumReducer'
-import { useParams, Link, useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 const TourList = () => {
     const dispatch = useDispatch()

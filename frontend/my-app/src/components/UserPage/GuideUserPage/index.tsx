@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Header, Grid, GridRow, Accordion, Button, GridColumn, Reveal, Popup } from 'semantic-ui-react'
+import { Header, Grid, GridRow, Button, Popup } from 'semantic-ui-react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../store'
-import { useParams } from 'react-router-dom'
 import { ReservedTour, Museum } from '../../../types'
 import { EssentialInformation, RestInformation } from '../../ReservationPage'
-import { confirmTour, getUsers } from '../../../reducers/userReducer'
-import { allMuseums } from '../../../reducers/museumReducer'
+import { confirmTour } from '../../../reducers/userReducer'
 
 const TourPreview: React.FC<{r: ReservedTour}> = ({r}) => (
     <div>
@@ -30,12 +28,9 @@ const TourPreview: React.FC<{r: ReservedTour}> = ({r}) => (
 const GuideUserPage: React.FC<{}> = () => {
     const dispatch = useDispatch()
     const user = useSelector((state: RootState) => state.users.users[state.login._id])
-    console.log(user)
     
 
     const [toursToShow, setToursToShow] = useState<ReservedTour[]>([]);
-
-    console.log(toursToShow)
 
     useEffect(() => {
         if(user && user.type === "Guide") {
@@ -53,7 +48,6 @@ const GuideUserPage: React.FC<{}> = () => {
     }
 
     const userTours = user.reservedTours.map((r: ReservedTour) => r)
-    console.log(userTours)
     const takeTour = (tourId: string) => {
         dispatch(confirmTour(tourId, user._id))
     }

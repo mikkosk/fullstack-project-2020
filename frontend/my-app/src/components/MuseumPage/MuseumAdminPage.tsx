@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header, Grid, GridRow, GridColumn, Accordion, Icon } from 'semantic-ui-react'
+import { Header, Grid, GridRow, GridColumn, Icon } from 'semantic-ui-react'
 import TourList from './TourList'
 import { AddTourForm } from '../AddTour/AddTourForm'
 import { useDispatch } from 'react-redux'
@@ -57,7 +57,7 @@ const MuseumAdminPage: React.FC<{museum: Museum}> = ({ museum }) => {
                         <Grid.Column>
                             <Header className="centerText" as="h3">Lisää opastus</Header>
                             <div className="centerText">
-                                <AddTourForm onSubmit={submitNewTour} onCancel={console.log}/>
+                                <AddTourForm onSubmit={submitNewTour} onCancel={() => {return}}/>
                             </div>
                         </Grid.Column>
                 </Grid>
@@ -112,7 +112,6 @@ const MuseumAdminPage: React.FC<{museum: Museum}> = ({ museum }) => {
                     </GridColumn>
                     <Grid name="requests" columns={4}>
                         {museum.userRequests.map((u: Professionals) => {
-                            console.log(u)
                             return(
                                 <Grid.Row centered key={u._id}>
                                     <Grid.Column>

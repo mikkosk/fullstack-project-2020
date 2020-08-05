@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import configureStore, { MockStore, MockStoreEnhanced } from 'redux-mock-store'
+import configureStore, { MockStoreEnhanced } from 'redux-mock-store'
 import Adapter from 'enzyme-adapter-react-16'
 import Enzyme, {mount} from 'enzyme'
 import { Provider } from 'react-redux'

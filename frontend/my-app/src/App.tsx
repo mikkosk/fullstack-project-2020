@@ -7,18 +7,14 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import TourPage from './components/TourPage';
 import { allMuseums } from './reducers/museumReducer';
 import { LoginPage } from './components/LoginPage';
-import { AdminPage } from './components/UserPage/AdminUserPage';
 import loginStorage from './utils/loginStorage';
 import { login } from './reducers/loginReducer';
 import { getUsers } from './reducers/userReducer';
 import LogoutBar from './components/Logout/LogoutBar';
 import NotificationBar from './components/NotificationBar';
-import CustomerUserPage from './components/UserPage/CustomerUserPage';
 import FindMuseums from './components/FindMuseums';
 import ReservationPage from './components/ReservationPage';
-import GuideUserPage from './components/UserPage/GuideUserPage';
 import UserPage from './components/UserPage';
-import Mapbox from './utils/Mapbox';
 import { getKey } from './reducers/keyReducer';
 
 

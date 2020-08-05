@@ -1,4 +1,4 @@
-import { LoginState, LoggedInUser, Museum, KeyState } from "../types"
+import { KeyState } from "../types"
 import { RootState } from "../store"
 import { ThunkAction } from "redux-thunk"
 import { Dispatch } from "react"
@@ -27,7 +27,6 @@ export const getKey = (): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch<Action>) => {
         try {
             const payload = await keyService.getKey()
-            console.log(payload)
             dispatch({
                 type:"GET_KEY",
                 payload

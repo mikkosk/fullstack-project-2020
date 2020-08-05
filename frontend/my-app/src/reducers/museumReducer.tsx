@@ -1,6 +1,6 @@
 import museumsService from "../services/museumService"
 import { Museum, MuseumState, NewMuseum, NewTour, AddTourPayload, GuidedTour, MessageError } from "../types"
-import { Dispatch, memo } from "react"
+import { Dispatch } from "react"
 import { ThunkAction } from "redux-thunk"
 import { RootState } from "../store"
 import toursService from "../services/toursService"
@@ -211,7 +211,6 @@ export const deleteTour = (museumId: string, tourId: string): ThunkAction<void, 
 }
 
 export const sendRequest = (userId: string, museumId: string): ThunkAction<void, RootState, unknown, Action> => {
-    console.log("action")
     return async(dispatch: Dispatch<Action>) => {
         try{
             const payload = await museumsService.sendRequest(userId, museumId);

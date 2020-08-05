@@ -1,7 +1,7 @@
 import moxios from "moxios";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import { getUsers, addUser, updateUser, userToMuseum, deleteUser, addMuseum, addReservation } from './userReducer'
-import { UserAnyType, NewUser, UserState, Museum, MessageError, Customer, ReservedTour } from '../types';
+import { UserAnyType, NewUser, UserState, Museum, MessageError, Customer, ReservedTour, NewMuseum } from '../types';
 import { Middleware, AnyAction } from 'redux';
 import { RootState } from '../store';
 import { MockStoreCreator } from "redux-mock-store"
@@ -261,7 +261,10 @@ describe("User actions", () => {
                     openInfo: "Auki",
                     museumInfo: "Museo",
                     reservedTours:[],
-                    userRequests:[]   
+                    userRequests:[],
+                    long: 0,
+                    lat: 0,
+                    location: "location"   
                 }]
         }
 
@@ -364,8 +367,41 @@ describe("User actions", () => {
                 openInfo: "Auki",
                 museumInfo: "Museo",
                 reservedTours:[],
-                userRequests:[]   
+                userRequests:[],
+                long: 0,
+                lat: 0,
+                location: "location",
+                image: undefined   
             }
+
+        const newMuseum: NewMuseum = {
+            museumName: "testi",
+            open: {
+                mon: "10:00",
+                tue: "10:00",
+                wed: "10:00",
+                thu: "10:00",
+                fri: "10:00",
+                sat: "10:00",
+                sun: "10:00"
+            },
+            closed: {
+                mon: "10:00",
+                tue: "10:00",
+                wed: "10:00",
+                thu: "10:00",
+                fri: "10:00",
+                sat: "10:00",
+                sun: "10:00"
+                
+            },
+            openInfo: "Auki",
+            museumInfo: "Museo",
+            long: 0,
+            lat: 0,
+            location: "location",
+            image: undefined 
+        }
 
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
@@ -375,7 +411,7 @@ describe("User actions", () => {
             })
         })
         
-        await store.dispatch<any>(addMuseum(response, initialState.login._id))
+        await store.dispatch<any>(addMuseum(newMuseum, initialState.login._id))
         const actions = store.getActions()
 
         expect.assertions(2)
@@ -386,42 +422,42 @@ describe("User actions", () => {
     test('error when calling addMuseum dispatches ADD_MUSEUM_ERROR', async () => {
         const initialState: RootState = initialStateEmptyMuseums
         const store = mockStoreCreator(initialState)
-        const response: Museum = 
-            {
-                _id: "iidee",
-                museumName: "testi",
-                open: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                },
-                closed: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                    
-                },
-                offeredTours:[],
-                openInfo: "Auki",
-                museumInfo: "Museo",
-                reservedTours:[],
-                userRequests:[]   
-            }
+
+        const newMuseum: NewMuseum = {
+            museumName: "testi",
+            open: {
+                mon: "10:00",
+                tue: "10:00",
+                wed: "10:00",
+                thu: "10:00",
+                fri: "10:00",
+                sat: "10:00",
+                sun: "10:00"
+            },
+            closed: {
+                mon: "10:00",
+                tue: "10:00",
+                wed: "10:00",
+                thu: "10:00",
+                fri: "10:00",
+                sat: "10:00",
+                sun: "10:00"
+                
+            },
+            openInfo: "Auki",
+            museumInfo: "Museo",
+            long: 0,
+            lat: 0,
+            location: "location",
+            image: undefined 
+        }
 
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
             request.respondWith(errorResp)
         })
         
-        await store.dispatch<any>(addMuseum(response, initialState.login._id))
+        await store.dispatch<any>(addMuseum(newMuseum, initialState.login._id))
         const actions = store.getActions()
 
         expect.assertions(2)
@@ -706,7 +742,10 @@ describe('reducers', () => {
                 openInfo: "Auki",
                 museumInfo: "Museo",
                 reservedTours: [],
-                userRequests: []
+                userRequests: [],
+                long: 0,
+                lat: 0,
+                location: "location"   
             }]}, notification: 
             {message: "", error: false}
         })
@@ -746,7 +785,10 @@ describe('reducers', () => {
                     openInfo: "Auki",
                     museumInfo: "Museo",
                     reservedTours: [],
-                    userRequests: []    
+                    userRequests: [],
+                    long: 0,
+                    lat: 0,
+                    location: "location"       
                 }]}
             }, notification: {message: "", error: false}, finished: true
         }
@@ -811,7 +853,10 @@ describe('reducers', () => {
                     openInfo: "Auki",
                     museumInfo: "Museo",
                     reservedTours: [],
-                    userRequests: []  
+                    userRequests: [],
+                    long: 0,
+                    lat: 0,
+                    location: "location"     
         }
 
         const reducer = userReducer(initialStateNotEmpty, {type: "ADD_MUSEUM_SUCCESS", payload: 

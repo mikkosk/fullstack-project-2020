@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Museum, GuidedTour, UserAnyType, Professionals } from '../../types'
 import { Image, Grid, GridColumn, GridRow, Header, Icon, Card, CardHeader, Button, Label } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
-import museumReducer, { sendRequest } from '../../reducers/museumReducer'
+import { sendRequest } from '../../reducers/museumReducer'
 import { useDispatch } from 'react-redux'
 import Mapbox from '../../utils/Mapbox'
 
 const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({museum, user}) => {
-    console.log(museum)
+
     const openHours = [
         {day: "Maanantai", open: museum.open.mon, closed: museum.closed.mon},
         {day: "Tiistai", open: museum.open.tue, closed: museum.closed.tue},
@@ -59,12 +59,10 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
 
     const handleRequest = async () => {
         await sendAdminRequest();
-        console.log("page")
+
     }
     const sendAdminRequest = async () => {
-        console.log("send")
-        console.log(user._id)
-        console.log(museum._id)
+
         dispatch(sendRequest(user._id, museum._id))
     }
 

@@ -16,12 +16,11 @@ export const AdminPage: React.FC = () => {
     
     useEffect(() => {
         if(finished) {
-            console.log("VALMISTA")
+
             dispatch(allMuseums())
         }
     }, [finished, dispatch])
 
-    console.log(user)
     if(!user || user.type !== "Admin") {
         return <div>Mitään ei löytynyt</div>
     }
@@ -33,7 +32,7 @@ export const AdminPage: React.FC = () => {
     }
 
     const dispatchAddMuseum = async (values: NewMuseum) => {
-        console.log(values)
+
         dispatch(addMuseum(values, user._id))
     }
 

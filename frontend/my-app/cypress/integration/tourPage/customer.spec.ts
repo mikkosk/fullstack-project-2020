@@ -12,7 +12,7 @@ describe("tourPage", function() {
             cy.login("CustomerTwo", "CustomerTwo");
             cy.visit('http://localhost:3000/find/museums')
             cy.get('button:last').click()
-            cy.get('b:last').click()
+            cy.get('#extraInfo b:last').click()
         })
 
         it("can open modal for reserving", function() {
@@ -34,7 +34,6 @@ describe("tourPage", function() {
             cy.get('button:first').click()
             cy.get('button[aria-label="Next Month"]').click()
             cy.get('button[aria-label="Next Month"]').click()
-            cy.get('button[aria-label="Next Month"]').click()
             cy.get('div[aria-label="Choose Thursday, October 29th, 2020"]').click()
             cy.get('b[class="11:00"]').click()
             cy.get('input[name="groupName"]').click().type("Ryhmä")
@@ -50,7 +49,6 @@ describe("tourPage", function() {
 
         it("verification modal is closed by cancel", function() {
             cy.get('button:first').click()
-            cy.get('button[aria-label="Next Month"]').click()
             cy.get('button[aria-label="Next Month"]').click()
             cy.get('button[aria-label="Next Month"]').click()
             cy.get('div[aria-label="Choose Thursday, October 29th, 2020"]').click()
@@ -70,7 +68,6 @@ describe("tourPage", function() {
 
         it("verification modal is closed by submit", function() {
             cy.get('button:first').click()
-            cy.get('button[aria-label="Next Month"]').click()
             cy.get('button[aria-label="Next Month"]').click()
             cy.get('button[aria-label="Next Month"]').click()
             cy.get('div[aria-label="Choose Thursday, October 29th, 2020"]').click()

@@ -5,7 +5,6 @@ import app from '../app';
 import UserMon from '../models/user';
 import MuseumMon from '../models/museum';
 import ReservedMon from '../models/reservedTour';
-//import initialTours from '../../data/guidedTours';
 import initialUsers from '../../data/users';
 import initialMuseums from '../../data/museums';
 import initialTours from '../../data/reservedTours';
@@ -13,7 +12,6 @@ import { Museum } from '../types';
 import jwt from 'jsonwebtoken';
 
 const api = supertest(app);
-//let tourId: string;
 let customerId: string;
 let adminId: string;
 let guideId: string;

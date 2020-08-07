@@ -63,7 +63,8 @@
 |2.8.|3|started to add mapbox|
 |3.8.|3|finished adding the mapbox, started fixing tests|
 |4.8.|3|applied a way to handle mapboxes api key, fixed some more tests|
-Total: 151 hours 
+|5.8.|3|fixed rest of test and started to clean up the code|
+Total: 154 hours 
 
 
 (8cr)

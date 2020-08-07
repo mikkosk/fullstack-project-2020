@@ -15,7 +15,7 @@ Enzyme.configure({adapter: new Adapter() })
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
 jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
+    ...jest.requireActual('react-router-dom'),
     useParams: () => ({
       tourid: "three",
       museumid: "iidee"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { Museum } from '../../types'
@@ -7,8 +7,18 @@ import { useHistory } from 'react-router-dom'
 
 const FindMuseums: React.FC = () => {
     const [page, setPage] = useState(0)
-    const museums = useSelector((state: RootState) => state.museums.museums)
+    const [search, setSearch] = useState("")
+    const [museums, setMuseums] = useState<Museum[]>([])
+    const allMuseums = useSelector((state: RootState) => state.museums.museums)
     const history = useHistory()
+
+    useEffect(() => {
+        if(!search) {
+            setMuseums(Object.values(allMuseums));
+        } else {
+            setMuseums(Object.values(allMuseums).filter((m: Museum) => m.museumName.includes(search)))
+        }
+    }, [search, allMuseums])
 
     const toMuseum = (id: Museum['_id']) => {
         history.push(`/museum/${id}`)
@@ -27,7 +37,7 @@ const FindMuseums: React.FC = () => {
         <div>
             <Container textAlign='center'>
                 <Header>Löydä museoita</Header>
-                {Object.values(museums).slice(0 + page*10, 10 + page*10).map((m: Museum) => 
+                {museums.slice(0 + page*10, 10 + page*10).map((m: Museum) => 
                     <div key={m._id}>
                         <Card centered>
                             <Card.Content header={m.museumName} />

@@ -6,14 +6,12 @@ import app from '../app';
 import TourMon from '../models/guidedTour';
 import MuseumMon from '../models/museum';
 import UserMon from '../models/user';
-//import initialTours from '../../data/guidedTours';
 import initialMuseums from '../../data/museums';
 import initialUsers from '../../data/users';
 import { Museum } from '../types';
 import jwt from 'jsonwebtoken';
 
 const api = supertest(app);
-//let tourId: string;
 let museumId: string;
 let customerHeaders: {Authorization: string};
 let adminHeaders: {Authorization: string};
@@ -67,7 +65,7 @@ const newMuseumUpdate = {
         sat: "10:00",
         sun: "10:00"
     }
-}
+};
 
 beforeEach(async () => {
     await TourMon.deleteMany({});

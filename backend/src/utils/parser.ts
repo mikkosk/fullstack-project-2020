@@ -44,16 +44,16 @@ const isPaymentMethod = (method: any): boolean => {
     return method === "Cash" || method == "Card" || method === "Bill" || method === "Other";
 };
 
-const parseGenericTextField = (text: any): string => {
+const parseGenericTextField = (text: any, error: string): string => {
     if(!text || !isString(text)) {
-        throw new Error();
+        throw new Error('Missing or invalid ' + error);
     }
     return text;
 };
 
-const parseGenericNumberField = (number: any): number => {
+const parseGenericNumberField = (number: any, error: string): number => {
     if(!number || !isNumber(number)) {
-        throw new Error();
+        throw new Error('Missing or invalid ' + error);
     }
     return number;
 };
@@ -65,7 +65,7 @@ const parseLatLong = (number: any): number => {
         throw new Error("Missing or invalid coordinate");
     }
 };
-
+/*
 const parseLocation = (location: any): string => {
     try {
         return parseGenericTextField(location);
@@ -73,7 +73,8 @@ const parseLocation = (location: any): string => {
         throw new Error("Missing or invalid location");
     }
 };
-
+*/
+/*
 const parseImage = (image: any): string => {
     try {
         return parseGenericTextField(image);
@@ -81,6 +82,8 @@ const parseImage = (image: any): string => {
         throw new Error("Missing or invalid image path");
     }
 };
+*/
+/*
 const parseLanguage = (language: any): string => {
     try {
         const parsedLanguage = parseGenericTextField(language);
@@ -89,7 +92,8 @@ const parseLanguage = (language: any): string => {
         throw new Error('Missing or invalid language');
     }
 };
-
+*/
+/*
 const parseLength = (length: any): number => {
     try {
         const parsedLength = parseGenericNumberField(length);
@@ -98,7 +102,8 @@ const parseLength = (length: any): number => {
         throw new Error('Missing or invalid length');
     }
 };
-
+*/
+/*
 const parseName = (name: any): string => {
     try {
         const parsedName = parseGenericTextField(name);
@@ -107,7 +112,8 @@ const parseName = (name: any): string => {
         throw new Error('Missing or invalid name' + name);
     }
 };
-
+*/
+/*
 const parseNumberOfPeople = (number: any): number => {
     try {
         const parsedNumber = parseGenericNumberField(number);
@@ -116,7 +122,8 @@ const parseNumberOfPeople = (number: any): number => {
         throw new Error('Missing or invalid number of people');
     }
 };
-
+*/
+/*
 const parsePrice = (price: any): number => {
     try {
         const parsedPrice = parseGenericNumberField(price);
@@ -125,7 +132,8 @@ const parsePrice = (price: any): number => {
         throw new Error('Missing or invalid price');
     }
 };
-
+*/
+/*
 const parseInfo = (info: any): string => {
     try {
         const parsedInfo = parseGenericTextField(info);
@@ -134,12 +142,13 @@ const parseInfo = (info: any): string => {
         throw new Error('Missing or invalid info');
     }
 };
+*/
 
 const parseLanguages = (languages: any): string[] => {
     if(!languages || !Array.isArray(languages)) {
         throw new Error('Incorrect or missing list of languages');
     }
-    languages.forEach((l: any): string => parseLanguage(l));
+    languages.forEach((l: any): string => parseGenericTextField(l, "language"));
     return languages;
 };
 
@@ -164,6 +173,7 @@ const parseType = (type: any): "Customer" | "Admin" | "Guide" => {
     return type;
 };
 
+/*
 const parsePassword = (hash: any): string => {
     try {
         const parsedPassword = parseGenericTextField(hash);
@@ -171,7 +181,7 @@ const parsePassword = (hash: any): string => {
     } catch {
         throw new Error('Faulty password');
     }
-};
+};*/
 
 const parsePaymentMethod = (method: any): PaymentMethods => {
     if(!method || !isPaymentMethod(method)) {
@@ -184,16 +194,16 @@ export const toNewTour = (object: any): NewTour => {
     const newTour =
         {
             possibleLanguages: parseLanguages(object.possibleLanguages),
-            lengthInMinutes: parseLength(object.lengthInMinutes),
-            tourName: parseName(object.tourName),
-            maxNumberOfPeople: parseNumberOfPeople(object.maxNumberOfPeople),
-            price: parsePrice(object.price),
+            lengthInMinutes: parseGenericNumberField(object.lengthInMinutes, "length"),
+            tourName: parseGenericTextField(object.tourName, "tour name"),
+            maxNumberOfPeople: parseGenericNumberField(object.maxNumberOfPeople, "number of people"),
+            price: parseGenericNumberField(object.price, "price"),
         };
 
     if(object.tourInfo) {
         return {
             ...newTour,
-            tourInfo: parseInfo(object.tourInfo)
+            tourInfo: parseGenericTextField(object.tourInfo, "tour info")
         };
     } else {
         return newTour;
@@ -205,7 +215,7 @@ export const toNewTour = (object: any): NewTour => {
 export const toNewMuseum = (object: any): NewMuseum => {
     let newMuseum: NewMuseum =
         {
-            museumName: parseName(object.museumName),
+            museumName: parseGenericTextField(object.museumName, "museum name"),
             open: {
                 mon: parseTime(object.open.mon),
                 tue: parseTime(object.open.tue),
@@ -224,7 +234,7 @@ export const toNewMuseum = (object: any): NewMuseum => {
                 sat: parseTime(object.closed.sat),
                 sun: parseTime(object.closed.sun)
             },
-            location: parseLocation(object.location),
+            location: parseGenericTextField(object.location, "location"),
             lat: parseLatLong(object.lat),
             long: parseLatLong(object.long)
         };
@@ -232,20 +242,20 @@ export const toNewMuseum = (object: any): NewMuseum => {
     if(object.openInfo) {
         newMuseum = {
             ...newMuseum,
-            openInfo: parseInfo(object.openInfo)
+            openInfo: parseGenericTextField(object.openInfo, "open info")
         };
     }
 
     if(object.museumInfo) {
         newMuseum = {
             ...newMuseum,
-            museumInfo: parseInfo(object.museumInfo)
+            museumInfo: parseGenericTextField(object.museumInfo, "museum info")
         };
     }
     if(object.image) {
         newMuseum = {
             ...newMuseum,
-            image: parseImage(object.image)
+            image: parseGenericTextField(object.image, "image path")
         };
     }
     return newMuseum;
@@ -255,9 +265,9 @@ export const toNewMuseum = (object: any): NewMuseum => {
 export const toNewUser = (object: any): NewUser => {
     const newUser: NewUser = {
         type: parseType(object.type),
-        name: parseName(object.name),
-        username: parseName(object.username),
-        password: parsePassword(object.password),
+        name: parseGenericTextField(object.name, "name"),
+        username: parseGenericTextField(object.username, "username"),
+        password: parseGenericTextField(object.password, "password"),
         languages: []
     };
 
@@ -270,19 +280,19 @@ export const toNewUser = (object: any): NewUser => {
 export const toReservedTour = (object: any): Omit<ReservedTour, '_id' | 'museum'> => {
     const tour: Omit<ReservedTour, '_id' | 'museum'>= {
         possibleLanguages: parseLanguages(object.possibleLanguages),
-        lengthInMinutes: parseLength(object.lengthInMinutes),
-        tourName: parseName(object.tourName),
-        maxNumberOfPeople: parseNumberOfPeople(object.maxNumberOfPeople),
-        price: parsePrice(object.price),
-        chosenLanguage: parseLanguage(object.chosenLanguage),
-        groupName: parseName(object.groupName),
-        numberOfPeople: parseNumberOfPeople(object.numberOfPeople),
-        groupAge: parseInfo(object.groupAge),
+        lengthInMinutes: parseGenericNumberField(object.lengthInMinutes, "length"),
+        tourName: parseGenericTextField(object.tourName, "tour name"),
+        maxNumberOfPeople: parseGenericNumberField(object.maxNumberOfPeople, "max number of people"),
+        price: parseGenericNumberField(object.price, "price"),
+        chosenLanguage: parseGenericTextField(object.chosenLanguage, "language"),
+        groupName: parseGenericTextField(object.groupName, "group name"),
+        numberOfPeople: parseGenericNumberField(object.maxNumberOfPeople, "number of people"),
+        groupAge: parseGenericTextField(object.groupAge, "group age"),
         paymentMethod: parsePaymentMethod(object.paymentMethod),
         time: parseTime(object.time),
         date: parseDate(object.date),
-        email: parseInfo(object.email),
-        groupInfo: parseInfo(object.groupInfo),
+        email: parseGenericTextField(object.email, "email"),
+        groupInfo: parseGenericTextField(object.groupInfo, "group info"),
         guide: {
             id: "",
             name: ""
@@ -294,7 +304,7 @@ export const toReservedTour = (object: any): Omit<ReservedTour, '_id' | 'museum'
     if(object.tourInfo) {
         return {
             ...tour,
-            tourInfo: parseInfo(object.tourInfo)
+            tourInfo: parseGenericTextField(object.tourInfo, "tour info")
         };
     }
 

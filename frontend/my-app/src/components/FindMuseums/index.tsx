@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { Museum } from '../../types'
-import { Image, Card, Button, Header, Grid, GridColumn, Container, CardContent } from 'semantic-ui-react'
+import { Image, Card, Button, Header, Grid, GridColumn, Container, CardContent, Input } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
 
 const FindMuseums: React.FC = () => {
@@ -16,9 +16,13 @@ const FindMuseums: React.FC = () => {
         if(!search) {
             setMuseums(Object.values(allMuseums));
         } else {
-            setMuseums(Object.values(allMuseums).filter((m: Museum) => m.museumName.includes(search)))
+            setMuseums(Object.values(allMuseums).filter((m: Museum) => m.museumName.toLocaleLowerCase().includes(search.toLocaleLowerCase())))
         }
     }, [search, allMuseums])
+
+    const changeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value)
+    }
 
     const toMuseum = (id: Museum['_id']) => {
         history.push(`/museum/${id}`)
@@ -37,6 +41,7 @@ const FindMuseums: React.FC = () => {
         <div>
             <Container textAlign='center'>
                 <Header>Löydä museoita</Header>
+                <Input placeholder="Hae museoita" onChange={changeSearch} />
                 {museums.slice(0 + page*10, 10 + page*10).map((m: Museum) => 
                     <div key={m._id}>
                         <Card centered>

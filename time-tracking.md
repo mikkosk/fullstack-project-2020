@@ -64,7 +64,8 @@
 |3.8.|3|finished adding the mapbox, started fixing tests|
 |4.8.|3|applied a way to handle mapboxes api key, fixed some more tests|
 |5.8.|3|fixed rest of test and started to clean up the code|
-Total: 154 hours 
+|6.8.|4|cleaned code, started to create a search bar|
+Total: 158 hours 
 
 
-(8cr)
+(9cr)

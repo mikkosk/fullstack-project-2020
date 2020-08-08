@@ -23,6 +23,7 @@
     "form-data": "^3.0.0",
     "formik": "^2.1.4",
     "mapbox-gl": "^1.11.1",
+    "mockdate": "^3.0.2",
     "moxios": "^0.4.0",
     "react": "^16.13.1",
     "react-datepicker": "^3.0.0",

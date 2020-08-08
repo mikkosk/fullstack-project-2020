@@ -1,6 +1,8 @@
 describe("tourPage", function() {
     beforeEach(function() {
         cy.request('POST', 'http://localhost:3001/api/test/reset')
+        const now = new Date(2020, 7, 8).getTime()
+        cy.clock(now)
     })
 
     afterEach(function() {

@@ -86,25 +86,21 @@ describe('reducers', () => {
             museums: []
     }
 
+    const payload: LoggedInUser = {
+        type: "Admin",
+        token: "token",
+        name: "Name",
+        username: "username",
+        passwordHash: "hash",
+        _id: "User",
+        museums: []
+    }
+
     test('LOGIN works correctly', () => {
-        const reducer = loginReducer(initialState, {type: "LOGIN", payload: {
-            type: "Admin",
-            token: "token",
-            name: "Name",
-            username: "username",
-            passwordHash: "hash",
-            _id: "User",
-            museums: []}
-        })
+        const reducer = loginReducer(initialState, {type: "LOGIN", payload})
 
         expect(reducer).toEqual({ 
-                type: "Admin",
-                token: "token",
-                name: "Name",
-                username: "username",
-                passwordHash: "hash",
-                _id: "User",
-                museums: []
+                ...payload
             }
         )
     })

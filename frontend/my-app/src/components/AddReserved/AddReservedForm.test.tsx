@@ -5,6 +5,7 @@ import Enzyme, {mount} from 'enzyme'
 import { GuidedTour, Museum } from '../../types'
 import { act } from 'react-dom/test-utils'
 import { initialState } from '../../../data/testData'
+import MockDate from 'mockdate'
 
 
 Enzyme.configure({adapter: new Adapter() })
@@ -26,6 +27,13 @@ function setup() {
         enzymeWrapper
     }
 }
+
+beforeAll(() => {
+    MockDate.set('2020-08-08')
+})
+afterAll(() => {
+    MockDate.reset()
+})
 
 describe('AddReservedForm', () => {
     

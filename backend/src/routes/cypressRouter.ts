@@ -256,10 +256,10 @@ router.post('/reset', async (_req, res) => {
     const museum1 = await new MuseumMon({...museumNoToursCy}).save();
     const museum2 = await new MuseumMon({...museumNoReservedCy, offeredTours: [tour1], reservedTours: [], userRequests: [guide1]}).save();
     const museum3 = await new MuseumMon({...museumReservedCy, offeredTours: [tour2], reservedTours: [reservedTour1, reservedTour2, reservedTour3], userRequests: [guide1]}).save();
-    /*const customer1 = */await new UserMon({...customerEmptyCy, museums: [], reservedTours: [], passwordHash: await bcrypt.hash(customerEmptyCy.password, 10)}).save();
-    /*const customer2 = */await new UserMon({...customerReservedCy, museums: [], reservedTours: [reservedTour1, reservedTour2], passwordHash: await bcrypt.hash(customerReservedCy.password, 10)}).save();
-    /*const admin1 = */await new UserMon({...admin1Cy, museums: [museum1], reservedTours: [], passwordHash: await bcrypt.hash(admin1Cy.password, 10)}).save();
-    /*const admin2 = */await new UserMon({...admin2Cy, museums: [museum2, museum3], reservedTours: [], passwordHash: await bcrypt.hash(admin2Cy.password, 10)}).save();
+    await new UserMon({...customerEmptyCy, museums: [], reservedTours: [], passwordHash: await bcrypt.hash(customerEmptyCy.password, 10)}).save();
+    await new UserMon({...customerReservedCy, museums: [], reservedTours: [reservedTour1, reservedTour2], passwordHash: await bcrypt.hash(customerReservedCy.password, 10)}).save();
+    await new UserMon({...admin1Cy, museums: [museum1], reservedTours: [], passwordHash: await bcrypt.hash(admin1Cy.password, 10)}).save();
+    await new UserMon({...admin2Cy, museums: [museum2, museum3], reservedTours: [], passwordHash: await bcrypt.hash(admin2Cy.password, 10)}).save();
     const guide2 = await new UserMon({...guideReservedCy, museums: [museum2, museum3], reservedTours: [reservedTour1, reservedTour2], passwordHash: await bcrypt.hash(guideReservedCy.password, 10)}).save();
     await ReservedMon.findByIdAndUpdate(reservedTour1._id, {guide: {name: guide2.name, id: guide2._id}, confirmed: true, museum: {name: museum3.museumName, id: museum3._id}});
     await ReservedMon.findByIdAndUpdate(reservedTour2._id, {guide: {name: guide2.name, id: guide2._id}, confirmed: true, museum: {name: museum3.museumName, id: museum3._id}});

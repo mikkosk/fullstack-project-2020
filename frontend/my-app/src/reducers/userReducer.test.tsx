@@ -30,6 +30,149 @@ const errorResp = {
     response: "Virhe"
 }
 
+const admin: UserAnyType = {
+    name: "One",
+    type: "Admin",
+    username: "One",
+    passwordHash: "One",
+    _id: "UserOne",
+    museums: []
+}
+
+const customer: UserAnyType = {
+    name: "Two",
+    type: "Customer",
+    username: "Two",
+    passwordHash: "Two",
+    _id: "UserTwo",
+    reservedTours: []
+}
+
+const newUser: NewUser = {
+    name: "Three",
+    type: "Customer",
+    username: "Three",
+    password: "Three",
+    languages: []
+}
+
+const newReservation: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'> = {
+    lengthInMinutes:3,
+    tourName:"Testi",
+    maxNumberOfPeople:2,
+    possibleLanguages: ["Kieli"],
+    price:2,
+    tourInfo:"Ei infoa saatavilla",
+    chosenLanguage:"Kieli",
+    groupName:"ryhmä",
+    numberOfPeople:1,
+    groupAge:"ikä",
+    paymentMethod:"Cash",
+    time:"04:00",
+    date: new Date(),
+    guide: {
+        id: "",
+        name: ""
+    },
+    museum: {
+        id: "",
+        name: ""
+    },
+    email:"Sähköposti",
+    groupInfo:"Info",
+}
+
+const reservationFull: ReservedTour = {
+    _id:"testi",
+    lengthInMinutes:3,
+    tourName:"Testi",
+    maxNumberOfPeople:2,
+    possibleLanguages: ["Kieli"],
+    price:2,
+    tourInfo:"Ei infoa saatavilla",
+    chosenLanguage:"Kieli",
+    groupName:"ryhmä",
+    numberOfPeople:1,
+    groupAge:"ikä",
+    paymentMethod:"Cash",
+    time:"04:00",
+    date: new Date(),
+    email:"Sähköposti",
+    groupInfo:"Info",
+    guide: {
+        id: "",
+        name: ""
+    },
+    museum: {
+        id: "",
+        name: ""
+    },
+    salary: 0,
+    confirmed: false
+}
+
+const initialMuseum: Museum = {
+    _id: "iidee",
+    museumName: "testi",
+    open: {
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00"
+    },
+    closed: {
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00"
+        
+    },
+    offeredTours:[],
+    openInfo: "Auki",
+    museumInfo: "Museo",
+    reservedTours:[],
+    userRequests:[],
+    long: 0,
+    lat: 0,
+    location: "location",
+    image: undefined   
+}
+
+const initialNewMuseum: NewMuseum = {
+    museumName: "testi",
+    open: {
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00"
+    },
+    closed: {
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00"
+        
+    },
+    openInfo: "Auki",
+    museumInfo: "Museo",
+    long: 0,
+    lat: 0,
+    location: "location",
+    image: undefined 
+}
+
 describe("User actions", () => {
 
     beforeEach(() => {
@@ -44,22 +187,8 @@ describe("User actions", () => {
         const initial: RootState = initialState
         const store = mockStoreCreator(initial)
         const response: UserAnyType[] = [
-            {
-                name: "One",
-                type: "Admin",
-                username: "One",
-                passwordHash: "One",
-                _id: "UserOne",
-                museums: []
-            }, 
-            {
-                name: "Two",
-                type: "Customer",
-                username: "Two",
-                passwordHash: "Two",
-                _id: "UserTwo",
-                reservedTours: []
-            }
+            admin, 
+            customer
         ]
 
         moxios.wait(() => {
@@ -99,13 +228,7 @@ describe("User actions", () => {
     test('addUser dispatches ADD_USER_SUCCESS and dispatches right user', async () => {
         const initial: RootState = initialState
         const store = mockStoreCreator(initial)
-        const response: NewUser = {
-            name: "Three",
-            type: "Customer",
-            username: "Three",
-            password: "Three",
-            languages: []
-        }
+        const response: NewUser = newUser
 
         const payload: UserAnyType = 
             {
@@ -136,13 +259,7 @@ describe("User actions", () => {
     test('error when calling addUser dispatches ADD_USER_ERROR', async () => {
         const initial: RootState = initialState
         const store = mockStoreCreator(initial)
-        const response: NewUser = {
-            name: "Three",
-            type: "Customer",
-            username: "Three",
-            password: "Three",
-            languages: []
-        }
+        const response: NewUser = newUser
 
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
@@ -160,14 +277,7 @@ describe("User actions", () => {
     test('updateUser dispatches UPDATE_USER_SUCCESS and return updated user', async () => {
         const initial: RootState = initialState;
         const store = mockStoreCreator(initial);
-        const response: NewUser = 
-            {
-                name: "Three",
-                type: "Customer",
-                username: "Three",
-                password: "Three",
-                languages: []
-            }
+        const response: NewUser = newUser
 
         const payload: UserAnyType = {
                 name: "Three",
@@ -197,14 +307,7 @@ describe("User actions", () => {
     test('error when calling updateUser dispatches UPDATE_USER_ERROR', async () => {
         const initial: RootState = initialState;
         const store = mockStoreCreator(initial);
-        const response: NewUser = 
-            {
-                name: "Three",
-                type: "Customer",
-                username: "Three",
-                password: "Three",
-                languages: []
-            }
+        const response: NewUser = newUser
 
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
@@ -340,68 +443,9 @@ describe("User actions", () => {
     test('addMuseum dispatches ADD_MUSEUM_SUCCESS and returns right museum', async () => {
         const initialState: RootState = initialStateEmptyMuseums
         const store = mockStoreCreator(initialState)
-        const response: Museum = 
-            {
-                _id: "iidee",
-                museumName: "testi",
-                open: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                },
-                closed: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                    
-                },
-                offeredTours:[],
-                openInfo: "Auki",
-                museumInfo: "Museo",
-                reservedTours:[],
-                userRequests:[],
-                long: 0,
-                lat: 0,
-                location: "location",
-                image: undefined   
-            }
+        const response: Museum = initialMuseum
 
-        const newMuseum: NewMuseum = {
-            museumName: "testi",
-            open: {
-                mon: "10:00",
-                tue: "10:00",
-                wed: "10:00",
-                thu: "10:00",
-                fri: "10:00",
-                sat: "10:00",
-                sun: "10:00"
-            },
-            closed: {
-                mon: "10:00",
-                tue: "10:00",
-                wed: "10:00",
-                thu: "10:00",
-                fri: "10:00",
-                sat: "10:00",
-                sun: "10:00"
-                
-            },
-            openInfo: "Auki",
-            museumInfo: "Museo",
-            long: 0,
-            lat: 0,
-            location: "location",
-            image: undefined 
-        }
+        const newMuseum: NewMuseum = initialNewMuseum 
 
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
@@ -423,34 +467,7 @@ describe("User actions", () => {
         const initialState: RootState = initialStateEmptyMuseums
         const store = mockStoreCreator(initialState)
 
-        const newMuseum: NewMuseum = {
-            museumName: "testi",
-            open: {
-                mon: "10:00",
-                tue: "10:00",
-                wed: "10:00",
-                thu: "10:00",
-                fri: "10:00",
-                sat: "10:00",
-                sun: "10:00"
-            },
-            closed: {
-                mon: "10:00",
-                tue: "10:00",
-                wed: "10:00",
-                thu: "10:00",
-                fri: "10:00",
-                sat: "10:00",
-                sun: "10:00"
-                
-            },
-            openInfo: "Auki",
-            museumInfo: "Museo",
-            long: 0,
-            lat: 0,
-            location: "location",
-            image: undefined 
-        }
+        const newMuseum: NewMuseum = initialNewMuseum
 
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
@@ -465,59 +482,6 @@ describe("User actions", () => {
         expect(actions[1].notification).toMatchObject(errorNotification)
     })
 
-    const newReservation: Omit<ReservedTour, '_id' | 'salary' | 'confirmed'> = {
-        lengthInMinutes:3,
-        tourName:"Testi",
-        maxNumberOfPeople:2,
-        possibleLanguages: ["Kieli"],
-        price:2,
-        tourInfo:"Ei infoa saatavilla",
-        chosenLanguage:"Kieli",
-        groupName:"ryhmä",
-        numberOfPeople:1,
-        groupAge:"ikä",
-        paymentMethod:"Cash",
-        time:"04:00",
-        date: new Date(),
-        guide: {
-            id: "",
-            name: ""
-        },
-        museum: {
-            id: "",
-            name: ""
-        },
-        email:"Sähköposti",
-        groupInfo:"Info",
-    }
-    const reservationFull: ReservedTour = {
-        _id:"testi",
-        lengthInMinutes:3,
-        tourName:"Testi",
-        maxNumberOfPeople:2,
-        possibleLanguages: ["Kieli"],
-        price:2,
-        tourInfo:"Ei infoa saatavilla",
-        chosenLanguage:"Kieli",
-        groupName:"ryhmä",
-        numberOfPeople:1,
-        groupAge:"ikä",
-        paymentMethod:"Cash",
-        time:"04:00",
-        date: new Date(),
-        email:"Sähköposti",
-        groupInfo:"Info",
-        guide: {
-            id: "",
-            name: ""
-        },
-        museum: {
-            id: "",
-            name: ""
-        },
-        salary: 0,
-        confirmed: false
-    }
 
     test('addReservation dispatches ADD_REESERVATION_SUCCESS and returns user with updated reservation', async () => {
         const store = mockStoreCreator(initialState)
@@ -716,37 +680,9 @@ describe('reducers', () => {
             passwordHash: "UserOne",
             type: "Admin", 
             _id: "UserOne",
-            museums:[{
-                _id: "iidee",
-                museumName: "muuttunut",
-                open: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                },
-                closed: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                    
-                },
-                offeredTours:[],
-                openInfo: "Auki",
-                museumInfo: "Museo",
-                reservedTours: [],
-                userRequests: [],
-                long: 0,
-                lat: 0,
-                location: "location"   
-            }]}, notification: 
+            museums:[
+                initialMuseum]}, 
+            notification: 
             {message: "", error: false}
         })
 
@@ -759,37 +695,7 @@ describe('reducers', () => {
                 passwordHash: "UserOne",
                 type: "Admin", 
                 _id: "UserOne",
-                museums:[{
-                    _id: "iidee",
-                    museumName: "muuttunut",
-                    open: {
-                        mon: "10:00",
-                        tue: "10:00",
-                        wed: "10:00",
-                        thu: "10:00",
-                        fri: "10:00",
-                        sat: "10:00",
-                        sun: "10:00"
-                    },
-                    closed: {
-                        mon: "10:00",
-                        tue: "10:00",
-                        wed: "10:00",
-                        thu: "10:00",
-                        fri: "10:00",
-                        sat: "10:00",
-                        sun: "10:00"
-                        
-                    },
-                    offeredTours:[],
-                    openInfo: "Auki",
-                    museumInfo: "Museo",
-                    reservedTours: [],
-                    userRequests: [],
-                    long: 0,
-                    lat: 0,
-                    location: "location"       
-                }]}
+                museums:[initialMuseum]}
             }, notification: {message: "", error: false}, finished: true
         }
         )
@@ -827,37 +733,7 @@ describe('reducers', () => {
         )
     })
     test('ADD_MUSEUM_SUCCESS works correctly', () => {
-        const museum = {
-            _id: "iidee",
-                    museumName: "testi",
-                    open: {
-                        mon: "10:00",
-                        tue: "10:00",
-                        wed: "10:00",
-                        thu: "10:00",
-                        fri: "10:00",
-                        sat: "10:00",
-                        sun: "10:00"
-                    },
-                    closed: {
-                        mon: "10:00",
-                        tue: "10:00",
-                        wed: "10:00",
-                        thu: "10:00",
-                        fri: "10:00",
-                        sat: "10:00",
-                        sun: "10:00"
-                        
-                    },
-                    offeredTours:[],
-                    openInfo: "Auki",
-                    museumInfo: "Museo",
-                    reservedTours: [],
-                    userRequests: [],
-                    long: 0,
-                    lat: 0,
-                    location: "location"     
-        }
+        const museum = initialMuseum
 
         const reducer = userReducer(initialStateNotEmpty, {type: "ADD_MUSEUM_SUCCESS", payload: 
             museum,
@@ -895,32 +771,7 @@ describe('reducers', () => {
         const userWithReservation = {
            ...initialStateNotEmpty.users["UserTwo"],
            reservedTours: [
-                {_id:"testi",
-                possibleLanguages:["Kieli"],
-                lengthInMinutes:3,
-                tourName:"Testi",
-                maxNumberOfPeople:2,
-                price:2,
-                tourInfo:"Ei infoa saatavilla",
-                chosenLanguage:"Kieli",
-                groupName:"ryhmä",
-                numberOfPeople:1,
-                groupAge:"ikä",
-                paymentMethod:"Cash" as const,
-                time:"03:00",
-                date: new Date(),
-                email:"Sähköposti",
-                guide: {
-                    id: "",
-                    name: ""
-                },
-                museum: {
-                    id: "",
-                    name: ""
-                },
-                groupInfo:"Info",
-                salary:0,
-                confirmed:false}
+                reservationFull
             ]
         }
         const reducer = userReducer(initialStateNotEmpty, {type: "ADD_RESERVATION_SUCCESS", payload: 

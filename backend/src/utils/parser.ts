@@ -65,84 +65,6 @@ const parseLatLong = (number: any): number => {
         throw new Error("Missing or invalid coordinate");
     }
 };
-/*
-const parseLocation = (location: any): string => {
-    try {
-        return parseGenericTextField(location);
-    } catch {
-        throw new Error("Missing or invalid location");
-    }
-};
-*/
-/*
-const parseImage = (image: any): string => {
-    try {
-        return parseGenericTextField(image);
-    } catch {
-        throw new Error("Missing or invalid image path");
-    }
-};
-*/
-/*
-const parseLanguage = (language: any): string => {
-    try {
-        const parsedLanguage = parseGenericTextField(language);
-        return parsedLanguage;
-    } catch {
-        throw new Error('Missing or invalid language');
-    }
-};
-*/
-/*
-const parseLength = (length: any): number => {
-    try {
-        const parsedLength = parseGenericNumberField(length);
-        return parsedLength;
-    } catch {
-        throw new Error('Missing or invalid length');
-    }
-};
-*/
-/*
-const parseName = (name: any): string => {
-    try {
-        const parsedName = parseGenericTextField(name);
-        return parsedName;
-    } catch {
-        throw new Error('Missing or invalid name' + name);
-    }
-};
-*/
-/*
-const parseNumberOfPeople = (number: any): number => {
-    try {
-        const parsedNumber = parseGenericNumberField(number);
-        return parsedNumber;
-    } catch {
-        throw new Error('Missing or invalid number of people');
-    }
-};
-*/
-/*
-const parsePrice = (price: any): number => {
-    try {
-        const parsedPrice = parseGenericNumberField(price);
-        return parsedPrice;
-    } catch {
-        throw new Error('Missing or invalid price');
-    }
-};
-*/
-/*
-const parseInfo = (info: any): string => {
-    try {
-        const parsedInfo = parseGenericTextField(info);
-        return parsedInfo;
-    } catch {
-        throw new Error('Missing or invalid info');
-    }
-};
-*/
 
 const parseLanguages = (languages: any): string[] => {
     if(!languages || !Array.isArray(languages)) {
@@ -172,16 +94,6 @@ const parseType = (type: any): "Customer" | "Admin" | "Guide" => {
     } 
     return type;
 };
-
-/*
-const parsePassword = (hash: any): string => {
-    try {
-        const parsedPassword = parseGenericTextField(hash);
-        return parsedPassword;
-    } catch {
-        throw new Error('Faulty password');
-    }
-};*/
 
 const parsePaymentMethod = (method: any): PaymentMethods => {
     if(!method || !isPaymentMethod(method)) {

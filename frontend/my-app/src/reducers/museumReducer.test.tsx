@@ -27,6 +27,77 @@ const errorResp = {
     response: "Virhe"
 }
 
+const initialPayload: Museum = {
+    _id: "iidee",
+    museumName: "testi",
+    open: {
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00"
+    },
+    closed: {
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00"
+        
+    },
+    offeredTours:[],
+    openInfo: "Auki",
+    museumInfo: "Museo",
+    reservedTours: [],
+    userRequests: [],
+    location: "location",
+    lat: 0,
+    long: 0
+}
+
+const guidedTourResponse: GuidedTour = {
+    lengthInMinutes: 2, 
+    maxNumberOfPeople:2, 
+    possibleLanguages: ["Two"],
+    price: 1, 
+    tourName: "Two", 
+    tourInfo: "Two", 
+    _id: "three"
+}
+
+const initialNewMuseum: NewMuseum =  {
+    museumName: "muuttunut",
+    open: {
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00"
+    },
+    closed: {
+        mon: "10:00",
+        tue: "10:00",
+        wed: "10:00",
+        thu: "10:00",
+        fri: "10:00",
+        sat: "10:00",
+        sun: "10:00"
+        
+    },
+    openInfo: "Auki",
+    museumInfo: "Museo",
+    location: "location",
+    lat: 0,
+    long: 0,
+    image: undefined
+}
+
 describe("Museum actions", () => {
 
     beforeEach(() => {
@@ -41,37 +112,7 @@ describe("Museum actions", () => {
         const initialState: RootState = initialStateEmpty
         const store = mockStoreCreator(initialState)
         const response: Museum[] = [
-            {
-                _id: "iidee",
-                museumName: "testi",
-                open: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                },
-                closed: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                    
-                },
-                offeredTours:[],
-                openInfo: "Auki",
-                museumInfo: "Museo",
-                reservedTours: [],
-                userRequests: [],
-                location: "location",
-                lat: 0,
-                long: 0   
-            }
+            initialPayload
         ]
 
         moxios.wait(() => {
@@ -121,48 +162,8 @@ describe("Museum actions", () => {
         const initialState: RootState = initialStateEmptyTours
         const museum: Museum = initialStateEmptyTours.museums.museums["iidee"]
         const store = mockStoreCreator(initialState)
-        const response: GuidedTour = {
-            lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["Two"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "three"
-        }
-        const payload: Museum = 
-            {
-                _id: "iidee",
-                museumName: "muuttunut",
-                open: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                },
-                closed: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                    
-                },
-                offeredTours:[response],
-                openInfo: "Auki",
-                museumInfo: "Museo",
-                reservedTours: [],
-                userRequests: [],
-                location: "location",
-                lat: 0,
-                long: 0     
-            }
-
+        const response: GuidedTour = guidedTourResponse
+        const payload: Museum = initialPayload
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
             request.respondWith({
@@ -183,16 +184,7 @@ describe("Museum actions", () => {
         const initialState: RootState = initialStateEmptyTours
         const museum: Museum = initialStateEmptyTours.museums.museums["iidee"]
         const store = mockStoreCreator(initialState)
-        const response: GuidedTour = {
-            lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["Two"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "three"
-        }
-
+        const response: GuidedTour = guidedTourResponse
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
             request.respondWith(errorResp)
@@ -211,67 +203,11 @@ describe("Museum actions", () => {
         const store = mockStoreCreator(initialState)
         const response: Museum = 
             {
-                _id: "iidee",
-                museumName: "muuttunut",
-                open: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                },
-                closed: {
-                    mon: "10:00",
-                    tue: "10:00",
-                    wed: "10:00",
-                    thu: "10:00",
-                    fri: "10:00",
-                    sat: "10:00",
-                    sun: "10:00"
-                    
-                },
-                offeredTours:[],
-                openInfo: "Auki",
-                museumInfo: "Museo",
-                reservedTours: [],
-                userRequests: [],
-                location: "location",
-                lat: 0,
-                long: 0,
-                image: undefined
+                ...initialPayload,
+                museumName: "muuttunut"
             }
 
-        const newMuseum: NewMuseum = 
-        {
-            museumName: "muuttunut",
-            open: {
-                mon: "10:00",
-                tue: "10:00",
-                wed: "10:00",
-                thu: "10:00",
-                fri: "10:00",
-                sat: "10:00",
-                sun: "10:00"
-            },
-            closed: {
-                mon: "10:00",
-                tue: "10:00",
-                wed: "10:00",
-                thu: "10:00",
-                fri: "10:00",
-                sat: "10:00",
-                sun: "10:00"
-                
-            },
-            openInfo: "Auki",
-            museumInfo: "Museo",
-            location: "location",
-            lat: 0,
-            long: 0,
-            image: undefined
-        }
+        const newMuseum: NewMuseum = initialNewMuseum
 
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
@@ -293,35 +229,8 @@ describe("Museum actions", () => {
         const initialState: RootState = initialStateEmptyTours
         const store = mockStoreCreator(initialState)
 
-        const newMuseum: NewMuseum = 
-        {
-            museumName: "muuttunut",
-            open: {
-                mon: "10:00",
-                tue: "10:00",
-                wed: "10:00",
-                thu: "10:00",
-                fri: "10:00",
-                sat: "10:00",
-                sun: "10:00"
-            },
-            closed: {
-                mon: "10:00",
-                tue: "10:00",
-                wed: "10:00",
-                thu: "10:00",
-                fri: "10:00",
-                sat: "10:00",
-                sun: "10:00"
-                
-            },
-            openInfo: "Auki",
-            museumInfo: "Museo",
-            location: "location",
-            lat: 0,
-            long: 0,
-            image: undefined
-        }
+        const newMuseum: NewMuseum = initialNewMuseum
+        
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
             request.respondWith(errorResp)

@@ -65,7 +65,9 @@
 |4.8.|3|applied a way to handle mapboxes api key, fixed some more tests|
 |5.8.|3|fixed rest of test and started to clean up the code|
 |6.8.|4|cleaned code, started to create a search bar|
-Total: 158 hours 
+|7.8.|4|completed search bar, mocked the date on tests, started cleaning up some tests|
+|9.8.|3|cleaned some more code|
+Total: 164 hours 
 
 
 (9cr)

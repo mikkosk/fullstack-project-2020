@@ -270,7 +270,7 @@ var guideReservedCy = {
     languages: ["Suomi"]
 };
 router.post('/reset', function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var tour1, tour2, reservedTour1, reservedTour2, reservedTour3, guide1, _a, _b, _c, museum1, museum2, museum3, customer1, _d, _e, _f, customer2, _g, _h, _j, admin1, _k, _l, _m, admin2, _o, _p, _q, guide2, _r, _s, _t;
+    var tour1, tour2, reservedTour1, reservedTour2, reservedTour3, guide1, _a, _b, _c, museum1, museum2, museum3, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, guide2, _r, _s, _t;
     return __generator(this, function (_u) {
         switch (_u.label) {
             case 0: return [4 /*yield*/, user_1.default.deleteMany({})];
@@ -322,28 +322,28 @@ router.post('/reset', function (_req, res) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, bcrypt_1.default.hash(customerEmptyCy.password, 10)];
             case 15: return [4 /*yield*/, new (_d.apply(user_1.default, [void 0, __assign.apply(void 0, _e.concat([(_f.passwordHash = _u.sent(), _f)]))]))().save()];
             case 16:
-                customer1 = _u.sent();
+                _u.sent();
                 _g = user_1.default.bind;
                 _h = [__assign({}, customerReservedCy)];
                 _j = { museums: [], reservedTours: [reservedTour1, reservedTour2] };
                 return [4 /*yield*/, bcrypt_1.default.hash(customerReservedCy.password, 10)];
             case 17: return [4 /*yield*/, new (_g.apply(user_1.default, [void 0, __assign.apply(void 0, _h.concat([(_j.passwordHash = _u.sent(), _j)]))]))().save()];
             case 18:
-                customer2 = _u.sent();
+                _u.sent();
                 _k = user_1.default.bind;
                 _l = [__assign({}, admin1Cy)];
                 _m = { museums: [museum1], reservedTours: [] };
                 return [4 /*yield*/, bcrypt_1.default.hash(admin1Cy.password, 10)];
             case 19: return [4 /*yield*/, new (_k.apply(user_1.default, [void 0, __assign.apply(void 0, _l.concat([(_m.passwordHash = _u.sent(), _m)]))]))().save()];
             case 20:
-                admin1 = _u.sent();
+                _u.sent();
                 _o = user_1.default.bind;
                 _p = [__assign({}, admin2Cy)];
                 _q = { museums: [museum2, museum3], reservedTours: [] };
                 return [4 /*yield*/, bcrypt_1.default.hash(admin2Cy.password, 10)];
             case 21: return [4 /*yield*/, new (_o.apply(user_1.default, [void 0, __assign.apply(void 0, _p.concat([(_q.passwordHash = _u.sent(), _q)]))]))().save()];
             case 22:
-                admin2 = _u.sent();
+                _u.sent();
                 _r = user_1.default.bind;
                 _s = [__assign({}, guideReservedCy)];
                 _t = { museums: [museum2, museum3], reservedTours: [reservedTour1, reservedTour2] };

@@ -22,6 +22,35 @@ const errorResp = {
     status: 500,
     response: "Virhe"
 }
+const tour1: GuidedTour = {
+    lengthInMinutes: 2, 
+    maxNumberOfPeople:2, 
+    possibleLanguages: ["Two"],
+    price: 1, 
+    tourName: "Two", 
+    tourInfo: "Two", 
+    _id: "three"
+}
+
+const tour2: GuidedTour = {
+    lengthInMinutes: 2, 
+    maxNumberOfPeople:2, 
+    possibleLanguages: ["Two"],
+    price: 1, 
+    tourName: "Two", 
+    tourInfo: "Two", 
+    _id: "two"
+}
+
+const updatedTour: GuidedTour = {
+    lengthInMinutes: 2, 
+    maxNumberOfPeople:2, 
+    possibleLanguages: ["One"],
+    price: 1, 
+    tourName: "Two", 
+    tourInfo: "Two", 
+    _id: "three"
+}
 
 describe("Tour actions", () => {
 
@@ -37,20 +66,8 @@ describe("Tour actions", () => {
         const initialState: RootState = initialStateEmpty
         const store = mockStoreCreator(initialState)
         const response: GuidedTour[] = [
-                {lengthInMinutes: 2, 
-                maxNumberOfPeople:2, 
-                possibleLanguages: ["Two"],
-                price: 1, 
-                tourName: "Two", 
-                tourInfo: "Two", 
-                _id: "three"},
-                {lengthInMinutes: 2, 
-                maxNumberOfPeople:2, 
-                possibleLanguages: ["Two"],
-                price: 1, 
-                tourName: "Two", 
-                tourInfo: "Two", 
-                _id: "two"}
+                tour1,
+                tour2
         ]
 
         moxios.wait(() => {
@@ -90,14 +107,7 @@ describe("Tour actions", () => {
     test('updateTour dispatches UPDATE_TOUR_SUCCESS and return updated tour', async () => {
         const initial: RootState = initialState;
         const store = mockStoreCreator(initial);
-        const response: GuidedTour = 
-                {lengthInMinutes: 2, 
-                maxNumberOfPeople:2, 
-                possibleLanguages: ["One"],
-                price: 1, 
-                tourName: "Two", 
-                tourInfo: "Two", 
-                _id: "three"}
+        const response: GuidedTour = tour1
 
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
@@ -118,14 +128,7 @@ describe("Tour actions", () => {
     test('error when calling updateTour dispatches UPDATE_TOUR_ERROR and returns right message', async () => {
         const initial: RootState = initialState;
         const store = mockStoreCreator(initial);
-        const response: GuidedTour = 
-                {lengthInMinutes: 2, 
-                maxNumberOfPeople:2, 
-                possibleLanguages: ["One"],
-                price: 1, 
-                tourName: "Two", 
-                tourInfo: "Two", 
-                _id: "three"}
+        const response: GuidedTour = updatedTour
 
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
@@ -157,13 +160,7 @@ describe('reducers', () => {
         finished: true,
         tours: {
             "three":
-            {lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["Two"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "three"}
+            {...tour1}
         },
         notification: {
             message: "",
@@ -173,13 +170,7 @@ describe('reducers', () => {
 
     test('GET_ALL_TOURS works correctly', () => {
         const reducer = tourReducer(initialState, {type: "GET_ALL_TOURS_SUCCESS", payload: [
-            {lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["Two"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "three"}
+            {...tour1}
         ],
             notification: {
                 message: "Success",
@@ -191,13 +182,7 @@ describe('reducers', () => {
             finished: true,
             tours: {
                     "three":
-                    {lengthInMinutes: 2, 
-                    maxNumberOfPeople:2, 
-                    possibleLanguages: ["Two"],
-                    price: 1, 
-                    tourName: "Two", 
-                    tourInfo: "Two", 
-                    _id: "three"}
+                    {...tour1}
             },
             notification: {
                 message: "Success",
@@ -220,13 +205,7 @@ describe('reducers', () => {
 
     test('UPDATE_TOUR works correctly', () => {
         const reducer = tourReducer(initialStateNotEmpty, {type: "UPDATE_TOUR_SUCCESS", payload: 
-            {lengthInMinutes: 2, 
-            maxNumberOfPeople:2, 
-            possibleLanguages: ["One"],
-            price: 1, 
-            tourName: "Two", 
-            tourInfo: "Two", 
-            _id: "three"},
+            {...updatedTour},
             notification: {
                 message: "Success",
                 error: false
@@ -237,13 +216,7 @@ describe('reducers', () => {
             finished: true,
             tours: {
                     "three":
-                    {lengthInMinutes: 2, 
-                    maxNumberOfPeople:2, 
-                    possibleLanguages: ["One"],
-                    price: 1, 
-                    tourName: "Two", 
-                    tourInfo: "Two", 
-                    _id: "three"}
+                    {...updatedTour}
             },
             notification: {
                 message: "Success",

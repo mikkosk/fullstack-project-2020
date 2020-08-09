@@ -46,15 +46,15 @@ var isType = function (type) {
 var isPaymentMethod = function (method) {
     return method === "Cash" || method == "Card" || method === "Bill" || method === "Other";
 };
-var parseGenericTextField = function (text) {
+var parseGenericTextField = function (text, error) {
     if (!text || !isString(text)) {
-        throw new Error();
+        throw new Error('Missing or invalid ' + error);
     }
     return text;
 };
-var parseGenericNumberField = function (number) {
+var parseGenericNumberField = function (number, error) {
     if (!number || !isNumber(number)) {
-        throw new Error();
+        throw new Error('Missing or invalid ' + error);
     }
     return number;
 };
@@ -66,81 +66,11 @@ var parseLatLong = function (number) {
         throw new Error("Missing or invalid coordinate");
     }
 };
-var parseLocation = function (location) {
-    try {
-        return parseGenericTextField(location);
-    }
-    catch (_a) {
-        throw new Error("Missing or invalid location");
-    }
-};
-var parseImage = function (image) {
-    try {
-        return parseGenericTextField(image);
-    }
-    catch (_a) {
-        throw new Error("Missing or invalid image path");
-    }
-};
-var parseLanguage = function (language) {
-    try {
-        var parsedLanguage = parseGenericTextField(language);
-        return parsedLanguage;
-    }
-    catch (_a) {
-        throw new Error('Missing or invalid language');
-    }
-};
-var parseLength = function (length) {
-    try {
-        var parsedLength = parseGenericNumberField(length);
-        return parsedLength;
-    }
-    catch (_a) {
-        throw new Error('Missing or invalid length');
-    }
-};
-var parseName = function (name) {
-    try {
-        var parsedName = parseGenericTextField(name);
-        return parsedName;
-    }
-    catch (_a) {
-        throw new Error('Missing or invalid name' + name);
-    }
-};
-var parseNumberOfPeople = function (number) {
-    try {
-        var parsedNumber = parseGenericNumberField(number);
-        return parsedNumber;
-    }
-    catch (_a) {
-        throw new Error('Missing or invalid number of people');
-    }
-};
-var parsePrice = function (price) {
-    try {
-        var parsedPrice = parseGenericNumberField(price);
-        return parsedPrice;
-    }
-    catch (_a) {
-        throw new Error('Missing or invalid price');
-    }
-};
-var parseInfo = function (info) {
-    try {
-        var parsedInfo = parseGenericTextField(info);
-        return parsedInfo;
-    }
-    catch (_a) {
-        throw new Error('Missing or invalid info');
-    }
-};
 var parseLanguages = function (languages) {
     if (!languages || !Array.isArray(languages)) {
         throw new Error('Incorrect or missing list of languages');
     }
-    languages.forEach(function (l) { return parseLanguage(l); });
+    languages.forEach(function (l) { return parseGenericTextField(l, "language"); });
     return languages;
 };
 var parseTime = function (time) {
@@ -161,15 +91,6 @@ var parseType = function (type) {
     }
     return type;
 };
-var parsePassword = function (hash) {
-    try {
-        var parsedPassword = parseGenericTextField(hash);
-        return parsedPassword;
-    }
-    catch (_a) {
-        throw new Error('Faulty password');
-    }
-};
 var parsePaymentMethod = function (method) {
     if (!method || !isPaymentMethod(method)) {
         throw new Error('Incorrect or missing payment method');
@@ -179,13 +100,13 @@ var parsePaymentMethod = function (method) {
 exports.toNewTour = function (object) {
     var newTour = {
         possibleLanguages: parseLanguages(object.possibleLanguages),
-        lengthInMinutes: parseLength(object.lengthInMinutes),
-        tourName: parseName(object.tourName),
-        maxNumberOfPeople: parseNumberOfPeople(object.maxNumberOfPeople),
-        price: parsePrice(object.price),
+        lengthInMinutes: parseGenericNumberField(object.lengthInMinutes, "length"),
+        tourName: parseGenericTextField(object.tourName, "tour name"),
+        maxNumberOfPeople: parseGenericNumberField(object.maxNumberOfPeople, "number of people"),
+        price: parseGenericNumberField(object.price, "price"),
     };
     if (object.tourInfo) {
-        return __assign(__assign({}, newTour), { tourInfo: parseInfo(object.tourInfo) });
+        return __assign(__assign({}, newTour), { tourInfo: parseGenericTextField(object.tourInfo, "tour info") });
     }
     else {
         return newTour;
@@ -193,7 +114,7 @@ exports.toNewTour = function (object) {
 };
 exports.toNewMuseum = function (object) {
     var newMuseum = {
-        museumName: parseName(object.museumName),
+        museumName: parseGenericTextField(object.museumName, "museum name"),
         open: {
             mon: parseTime(object.open.mon),
             tue: parseTime(object.open.tue),
@@ -212,27 +133,27 @@ exports.toNewMuseum = function (object) {
             sat: parseTime(object.closed.sat),
             sun: parseTime(object.closed.sun)
         },
-        location: parseLocation(object.location),
+        location: parseGenericTextField(object.location, "location"),
         lat: parseLatLong(object.lat),
         long: parseLatLong(object.long)
     };
     if (object.openInfo) {
-        newMuseum = __assign(__assign({}, newMuseum), { openInfo: parseInfo(object.openInfo) });
+        newMuseum = __assign(__assign({}, newMuseum), { openInfo: parseGenericTextField(object.openInfo, "open info") });
     }
     if (object.museumInfo) {
-        newMuseum = __assign(__assign({}, newMuseum), { museumInfo: parseInfo(object.museumInfo) });
+        newMuseum = __assign(__assign({}, newMuseum), { museumInfo: parseGenericTextField(object.museumInfo, "museum info") });
     }
     if (object.image) {
-        newMuseum = __assign(__assign({}, newMuseum), { image: parseImage(object.image) });
+        newMuseum = __assign(__assign({}, newMuseum), { image: parseGenericTextField(object.image, "image path") });
     }
     return newMuseum;
 };
 exports.toNewUser = function (object) {
     var newUser = {
         type: parseType(object.type),
-        name: parseName(object.name),
-        username: parseName(object.username),
-        password: parsePassword(object.password),
+        name: parseGenericTextField(object.name, "name"),
+        username: parseGenericTextField(object.username, "username"),
+        password: parseGenericTextField(object.password, "password"),
         languages: []
     };
     if (newUser.type === "Guide" && object.languages) {
@@ -243,19 +164,19 @@ exports.toNewUser = function (object) {
 exports.toReservedTour = function (object) {
     var tour = {
         possibleLanguages: parseLanguages(object.possibleLanguages),
-        lengthInMinutes: parseLength(object.lengthInMinutes),
-        tourName: parseName(object.tourName),
-        maxNumberOfPeople: parseNumberOfPeople(object.maxNumberOfPeople),
-        price: parsePrice(object.price),
-        chosenLanguage: parseLanguage(object.chosenLanguage),
-        groupName: parseName(object.groupName),
-        numberOfPeople: parseNumberOfPeople(object.numberOfPeople),
-        groupAge: parseInfo(object.groupAge),
+        lengthInMinutes: parseGenericNumberField(object.lengthInMinutes, "length"),
+        tourName: parseGenericTextField(object.tourName, "tour name"),
+        maxNumberOfPeople: parseGenericNumberField(object.maxNumberOfPeople, "max number of people"),
+        price: parseGenericNumberField(object.price, "price"),
+        chosenLanguage: parseGenericTextField(object.chosenLanguage, "language"),
+        groupName: parseGenericTextField(object.groupName, "group name"),
+        numberOfPeople: parseGenericNumberField(object.maxNumberOfPeople, "number of people"),
+        groupAge: parseGenericTextField(object.groupAge, "group age"),
         paymentMethod: parsePaymentMethod(object.paymentMethod),
         time: parseTime(object.time),
         date: parseDate(object.date),
-        email: parseInfo(object.email),
-        groupInfo: parseInfo(object.groupInfo),
+        email: parseGenericTextField(object.email, "email"),
+        groupInfo: parseGenericTextField(object.groupInfo, "group info"),
         guide: {
             id: "",
             name: ""
@@ -264,7 +185,7 @@ exports.toReservedTour = function (object) {
         confirmed: false
     };
     if (object.tourInfo) {
-        return __assign(__assign({}, tour), { tourInfo: parseInfo(object.tourInfo) });
+        return __assign(__assign({}, tour), { tourInfo: parseGenericTextField(object.tourInfo, "tour info") });
     }
     return tour;
 };

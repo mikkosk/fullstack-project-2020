@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/api/key'
+const baseUrl = 'https://obscure-retreat-23913.herokuapp.com/api/key'
 
 const getKey = async (): Promise<string> => {
     const res = await axios.get(baseUrl)

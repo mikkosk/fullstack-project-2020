@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { LoggedInUser } from '../types'
 
-const baseUrl = 'http://localhost:3001/api/login'
+const baseUrl = 'https://obscure-retreat-23913.herokuapp.com/api/login'
 
 const login = async (username: string, password: string): Promise<LoggedInUser> => {
     const res = await axios.post(baseUrl, {username, password})

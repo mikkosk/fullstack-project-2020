@@ -2,7 +2,7 @@ import axios from 'axios'
 import { UserAnyType, NewUser, ReservedTour } from '../types'
 import authenticationHelper from '../utils/authenticationHelper'
 
-const baseUrl = 'http://localhost:3001/api/user'
+const baseUrl = 'https://obscure-retreat-23913.herokuapp.com/api/user'
 
 const getAll = async (): Promise<UserAnyType[]> => {
     const res = await axios.get(baseUrl)

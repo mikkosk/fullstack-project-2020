@@ -2,7 +2,7 @@ import axios from 'axios'
 import { GuidedTour, NewTour, AddTourPayload } from '../types'
 import authenticationHelper from '../utils/authenticationHelper'
 
-const baseUrl = 'http://localhost:3001/api/tour'
+const baseUrl = 'https://obscure-retreat-23913.herokuapp.com/api/tour'
 
 const getAll = async (): Promise<GuidedTour[]> => {
     const res = await axios.get(baseUrl)

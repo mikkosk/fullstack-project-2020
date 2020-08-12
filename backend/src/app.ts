@@ -9,6 +9,7 @@ import userRouter from './routes/userRouter';
 import loginRouter from './routes/loginRouter';
 import cypressRouter from './routes/cypressRouter';
 import keyRouter from './routes/keyRouter';
+import path from 'path';
 
 mongoose.set('useCreateIndex', true);
 let MONGODB_URI = process.env.MONGODB_URI;
@@ -31,7 +32,7 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static('build'));
+app.use(express.static('frontend'));
 app.use('/uploads', express.static('uploads'));
 app.use('/api/tour', toursRouter);
 app.use('/api/museum', museumRouter);
@@ -39,7 +40,7 @@ app.use('/api/user', userRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/key', keyRouter);
 app.get('/*', function(req, res) {
-  res.sendFile('build/index.html', function(err) {
+  res.sendFile(path.join(__dirname, '/../frontend/index.html'), function(err) {
     if (err) {
       res.status(500).send(err);
     }

@@ -9,6 +9,7 @@ import userRouter from './routes/userRouter';
 import loginRouter from './routes/loginRouter';
 import cypressRouter from './routes/cypressRouter';
 import keyRouter from './routes/keyRouter';
+import path from 'path';
 
 mongoose.set('useCreateIndex', true);
 let MONGODB_URI = process.env.MONGODB_URI;
@@ -32,6 +33,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static('build'));
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, 'index.html'));
+});
 app.use('/uploads', express.static('uploads'));
 app.use('/api/tour', toursRouter);
 app.use('/api/museum', museumRouter);

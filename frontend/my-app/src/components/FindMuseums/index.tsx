@@ -48,7 +48,7 @@ const FindMuseums: React.FC = () => {
                             <Card.Content header={m.museumName} />
                             {m.image && 
                             <CardContent>
-                                <Image src={`http://localhost:3001/uploads/${m.image}`} size="small"/>
+                                <Image src={`/uploads/${m.image}`} size="small"/>
                             </CardContent>}
                             <Card.Content description={m.museumInfo} />
                             <Card.Content extra>

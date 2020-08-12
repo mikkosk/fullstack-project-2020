@@ -118,7 +118,7 @@ const MuseumCustomerPage: React.FC<{museum: Museum, user: UserAnyType}> = ({muse
                                 <Header>{museum.museumName}</Header>
                             </GridRow>
                             <GridRow centered>
-                                {museum.image && <Image src={`http://localhost:3001/uploads/${museum.image}`} />}
+                                {museum.image && <Image src={`/uploads/${museum.image}`} />}
                                 {!museum.image && <Label> Ei kuvaa saatavilla</Label>} 
                             </GridRow>
                             <GridRow centered>

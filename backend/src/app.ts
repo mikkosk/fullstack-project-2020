@@ -45,6 +45,7 @@ app.get('/*', function(req, res) {
     }
   });
 });
+
 if(process.env.NODE_ENV === 'test') {
   app.use('/api/test', cypressRouter);
 }

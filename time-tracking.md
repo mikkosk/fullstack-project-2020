@@ -68,7 +68,8 @@
 |7.8.|4|completed search bar, mocked the date on tests, started cleaning up some tests|
 |9.8.|3|cleaned some more code|
 |10.8.|3|ctrying to get heroku to work|
-Total: 167 hours 
+|11.8.|5|battling with heroku, almost everything done|
+Total: 172 hours 
 
 
 (9cr)

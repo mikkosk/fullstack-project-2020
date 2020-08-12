@@ -13,7 +13,6 @@ import path from 'path';
 
 mongoose.set('useCreateIndex', true);
 let MONGODB_URI = process.env.MONGODB_URI;
-
 if(process.env.NODE_ENV === 'test') {
     MONGODB_URI = process.env.TEST_MONGODB_URI;
 }
@@ -40,7 +39,7 @@ app.use('/api/user', userRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/key', keyRouter);
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '/../frontend/index.html'), function(err) {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'), function(err) {
     if (err) {
       res.status(500).send(err);
     }

@@ -30,19 +30,22 @@ mongoose_1.default.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopol
     console.log('error connection to MongoDB:', error.message);
 });
 var app = express_1.default();
-console.log(__dirname)
 app.use(express_1.default.json());
 app.use(cors_1.default());
-app.use(express_1.default.static('build'));
-app.get('*', function (request, response) {
-    response.sendFile(path_1.default.resolve(__dirname, 'yolo.html'));
-});
+app.use(express_1.default.static('frontend'));
 app.use('/uploads', express_1.default.static('uploads'));
 app.use('/api/tour', toursRouter_1.default);
 app.use('/api/museum', museumRouter_1.default);
 app.use('/api/user', userRouter_1.default);
 app.use('/api/login', loginRouter_1.default);
 app.use('/api/key', keyRouter_1.default);
+app.get('/*', function (req, res) {
+    res.sendFile(path_1.default.join(__dirname, '../frontend/index.html'), function (err) {
+        if (err) {
+            res.status(500).send(err);
+        }
+    });
+});
 if (process.env.NODE_ENV === 'test') {
     app.use('/api/test', cypressRouter_1.default);
 }

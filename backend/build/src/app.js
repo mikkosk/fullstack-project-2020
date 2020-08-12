@@ -31,6 +31,7 @@ mongoose_1.default.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopol
 var app = express_1.default();
 app.use(express_1.default.json());
 app.use(cors_1.default());
+app.use(express_1.default.static('build'));
 app.use('/uploads', express_1.default.static('uploads'));
 app.use('/api/tour', toursRouter_1.default);
 app.use('/api/museum', museumRouter_1.default);

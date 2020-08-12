@@ -3,7 +3,7 @@ import { Museum, NewMuseum } from '../types'
 import authenticationHelper from '../utils/authenticationHelper'
 import FormData from 'form-data'
 
-const baseUrl = 'https://obscure-retreat-23913.herokuapp.com/api/museum'
+const baseUrl = '/api/museum'
 
 const getAll = async (): Promise<Museum[]> => {
     const res = await axios.get(baseUrl)

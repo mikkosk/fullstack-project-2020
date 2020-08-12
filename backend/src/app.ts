@@ -31,6 +31,7 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(express.static('build'));
 app.use('/uploads', express.static('uploads'));
 app.use('/api/tour', toursRouter);
 app.use('/api/museum', museumRouter);

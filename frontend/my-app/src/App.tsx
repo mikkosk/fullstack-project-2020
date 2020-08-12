@@ -36,18 +36,18 @@ function App() {
   return (
     <div>
       <Router>
-        <Container textAlign="center">
-          <LogoutBar />
-          <NotificationBar />
-          <Switch>
-            <Route path="/login" render={() => <LoginPage />}/>
-            <Route path="/museum/:museumid/tour/:tourid" render={() => <TourPage />}/>
-            <Route path="/museum/:id" render={() => <MuseumPage />}/>
-            <Route path="/user/" render={() => <UserPage />}/>
-            <Route path="/find/museums" render={() => <FindMuseums />}/>
-            <Route path="/reservation/:id" render={() => <ReservationPage/>}/>
-          </Switch>
-        </Container>
+          <Container textAlign="center">
+            <LogoutBar />
+            <NotificationBar />
+            <Switch>
+              <Route path="/login" render={() => <LoginPage />}/>
+              <Route path="/museum/:museumid/tour/:tourid" render={() => <TourPage />}/>
+              <Route path="/museum/:id" render={() => <MuseumPage />}/>
+              <Route path="/user/" render={() => <UserPage />}/>
+              <Route path="/find/museums" render={() => <FindMuseums />}/>
+              <Route path="/reservation/:id" render={() => <ReservationPage/>}/>
+            </Switch>
+          </Container>
       </Router>
     </div>
   );

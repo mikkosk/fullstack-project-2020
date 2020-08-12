@@ -33,15 +33,19 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static('build'));
-app.get('*', function (request, response){
-  response.sendFile(path.resolve(__dirname, 'index.html'));
-});
 app.use('/uploads', express.static('uploads'));
 app.use('/api/tour', toursRouter);
 app.use('/api/museum', museumRouter);
 app.use('/api/user', userRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/key', keyRouter);
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, '../build/index.html'), function(err) {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
 if(process.env.NODE_ENV === 'test') {
   app.use('/api/test', cypressRouter);
 }

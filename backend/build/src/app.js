@@ -13,6 +13,7 @@ var userRouter_1 = __importDefault(require("./routes/userRouter"));
 var loginRouter_1 = __importDefault(require("./routes/loginRouter"));
 var cypressRouter_1 = __importDefault(require("./routes/cypressRouter"));
 var keyRouter_1 = __importDefault(require("./routes/keyRouter"));
+var path_1 = __importDefault(require("path"));
 mongoose_1.default.set('useCreateIndex', true);
 var MONGODB_URI = process.env.MONGODB_URI;
 if (process.env.NODE_ENV === 'test') {
@@ -32,6 +33,9 @@ var app = express_1.default();
 app.use(express_1.default.json());
 app.use(cors_1.default());
 app.use(express_1.default.static('build'));
+app.get('*', function (request, response) {
+    response.sendFile(path_1.default.resolve(__dirname, 'index.html'));
+});
 app.use('/uploads', express_1.default.static('uploads'));
 app.use('/api/tour', toursRouter_1.default);
 app.use('/api/museum', museumRouter_1.default);

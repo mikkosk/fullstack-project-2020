@@ -41,7 +41,7 @@ app.use('/api/login', loginRouter);
 app.use('/api/key', keyRouter);
 app.get('/*', function(req, res) {
   console.log(path.join(__dirname, '/../build/index.html'));
-  res.sendFile(path.join(__dirname, '/build/index.html'), function(err) {
+  res.sendFile(path.join(__dirname, '/../../build/index.html'), function(err) {
     if (err) {
       res.status(500).send(err);
     }

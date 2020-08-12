@@ -230,7 +230,7 @@ describe("Museum actions", () => {
         const store = mockStoreCreator(initialState)
 
         const newMuseum: NewMuseum = initialNewMuseum
-        
+
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
             request.respondWith(errorResp)
@@ -249,7 +249,7 @@ describe("Museum actions", () => {
 
         const store = mockStoreCreator(initialState)
         
-        moxios.stubRequest('http://localhost:3001/api/museum/iidee', {
+        moxios.stubRequest('/api/museum/iidee', {
             status: 200,
           })
         
@@ -281,7 +281,7 @@ describe("Museum actions", () => {
     test('deleteTour dispatches DELETE_TOUR_SUCCESS and returns 200', async () => {
         const store = mockStoreCreator(initialState)
         
-        moxios.stubRequest('http://localhost:3001/api/tour/three/museum/iidee', {
+        moxios.stubRequest('/api/tour/three/museum/iidee', {
             status: 200,
           })
         

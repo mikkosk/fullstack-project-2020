@@ -411,7 +411,7 @@ describe("User actions", () => {
 
         const store = mockStoreCreator(initial)
         
-        moxios.stubRequest('http://localhost:3001/api/user/UserOne', {
+        moxios.stubRequest('/api/user/UserOne', {
             status: 200,
           })
         

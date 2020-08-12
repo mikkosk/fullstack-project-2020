@@ -30,6 +30,7 @@ mongoose_1.default.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopol
     console.log('error connection to MongoDB:', error.message);
 });
 var app = express_1.default();
+console.log(__dirname)
 app.use(express_1.default.json());
 app.use(cors_1.default());
 app.use(express_1.default.static('build'));

@@ -40,7 +40,7 @@ app.use('/api/user', userRouter_1.default);
 app.use('/api/login', loginRouter_1.default);
 app.use('/api/key', keyRouter_1.default);
 app.get('/*', function (req, res) {
-    res.sendFile(path_1.default.join(__dirname, '../frontend/index.html'), function (err) {
+    res.sendFile(path_1.default.join(__dirname, '../../frontend/index.html'), function (err) {
         if (err) {
             res.status(500).send(err);
         }

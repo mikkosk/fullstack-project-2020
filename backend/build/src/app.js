@@ -35,7 +35,7 @@ app.use(express_1.default.json());
 app.use(cors_1.default());
 app.use(express_1.default.static('build'));
 app.get('*', function (request, response) {
-    response.sendFile(path_1.default.resolve(__dirname, 'index.html'));
+    response.sendFile(path_1.default.resolve(__dirname, 'yolo.html'));
 });
 app.use('/uploads', express_1.default.static('uploads'));
 app.use('/api/tour', toursRouter_1.default);

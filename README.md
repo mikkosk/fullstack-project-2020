@@ -1,5 +1,5 @@
 # Museum tour reservation software
-### TypeScript + NodeJS + MongoDB
+### React + NodeJS + MongoDB
 
 This project allows museums to add their guided tours to be reserved by 
 
@@ -13,6 +13,7 @@ Running at https://obscure-retreat-23913.herokuapp.com/find/museums
 
 Guides for running the code locally are found in respective folders of backend and frontend.
 
+---
 
 **For quick testing of the site the following accounts are already created (both the username and password are the same):**
 
@@ -24,10 +25,24 @@ Opas2
 
 Ylläpitäjä
 
+---
 
 ### Course project for Open University of Helsinki
 
 [Link to time-tracking for the project](https://github.com/mikkosk/fullstack-project-2020/blob/master/time-tracking.md)
 
+---
 
 ### Example photos
+
+<img src="https://raw.githubusercontent.com/mikkosk/fullstack-project-2020/master/images/Screenshot%20(4).png">
+
+<img src="https://raw.githubusercontent.com/mikkosk/fullstack-project-2020/master/images/Screenshot%20(5).png">
+
+<img src="https://raw.githubusercontent.com/mikkosk/fullstack-project-2020/master/images/Screenshot%20(6).png">
+
+<img src="https://raw.githubusercontent.com/mikkosk/fullstack-project-2020/master/images/Screenshot%20(7).png">
+
+<img src="https://raw.githubusercontent.com/mikkosk/fullstack-project-2020/master/images/Screenshot%20(8).png">
+
+<img src="https://raw.githubusercontent.com/mikkosk/fullstack-project-2020/master/images/Screenshot%20(9).png">

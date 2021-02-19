@@ -15,4 +15,4 @@ jobs:
           node-version: '12.x'
       - name: npm install
         run: npm install
-        working-directory: frontend
+        working-directory: backend

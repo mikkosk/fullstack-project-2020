@@ -51,7 +51,7 @@ jobs:
           heroku_app_name: "obscure-retreat-23913"
           heroku_email: "mikkosakarikivisto@gmail.com"
           remote_branch: master
-          healthcheck: "https://obscure-retreat-23913.herokuapp.com/"
+          healthcheck: "https://obscure-retreat-23913.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
           appdir: "backend"

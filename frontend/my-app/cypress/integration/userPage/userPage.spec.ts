@@ -10,7 +10,7 @@ describe("userPage", function() {
     describe("customer", function() {
         beforeEach(function() {
             cy.login("CustomerTwo", "CustomerTwo");
-            cy.visit('http://localhost:3000/user')
+            cy.visit('http://localhost:3001/user')
         })
 
         it("shows page", function() {
@@ -29,7 +29,7 @@ describe("userPage", function() {
     describe("admin", function() {
         beforeEach(function() {
             cy.login("AdminTwo", "AdminTwo");
-            cy.visit('http://localhost:3000/user')
+            cy.visit('http://localhost:3001/user')
         })
 
         it("shows page", function() {
@@ -89,7 +89,7 @@ describe("userPage", function() {
     describe("guide", function() {
         beforeEach(function() {
             cy.login("GuideTwo", "GuideTwo");
-            cy.visit('http://localhost:3000/user')
+            cy.visit('http://localhost:3001/user')
         })
 
         it("opens page correctly", function() {
@@ -108,7 +108,7 @@ describe("userPage", function() {
 
     describe("not logged in", function() {
             it("nothing shows", function() {
-                cy.visit('http://localhost:3000/user')
+                cy.visit('http://localhost:3001/user')
                 cy.get("#emptyUserPage")
             })  
     })

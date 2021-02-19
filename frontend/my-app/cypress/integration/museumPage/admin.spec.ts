@@ -10,7 +10,7 @@ describe("museumPage", function() {
     describe("adminOwned", function() {
         beforeEach(function() {
             cy.login("AdminTwo", "AdminTwo");
-            cy.visit('http://localhost:3000/find/museums')
+            cy.visit('http://localhost:3001/find/museums')
             cy.get('button:last').click()
         })
 

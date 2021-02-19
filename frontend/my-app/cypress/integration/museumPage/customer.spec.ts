@@ -10,7 +10,7 @@ describe("museumPage", function() {
     describe("customer", function() {
         beforeEach(function() {
             cy.login("CustomerTwo", "CustomerTwo");
-            cy.visit('http://localhost:3000/find/museums')
+            cy.visit('http://localhost:3001/find/museums')
             cy.get('button:last').click()
         })
 

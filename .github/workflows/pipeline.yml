@@ -33,3 +33,10 @@ jobs:
       - name: test backend
         run: npm run test
         working-directory: backend
+      - name: e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test:e2e
+          start: npm run start
+          wait-on: http://localhost:3001
+          working-directory: backend

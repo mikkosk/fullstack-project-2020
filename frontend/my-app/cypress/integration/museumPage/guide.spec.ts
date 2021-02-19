@@ -10,7 +10,7 @@ describe("museumPage", function() {
     describe("guide", function() {
         beforeEach(function() {
             cy.login("GuideOne", "GuideOne");
-            cy.visit('http://localhost:3000/find/museums')
+            cy.visit('http://localhost:3001/find/museums')
             cy.get('button:first').click()
         })
 

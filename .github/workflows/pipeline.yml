@@ -30,13 +30,28 @@ jobs:
       # - name: npm build
       #   run: npm run build:ui
       #   working-directory: backend
+      - name: tsc
+        run: npm run tsc
+        working-directory: backend
       # - name: test backend
       #   run: npm run test
       #   working-directory: backend
-      - name: e2e tests
-        uses: cypress-io/github-action@v2
+      # - name: e2e tests
+      #   uses: cypress-io/github-action@v2
+      #   with:
+      #     command: npm run test:e2e
+      #     start: npm run start:test
+      #     wait-on: http://localhost:3001
+      #     working-directory: backend
+      - name: deploy
+        if: ${{ github.event_name == 'push' }} && contains(toJson(github.event.commits.*.message), '#skip') === false
+        uses: akhileshns/heroku-deploy@v3.10.9
         with:
-          command: npm run test:e2e
-          start: npm run start:test
-          wait-on: http://localhost:3001
-          working-directory: backend
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "obscure-retreat-23913"
+          heroku_email: "mikkosakarikivisto@gmail.com"
+          remote_branch: master
+          healthcheck: "https://obscure-retreat-23913.herokuapp.com/"
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
+          working_directory: "backend"

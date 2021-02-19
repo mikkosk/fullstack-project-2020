@@ -21,7 +21,7 @@ jobs:
         working-directory: backend
       - name: npm build
         run: npm run build
-        working-directory: frontend\myapp
+        working-directory: frontend/myapp
       - name: test backend
         run: npm run test
         working-directory: backend

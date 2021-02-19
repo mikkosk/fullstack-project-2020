@@ -34,8 +34,8 @@ app.use(cors());
 app.use(express.static('frontend'));
 
 app.get('/health', (req, res) => {
-  res.send('ok')
-})
+  res.send('ok');
+});
 
 app.use('/uploads', express.static('uploads'));
 app.use('/api/tour', toursRouter);

@@ -24,19 +24,19 @@ jobs:
       - name: npm install fe
         run: npm install
         working-directory: ./frontend/my-app
-      - name: npm lint
-        run: npm run lint
-        working-directory: backend
-      - name: npm build
-        run: npm run build:ui
-        working-directory: backend
-      - name: test backend
-        run: npm run test
-        working-directory: backend
+      # - name: npm lint
+      #   run: npm run lint
+      #   working-directory: backend
+      # - name: npm build
+      #   run: npm run build:ui
+      #   working-directory: backend
+      # - name: test backend
+      #   run: npm run test
+      #   working-directory: backend
       - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
           command: npm run test:e2e
-          start: npm run start
+          start: npm run start:test
           wait-on: http://localhost:3001
           working-directory: backend

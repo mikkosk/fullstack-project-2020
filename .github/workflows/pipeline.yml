@@ -54,4 +54,4 @@ jobs:
           healthcheck: "https://obscure-retreat-23913.herokuapp.com/"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
-          working_directory: "backend"
+          appdir: "backend"

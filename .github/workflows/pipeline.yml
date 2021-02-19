@@ -18,7 +18,7 @@ jobs:
         working-directory: backend
       - name: npm install fe
         run: npm install
-        working-directory: myapp
+        working-directory: ./frontend/myapp
       - name: npm lint
         run: npm run lint
         working-directory: backend

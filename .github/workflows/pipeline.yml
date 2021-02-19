@@ -13,9 +13,12 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - name: npm install
+      - name: npm installbe
         run: npm install
         working-directory: backend
+      - name: npm install fe
+        run: npm install
+        working-directory: myapp
       - name: npm lint
         run: npm run lint
         working-directory: backend

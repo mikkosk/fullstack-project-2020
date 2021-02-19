@@ -10,7 +10,7 @@
         "start": "cross-env NODE_ENV=production node build/src/index.js",
         "test": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
         "start:test": "cross-env NODE_ENV=test node build/src/index.js",
-        "build:ui": "rm -rf build && cd ../frontend/my-app && npm run build --prod && cp -r build ../../backend/frontend/"
+        "build:ui": "rm -rf frontend && cd ../frontend/my-app && npm run build --prod && cp -r build ../../backend/frontend/"
     },
     "author": "",
     "license": "ISC",
